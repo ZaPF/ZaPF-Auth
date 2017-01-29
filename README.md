@@ -4,6 +4,11 @@
 
 ## Deployment
 
+To deploy the flask app you can use the configuration and systemd service for a gunicorn provided in the
+repository. The gunicorn creates in the default configuration a socket that can be used by a proxy
+daemon like nginx to deploy the app to the internet. The proxy daemon also would be responsible
+for stuff like SSL encryption.
+
 ### Environment Variables
 
 Variable        | Description
