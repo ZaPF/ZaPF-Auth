@@ -23,6 +23,36 @@ def _getpass():
         raise Exception("Paswords were not equal")
     return password
 
+def _query_yes_no(question, default="yes"):
+    """Ask a yes/no question via raw_input() and return their answer.
+
+    "question" is a string that is presented to the user.
+    "default" is the presumed answer if the user just hits <Enter>.
+        It must be "yes" (the default), "no" or None (meaning
+        an answer is required of the user).
+
+    The "answer" return value is True for "yes" or False for "no".
+    """
+    valid = {"yes": True, "y": True, "ye": True,
+             "no": False, "n": False}
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        choice = input(question + prompt).lower()
+        if default is not None and choice == '':
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            print("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
+
 @manager.command
 def passwd(username, password=None):
     """
@@ -45,6 +75,17 @@ def create_user(uid, givenName, sn, mail=None, password=None):
     """
     from app.user.models import User
     return User.create(uid, givenName, sn, password or _getpass(), mail)
+
+@manager.command
+def delete_user(uid):
+    """
+    Delete a user
+    """
+    if _query_yes_no('Are you sure to delete user "{}"?'.format(uid), None):
+        from app.user.models import User
+        return User.get(uid).delete()
+    else:
+        print('Aborting...')
 
 @manager.command
 def groups():

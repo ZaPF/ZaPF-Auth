@@ -36,6 +36,18 @@ class User(UserMixin, LDAPOrm):
         user.save()
         return user
 
+    def delete(self):
+        """
+        Remove a user.
+        """
+        for group in self.groups:
+            group.leave(self)
+            if len(group.members) == 0:
+                group.delete();
+            else:
+                group.save()
+        super().delete()
+
     @property
     def password(self):
         """

@@ -21,6 +21,7 @@ Apart from the usual `manage.py runserver` and `manage.py shell`, the following
 commands are supported:
 
 * `manage.py createuser uid FirstName Surname [email] [password]` - create a user
+* `manage.py delete_user uid` - delete a user
 * `manage.py passwd uid` - change a password for the user
 * `manage.py sanity` - runs sanity checks, like checking that the base DN's for
   different things exist, and creates them if necessary
