@@ -36,6 +36,10 @@ def create_app(profile="default"):
     app.register_blueprint(oauth2_blueprint)
     init_oauth2(app)
 
+    from app.api import api_blueprint, init_app as init_api
+    app.register_blueprint(api_blueprint)
+    init_api(app)
+
 
     return app
 
