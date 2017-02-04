@@ -6,4 +6,10 @@ from app.oauth2 import oauth
 @oauth.require_oauth('ownUserData')
 def apiMe():
     user = request.oauth.user
-    return jsonify(email = user.mail, username = user.username, firstName = user.firstName, surname = user.surname)
+    return jsonify(
+            email = user.mail,
+            username = user.username,
+            firstName = user.firstName,
+            surname = user.surname,
+            full_name = user.full_name
+            )
