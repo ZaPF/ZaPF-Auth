@@ -45,7 +45,9 @@ class Token(object):
 
     @property
     def scopes(self):
-        return self._scopes
+        if self._scopes:
+            return self._scopes.split()
+        return []
 
 
 class Client(LDAPOrm):
