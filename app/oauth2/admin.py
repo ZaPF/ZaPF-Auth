@@ -50,7 +50,7 @@ def delete_client(client_id):
     client = Client.get(client_id)
     flash('Deleted client: {uuid}({name})'.format(
         uuid = client.client_id,
-        name = client.name))
+        name = client.name), 'info')
     client.delete()
     return redirect(url_for('oauth2.clients'))
 
@@ -103,7 +103,7 @@ def add_client():
             )
         flash("Added client. Secret key is {secret_key}".format(
             secret_key = client.client_secret
-            ))
+            ), 'info')
         return redirect(url_for('oauth2.clients'))
 
     elif form.addScope.data:

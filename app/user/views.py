@@ -70,7 +70,7 @@ def signup():
             mail = form.mail.data,
             )
         current_app.logger.info("creating user: {}".format(user))
-        flash("Your user account has been created.")
+        flash("Your user account has been created.", 'info')
         return redirect('/')
     print(form.errors)
 
