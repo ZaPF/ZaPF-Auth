@@ -4,7 +4,10 @@ from flask_ldap3_login.forms import LDAPLoginForm
 from .models import User
 from flask_login import login_user, current_user, login_required, logout_user
 from flask_wtf import FlaskForm, RecaptchaField
-from urlparse import urlparse, urljoin
+try:
+        from urllib.parse import urlparse, urljoin
+except ImportError:
+        from urlparse import urlparse, urljoin
 from wtforms import StringField, TextField, SubmitField, PasswordField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms.fields.html5 import EmailField
