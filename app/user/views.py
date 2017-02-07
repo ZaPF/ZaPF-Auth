@@ -4,11 +4,26 @@ from flask_ldap3_login.forms import LDAPLoginForm
 from .models import User
 from flask_login import login_user, current_user, login_required, logout_user
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, TextField, SubmitField, PasswordField
+from urlparse import urlparse, urljoin
+from wtforms import StringField, TextField, SubmitField, PasswordField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms.fields.html5 import EmailField
 
 from . import user_blueprint
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
+
+
+def get_redirect_target():
+    for target in request.args.get('next'), request.referrer:
+        if not target:
+            continue
+        if is_safe_url(target):
+            return target
 
 class SignUpForm(FlaskForm):
     username = StringField('user', validators=[DataRequired('Please enter a username')])
@@ -23,6 +38,18 @@ class SignUpForm(FlaskForm):
     confirm = PasswordField('repeat')
     recaptcha = RecaptchaField()
     submit = SubmitField('Submit')
+    next = HiddenField()
+
+    def __init__(self, *args, **kwargs):
+        FlaskForm.__init__(self, *args, **kwargs)
+        if not self.next.data:
+            self.next.data = get_redirect_target() or ''
+
+    def redirect(self, endpoint='login', **values):
+        if is_safe_url(self.next.data):
+            return redirect(self.next.data)
+        target = get_redirect_target()
+        return redirect(target or url_for(endpoint, **values))
 
     def validate_username(form, field):
         """
@@ -71,7 +98,7 @@ def signup():
             )
         current_app.logger.info("creating user: {}".format(user))
         flash("Your user account has been created.", 'info')
-        return redirect('/')
+        return form.redirect()
     print(form.errors)
 
     return render_template('/signup.html', form=form)
