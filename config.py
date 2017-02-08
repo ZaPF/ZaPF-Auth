@@ -21,6 +21,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///anmeldung.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    LOGOUT_ALLOWED_NEXT = [ "https://anmeldung.zapf.in/oauth/loggedout" ]
+
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
     import ldap3
     PASSWORD_HASHING_FUNC = ldap3.HASHED_SALTED_SHA384

@@ -110,4 +110,9 @@ def signup():
 @login_required
 def logout():
         logout_user()
-        return redirect(url_for("user.home"))
+        next = request.args.get("next")
+        if next and (next in current_app.config["LOGOUT_ALLOWED_NEXT"] or
+           is_safe_url(next)):
+            return redirect(next)
+        else:
+            return redirect(url_for("user.home"))
