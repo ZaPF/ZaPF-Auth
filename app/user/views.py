@@ -102,7 +102,6 @@ def signup():
         current_app.logger.info("creating user: {}".format(user))
         flash("Your user account has been created.", 'info')
         return form.redirect()
-    print(form.errors)
 
     return render_template('/signup.html', form=form)
 

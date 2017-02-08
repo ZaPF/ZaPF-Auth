@@ -139,7 +139,6 @@ class LDAPOrm(object):
                 )
 
         self._orm_mapping_save(entry)
-        print(entry)
         writer.commit()
 
     def delete(self):
