@@ -2,6 +2,7 @@ from flask import request
 from flask.json import jsonify
 from . import registration_blueprint
 from .models import Uni, Registration
+from .helpers import send_registration_success_mail
 from app.user import groups_required
 from app.oauth2 import oauth
 from app.db import db
@@ -31,6 +32,7 @@ def api_register():
         registration.confirmed = registration.confirmed or False
         db.session.add(registration)
         db.session.commit()
+        send_registration_success_mail(user)
         return "OK"
 
     return jsonify(

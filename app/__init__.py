@@ -1,5 +1,6 @@
 from flask import Flask, current_app
 from config import config
+from flask_mail import Mail
 import logging
 
 from . import models
@@ -25,6 +26,9 @@ def create_app(profile="default"):
     db.init_app(app)
     db.app = app
     app.db = db
+
+    mail = Mail(app)
+    app.mail = mail
 
     # Set up sanity checks.
     from . import sanity

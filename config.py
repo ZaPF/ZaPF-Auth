@@ -23,6 +23,10 @@ class Config:
 
     LOGOUT_ALLOWED_NEXT = [ "https://anmeldung.zapf.in/oauth/loggedout" ]
 
+    MAIL_USE_TLS = True
+    MAIL_DEFAULT_SENDER = 'topf@zapf.in'
+    MAIL_NEXT_ZAPF_ORGA = 'topf@zapf.in'
+
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
     import ldap3
     PASSWORD_HASHING_FUNC = ldap3.HASHED_SALTED_SHA384
