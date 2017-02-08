@@ -97,6 +97,16 @@ def delete_user(uid):
         print('Aborting...')
 
 @manager.command
+def users():
+    """
+    List users
+    """
+    from app.user.models import User
+    users = User.query()
+    for user in users:
+        print('{0.username}: {0.full_name} <{0.mail}>'.format(user))
+
+@manager.command
 def groups():
     """
     List groups
