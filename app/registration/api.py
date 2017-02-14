@@ -33,8 +33,11 @@ def api_register():
         db.session.commit()
         return "OK"
 
+    if not registration:
+        return "", 204
+
     return jsonify(
-            uni_id = registration.uni_id,
-            confirmed = registration.confirmed,
-            data = registration.blob,
-        )
+        uni_id = registration.uni_id,
+        confirmed = registration.confirmed,
+        data = registration.blob,
+    )
