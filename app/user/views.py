@@ -101,6 +101,7 @@ def signup():
             )
         current_app.logger.info("creating user: {}".format(user))
         flash("Your user account has been created.", 'info')
+        flash("Da es noch keine E-Mail-Authentifizierung bisher gibt, kannst du dich direkt einloggen!", 'warning')
         return form.redirect()
 
     return render_template('/signup.html', form=form)
