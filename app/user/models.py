@@ -56,6 +56,22 @@ class User(UserMixin, LDAPOrm):
                 group.save()
         super().delete()
 
+    def update(self, givenName, surname, mail = None, password = None):
+        """
+        Update the user information.
+        """
+        self.firstName = givenName
+        self.surname = surname
+        self._full_name = "{firstName} {surname}".format(
+            firstName = self.firstName,
+            surname = self.surname
+        )
+        if mail:
+            self.mail = mail
+        if password:
+            self.password = password
+        self.save()
+
     @property
     def password(self):
         """

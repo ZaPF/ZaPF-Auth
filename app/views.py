@@ -3,6 +3,21 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField
 from functools import wraps, partial
 
+def is_safe_url(target):
+    if not target:
+        return False
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
+
+def get_redirect_target():
+    for target in request.args.get('next'), request.referrer:
+        if not target:
+            continue
+        if is_safe_url(target):
+            return target
+
 class ConfirmationForm(FlaskForm):
     submit = SubmitField('Do it')
 

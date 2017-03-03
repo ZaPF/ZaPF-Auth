@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Users</h1>
+
+  <table class='table'>
+    <tr>
+      <th>Username</th>
+      <th>Full name</th>
+      <th>E-Mail</th>
+      <th>Actions</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.username }}</td>
+      <td>{{ user.full_name }}</td>
+      <td>{{ user.mail }}</td>
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn-default btn" href="{{url_for('user.edit_user', username=user.username)}}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit
+          </a>
+          <a class="btn-danger btn" href="{{url_for('user.delete_user', username=user.username)}}">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Delete
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

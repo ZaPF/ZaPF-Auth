@@ -11,22 +11,9 @@ except ImportError:
 from wtforms import StringField, TextField, SubmitField, PasswordField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms.fields.html5 import EmailField
+from app.views import is_safe_url, get_redirect_target
 
-from . import user_blueprint
-
-def is_safe_url(target):
-    ref_url = urlparse(request.host_url)
-    test_url = urlparse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and \
-           ref_url.netloc == test_url.netloc
-
-
-def get_redirect_target():
-    for target in request.args.get('next'), request.referrer:
-        if not target:
-            continue
-        if is_safe_url(target):
-            return target
+from . import user_blueprint, admin
 
 class SignUpForm(FlaskForm):
     username = StringField('user', validators=[DataRequired('Please enter a username')])
@@ -116,3 +103,8 @@ def logout():
             return redirect(next)
         else:
             return redirect(url_for("user.home"))
+
+@user_blueprint.route('/user/edit', methods=['GET', 'POST'])
+@login_required
+def edit_me():
+    return admin.edit_user(current_user.username, False)

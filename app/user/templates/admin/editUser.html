@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Edit user "{{ user.username }}"{% endblock %}
+
+{% macro show_form_errors(form, container = True) %}
+{% if form.errors -%} {# don't output anything if there are no errors #}
+{% if container -%}
+  <div class="row">
+    <div class="col-sm-12">
+{% endif -%}
+      <div class="alert alert-danger" role="alert">
+        <p><strong>Errors when validating form data:</strong></p>
+        {{ wtf.form_errors(form) }}
+      </div>
+{% if container %}
+    </div>
+  </div>
+{% endif -%}
+{% endif -%}
+{% endmacro -%}
+
+{% block content %}
+<div class="container">
+  <form class="form-editUser form-horizontal" method="POST">
+    {{ show_form_errors(form) }}
+    <div class="form-group">
+      {{ form.username.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.username(class='form-control', readonly="readonly", disabled="disabled") }}</div>
+    </div>
+    <div class="form-group">
+      {{ form.givenName.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.givenName(class='form-control') }}</div>
+    </div>
+    <div class="form-group">
+      {{ form.surname.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.surname(class='form-control') }}</div>
+    </div>
+    <div class="form-group">
+      {{ form.mail.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.mail(class='form-control') }}</div>
+    </div>
+    <div class="form-group">
+      {{ form.password.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.password(class='form-control') }}</div>
+    </div>
+    <div class="form-group">
+      {{ form.confirm_password.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.confirm_password(class='form-control') }}</div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        {{ form.submit(class='btn btn-lg btn-default') }}
+      </div>
+    </div>
+    {{ form.hidden_tag() }}
+  </form>
+</div>
+{% endblock %}
