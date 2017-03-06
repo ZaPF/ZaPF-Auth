@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ data.title }}{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <form class="form-confirmation" method="POST">
+      {{ wtf.form_errors(form) }}
+      <h4 class="form-confirmation-heading">Are you sure to {{ data.action }}?</h4>
+      {{ form.submit(class='btn btn-lg btn-primary btn-danger') }}
+      {% if data.backTo %}
+      <a class="btn btn-lg btn-default" href="{{ data.backTo }}">
+         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back
+      </a>
+      {% endif %}
+      {{ form.hidden_tag() }}
+    </form>
+  </div>
+{% endblock %}
