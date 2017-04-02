@@ -5,6 +5,7 @@ from .models import Uni, Registration
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from app.user import groups_sufficient
+from app.views import ConfirmationForm, ConfirmationFormData
 
 from . import api
 
@@ -43,10 +44,19 @@ def add_uni():
 @groups_sufficient('admin', 'orga')
 def delete_uni(uni_id):
     uni = Uni.query.filter_by(id=uni_id).first()
-    flash('Deleted {uni.name}'.format(uni=uni))
-    db.session.delete(uni)
-    db.session.commit()
-    return redirect(url_for('registration.unis'))
+    form = ConfirmationForm()
+    data = ConfirmationFormData('Delete university "{}"'.format(uni.name),
+             'delete university "{}"'.format(uni.name),
+             url_for('registration.unis'))
+    if form.validate_on_submit():
+        db.session.delete(uni)
+        db.session.commit()
+        flash('Deleted university "{}"'.format(uni.name), 'success')
+        return redirect(url_for('registration.unis'))
+    return render_template('confirmationPage.html',
+        form = form,
+        data = data
+    )
 
 @registration_blueprint.route('/admin/uni/<int:uni_id>/edit', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
@@ -92,7 +102,16 @@ def registrations_by_uni(uni_id):
 @groups_sufficient('admin', 'orga')
 def delete_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
-    flash('Deleted {registration.username}\'s registration'.format(registration=reg))
-    db.session.delete(reg)
-    db.session.commit()
-    return redirect(url_for('registration.registrations'))
+    form = ConfirmationForm()
+    data = ConfirmationFormData('Delete registration of "{}"'.format(reg.user.full_name),
+             'delete registration of "{}"'.format(reg.user.full_name),
+             url_for('registration.registrations'))
+    if form.validate_on_submit():
+        db.session.delete(reg)
+        db.session.commit()
+        flash('Deleted {}\'s registration'.format(reg.username))
+        return redirect(url_for('registration.registrations'))
+    return render_template('confirmationPage.html',
+        form = form,
+        data = data
+    )
