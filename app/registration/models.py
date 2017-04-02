@@ -11,8 +11,6 @@ class Registration(db.Model):
     uni_id = db.Column(db.Integer(), db.ForeignKey('uni.id'))
     uni = db.relationship('Uni', backref=db.backref('Registrations', lazy='dynamic', cascade="all, delete-orphan"))
 
-    priority_constraint = db.UniqueConstraint('uni_id', 'priority', name='uq_registration_priority_uni')
-
     @property
     def user(self):
         return User.get(self.username)
