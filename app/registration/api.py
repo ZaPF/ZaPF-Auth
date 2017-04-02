@@ -75,15 +75,8 @@ def api_registration_priorities():
             abort(403)
             return ''
 
-        # Get a list of all non-guaranteed registrations by this uni
-        registrations = {reg.id: reg for reg in Registration.query.filter_by(uni_id = g.uni.id) if reg.priority != -1}
-
-        # Some SQL servers (it seems at least SQLite and MySQL) enforce constraints per updated per
-        # updated column, not per transaction. This means that effectively swapping constraints is not possible,
-        # Since we're rewriting all the priorities, we can clear all of them first.
-        for reg in map(lambda reg_id: registrations[reg_id], req['confirmed']):
-            reg.priority = None
-            db.session.add(reg)
+        # Get a list of all registrations by this uni
+        registrations = {reg.id: reg for reg in Registration.query.filter_by(uni_id = g.uni.id)}
 
         # Set the priorities according to the order they are given in in the confirmed list
         for priority, reg_id in enumerate(req['confirmed']):
