@@ -34,14 +34,14 @@
       <td>
       {% if registration.uni %}
         <a href="{{url_for('registration.registrations_by_uni', uni_id=registration.uni.id)}}">
-{{ registration.uni.name | safe }}
+{{ registration.uni.name }}
         </a>
       {% endif %}
       </td>
     {% endif %}
-      <td>{{ registration.user.full_name | safe }}</td>
+      <td>{{ registration.user.full_name }}</td>
     {% if uni %}
-      <td>{{ registration.priority | safe }}</td>
+      <td>{{ registration.priority }}</td>
     {% endif %}
       <td>
       {% if registration.confirmed %}
@@ -50,7 +50,7 @@
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
       {% endif %}
       </td>
-      <td><code>{{ registration.blob | safe }}</code></td>
+      <td><code>{{ registration.blob }}</code></td>
       <td>
         <div class="btn-group" role="group">
           <a class="btn-danger btn" href="{{url_for('registration.delete_registration', reg_id=registration.id)}}">

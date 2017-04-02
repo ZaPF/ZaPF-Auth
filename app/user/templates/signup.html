@@ -12,14 +12,14 @@
   <div class="container">
     <form class="form-signup" method="POST">
       <h2 class="form-signup-heading">Create your account</h2>
-      {{ form.username(class='form-control', placeholder='Username')|safe }}
+      {{ form.username(class='form-control', placeholder='Username') }}
       <div class="input-group">
-        {{ form.givenName(class='form-control', placeholder='Given name')|safe }}
-        {{ form.surname(class='form-control', placeholder='Surname')|safe }}
+        {{ form.givenName(class='form-control', placeholder='Given name') }}
+        {{ form.surname(class='form-control', placeholder='Surname') }}
       </div>
-      {{ form.mail(class='form-control', placeholder='Email')|safe }}
-      {{ form.password(class='form-control', placeholder='Password')|safe }}
-      {{ form.confirm(class='form-control', placeholder='Repeat Password')|safe }}
+      {{ form.mail(class='form-control', placeholder='Email') }}
+      {{ form.password(class='form-control', placeholder='Password') }}
+      {{ form.confirm(class='form-control', placeholder='Repeat Password') }}
       {{ wtf.form_errors(form) }}
       {{ form.recaptcha }}
       <p>Already have an account? <a href="{{url_for('user.login')}}">Sign in!</a></p>

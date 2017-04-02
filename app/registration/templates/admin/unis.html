@@ -14,8 +14,8 @@
     </tr>
     {% for uni in unis %}
     <tr>
-      <td>{{ uni.name | safe }}</td>
-      <td>{{ uni.token | safe }}</td>
+      <td>{{ uni.name  }}</td>
+      <td>{{ uni.token }}</td>
       <td>
         <div class="btn-group" role="group">
           <a class="btn-default btn" href="{{url_for('registration.registrations_by_uni', uni_id=uni.id)}}">
