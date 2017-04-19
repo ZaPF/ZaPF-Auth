@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, jsonify, Response
 from . import registration_blueprint
 from app.db import db
 from .models import Uni, Registration
@@ -6,6 +6,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from app.user import groups_sufficient
 from app.views import confirm
+import io
+import csv
 
 from . import api
 
@@ -103,3 +105,34 @@ def delete_registration(reg_id):
     db.session.commit()
     flash('Deleted {}\'s registration'.format(reg.username))
     return redirect(url_for('registration.registrations'))
+
+@registration_blueprint.route('/admin/registration/export/json')
+@groups_sufficient('admin', 'orga')
+def registrations_export_json():
+    registrations = Registration.query.all()
+    return jsonify(registrations = [
+        {
+         'username': reg.username,
+         'mail': reg.user.mail,
+         'firstName': reg.user.firstName,
+         'surname': reg.user.surname,
+         'uni_name': reg.uni.name,
+         'is_guaranteed': reg.is_guaranteed,
+         'confirmed': reg.confirmed,
+         'priority': reg.priority,
+         'blob': reg.blob
+        }
+        for reg in registrations
+    ])
+
+@registration_blueprint.route('/admin/registration/export/csv')
+@groups_sufficient('admin', 'orga')
+def registrations_export_csv():
+    registrations = Registration.query.all()
+    result = io.StringIO()
+    writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
+    writer.writerows([[reg.username, reg.user.mail, reg.user.firstName,
+                       reg.user.surname, reg.uni.name, reg.is_guaranteed,
+                       reg.confirmed, reg.priority, reg.blob]
+                      for reg in registrations])
+    return Response(result.getvalue(), mimetype='text/csv')
