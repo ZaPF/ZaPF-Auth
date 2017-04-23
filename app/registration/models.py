@@ -1,6 +1,6 @@
 from app.db import db
 from app.user.models import User
-from flask import Blueprint, abort, current_app
+from flask import Blueprint, abort, current_app, json
 
 class Registration(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
@@ -35,6 +35,14 @@ class Registration(db.Model):
     @priority.setter
     def priority(self, value):
         self._priority = value if not self.is_guaranteed else None
+
+    @property
+    def data(self):
+        return json.loads(self.blob)
+
+    @data.setter
+    def data(self, value):
+        self.blob = json.dumps(value)
 
 class Uni(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
