@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}SoSe17: Orgaprobleme{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="btn-group" role="group">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_sose17_reports') }}">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
+    </a>
+  </div>
+
+  <h1>
+  Orgaprobleme-Auswertung für ZaPF Sommer17
+  </h1>
+
+  {% if result | length == 0 %}
+  <p>Keine Registrierung mit Antwort vorhanden!</p>
+  {% else %}
+  <div class="table-responsive">
+  <table class='table table-striped'>
+    <tr>
+      <th>Uni</th>
+      <th>Name</th>
+      <th>Antwort</th>
+      <th>Aktionen</th>
+    </tr>
+    {% for reg in result %}
+    <tr>
+      <td>
+      {% if reg.uni %}
+        <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+          {{ reg.uni.name }}
+        </a>
+      {% endif %}
+      </td>
+      <td>
+        <a href="{{ url_for('registration.registration_sose17_details_registration', reg_id=reg.id) }}">
+          {{ reg.user.full_name }}
+        </a>
+      </td>
+      <td>
+        {{ reg.data['orgaprobleme'] }}
+      </td>
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn btn-default" href="{{ url_for('registration.registration_sose17_details_registration', reg_id=reg.id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  </div>  
+  {% endif %}
+</div>
+{% endblock %}

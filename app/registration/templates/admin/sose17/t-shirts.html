@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}SoSe17: T-Shirt{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="btn-group" role="group">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_sose17_reports') }}">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
+    </a>
+  </div>
+
+  <h1>
+  T-Shirt-Auswertung für ZaPF Sommer17
+  </h1>
+
+  <div>
+    <ul>
+      <li>
+        <a href="#sec-groesse">Auswertung nach Größe</a>
+      </li>
+      <li>
+        <a href="#sec-uni">Auswertung nach Uni</a>
+      </li>
+    </ul>
+  </div>
+
+  <h3 id="sec-groesse" name="sec-groesse">
+  T-Shirt-Auswertung nach Größe
+  </h3>
+  <div class="panel-group">
+  {% for type, data in result.items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-{{ type }}">
+          T-Shirt-Größe: {{ data['label'] }}
+        </a>
+        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data['registrations'] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_sose17_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_sose17_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+  <h3 id="sec-uni" name="sec-uni">
+  T-Shirt-Auswertung nach Uni
+  </h3>
+  <div class="panel-group">
+  {% for type, data in result_unis.items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-{{ type }}">
+          Uni: {{ data['name'] }}
+        </a>
+        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-{{ type }}" class="panel-collapse collapse">
+      <div class="panel-body">
+        <p><b>Statistik pro Größe:</b></p>
+        <ul class="list-unstyled">
+          {% for name, amount in data['types'].items() if amount > 0 %}
+            <li>
+              T-Shirt-Größe: {{ TSHIRTS_TYPES[name] }}
+              <span class="badge">{{ amount }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Name</th>
+          <th>T-Shirt-Größe</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data['registrations'] %}
+        <tr>
+          <td>
+            <a href="{{ url_for('registration.registration_sose17_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_sose17_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

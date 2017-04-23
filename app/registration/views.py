@@ -10,7 +10,7 @@ from app.views import confirm
 import io
 import csv
 
-from . import api
+from . import api, sose17
 
 class UniForm(FlaskForm):
     name = StringField('Uni Name')
@@ -153,6 +153,7 @@ def registrations_export_json():
          'is_guaranteed': reg.is_guaranteed,
          'confirmed': reg.confirmed,
          'priority': reg.priority,
+         'is_zapf_attendee': reg.is_zapf_attendee,
          'blob': reg.blob
         }
         for reg in registrations
@@ -161,11 +162,50 @@ def registrations_export_json():
 @registration_blueprint.route('/admin/registration/export/csv')
 @groups_sufficient('admin', 'orga')
 def registrations_export_csv():
-    registrations = Registration.query.all()
+    registrations = Registration.query.order_by(Registration.uni_id).all()
     result = io.StringIO()
     writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
     writer.writerows([[reg.username, reg.user.mail, reg.user.firstName,
                        reg.user.surname, reg.uni.name, reg.is_guaranteed,
-                       reg.confirmed, reg.priority, reg.blob]
+                       reg.confirmed, reg.priority, reg.is_zapf_attendee, reg.blob]
+                      for reg in registrations])
+    return Response(result.getvalue(), mimetype='text/csv')
+
+@registration_blueprint.route('/admin/registration/export/openslides/csv')
+@groups_sufficient('admin', 'orga')
+def registrations_export_openslides_csv():
+    registrations = Registration.query.all()
+    result = io.StringIO()
+    writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
+    writer.writerows([[None, reg.user.firstName, reg.user.surname, reg.uni.name,
+                       reg.id, 'Teilnehmikon', None, None, 1, None, None]
+                      for reg in registrations if reg.is_zapf_attendee])
+    return Response(result.getvalue(), mimetype='text/csv')
+
+@registration_blueprint.route('/admin/registration/export/teilnehmer/csv')
+@groups_sufficient('admin', 'orga')
+def registrations_export_teilnehmer_csv():
+    registrations = Registration.query.order_by(Registration.uni_id)
+    result = io.StringIO()
+    writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
+    writer.writerows([[reg.user.full_name, reg.uni.name]
+                      for reg in registrations if reg.is_zapf_attendee])
+    return Response(result.getvalue(), mimetype='text/csv')
+
+@registration_blueprint.route('/admin/registration/export/mails/txt')
+@groups_sufficient('admin', 'orga')
+def registrations_export_mails_txt():
+    result =  [reg.user.mail for reg in Registration.query.all() if reg.is_zapf_attendee]
+    return Response("\n".join(result), mimetype='text/plain')
+
+@registration_blueprint.route('/admin/registration/export/attendee/csv')
+@groups_sufficient('admin', 'orga')
+def registrations_export_attendee_csv():
+    registrations = [reg for reg in Registration.query.order_by(Registration.uni_id).all() if reg.is_zapf_attendee]
+    result = io.StringIO()
+    writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
+    writer.writerows([[reg.username, reg.user.mail, reg.user.firstName,
+                       reg.user.surname, reg.uni.name, reg.is_guaranteed,
+                       reg.confirmed, reg.priority, reg.is_zapf_attendee]
                       for reg in registrations])
     return Response(result.getvalue(), mimetype='text/csv')

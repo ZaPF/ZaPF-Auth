@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}SoSe17: Auswertungen{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h3>
+    Verfügbare Auswertungen für ZaPF Sommer17:
+  </h3>
+
+  <ul>
+    <li>
+      <a href="{{ url_for('registration.registration_sose17_report_exkursionen') }}">
+        Exkursionen
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_sose17_report_essen') }}">
+        Essen
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_sose17_report_rahmenprogramm') }}">
+        Rahmenprogramm
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_sose17_report_tshirts') }}">
+        T-Shirts
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_sose17_report_spitznamen') }}">
+        Spitznamen
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_sose17_report_orgaprobleme') }}">
+        Orgaprobleme
+      </a>
+    </li>
+  </ul>
+</div>
+{% endblock %}

@@ -44,6 +44,10 @@ class Registration(db.Model):
     def data(self, value):
         self.blob = json.dumps(value)
 
+    @property
+    def is_zapf_attendee(self):
+        return self.confirmed and self.priority < self.uni.slots
+
 class Uni(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
     token = db.Column(db.String(256), unique = True)
