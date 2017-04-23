@@ -42,7 +42,7 @@ def add_uni():
         return redirect(url_for('registration.unis'))
     return render_template('admin/uniform.html', form = form)
 
-@registration_blueprint.route('/admin/uni/<int:uni_id>/delete')
+@registration_blueprint.route('/admin/uni/<int:uni_id>/delete', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
 @confirm(title='Delete university',
         action='Delete',
