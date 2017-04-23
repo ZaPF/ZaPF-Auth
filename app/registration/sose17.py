@@ -472,3 +472,13 @@ def registration_sose17_export_bestaetigungen_latex():
     for reg in registrations:
         result.append("\\bestaetigung{{{}}}{{{}}}".format(reg.user.full_name, reg.uni.name))
     return Response("\n".join(result), mimetype="application/x-latex")
+
+@registration_blueprint.route('/admin/registration/report/sose17/id_name/csv')
+@groups_sufficient('admin', 'orga')
+def registrations_sose17_export_id_name_csv():
+    registrations = Registration.query.all()
+    result = io.StringIO()
+    writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
+    writer.writerows([[reg.id, "{} ({})".format(reg.user.full_name, reg.uni.name)]
+                      for reg in registrations if reg.is_zapf_attendee])
+    return Response(result.getvalue(), mimetype='text/csv')
