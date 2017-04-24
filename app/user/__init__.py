@@ -33,6 +33,8 @@ def groups_required(*groups, require_all=True):
     def wrapper(f):
         @wraps(f)
         def wrapped(*args, **kwargs):
+            if not current_user or current_user.is_anonymous:
+                return redirect('/')
             current_groups = set([group.group_name for group in current_user.groups])
             required_groups = set(groups)
             has_all_required_groups = bool(required_groups.issubset(current_groups))
