@@ -4,6 +4,7 @@ from app.db import db
 from .models import Uni, Registration
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
+from wtforms.fields.html5 import IntegerField
 from app.user import groups_sufficient
 from app.views import confirm
 import io
@@ -14,20 +15,32 @@ from . import api
 class UniForm(FlaskForm):
     name = StringField('Uni Name')
     token = StringField('Token')
+    slots = IntegerField('Token', default=3)
     submit = SubmitField()
 
 @registration_blueprint.route('/admin/uni')
 @groups_sufficient('admin', 'orga')
 def unis():
     unis = Uni.query.all()
-    return render_template('admin/unis.html', unis = unis)
+    unis_registrations = {}
+    for uni in unis:
+        registrations = Registration.query.filter_by(uni_id=uni.id).all()
+        unis_registrations[uni.id] = {
+            'total': len(registrations),
+            'confirmed': sum(reg.confirmed for reg in registrations),
+            'gremien': sum(reg.priority == -1 for reg in registrations)
+        }
+    return render_template('admin/unis.html',
+        unis = unis,
+        unis_registrations = unis_registrations
+    )
 
 @registration_blueprint.route('/admin/uni/new', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
 def add_uni():
     form = UniForm()
     if form.validate_on_submit():
-        uni = Uni(form.name.data, form.token.data)
+        uni = Uni(form.name.data, form.token.data, form.slots.data or 3)
         db.session.add(uni)
         try:
             db.session.commit()
@@ -58,10 +71,12 @@ def delete_uni(uni_id):
 @groups_sufficient('admin', 'orga')
 def edit_uni(uni_id):
     uni = Uni.query.filter_by(id=uni_id).first()
-    form = UniForm(name = uni.name, token = uni.token)
+    form = UniForm(name = uni.name, token = uni.token, slots = uni.slots)
     if form.validate_on_submit():
         from sqlalchemy.exc import IntegrityError
-        uni = Uni(form.name.data, form.token.data)
+        uni.name = form.name.data
+        uni.token = form.token.data
+        uni.slots = form.slots.data
         db.session.add(uni)
         try:
             db.session.commit()

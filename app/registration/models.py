@@ -40,10 +40,12 @@ class Uni(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
     token = db.Column(db.String(256), unique = True)
     name = db.Column(db.Text(), unique = True)
+    slots = db.Column(db.Integer())
 
-    def __init__(self, name, token):
+    def __init__(self, name, token, slots = 3):
         self.name = name
         self.token = token
+        self.slots = slots
 
     def __repr__(self):
         return "<Uni: {}>".format(self.name)

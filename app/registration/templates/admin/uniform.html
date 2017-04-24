@@ -16,6 +16,10 @@
       {{ form.token.label(class='col-sm-2 control-label') }}
       <div class="col-sm-10">{{ form.token(class='form-control') }}</div>
     </div>
+    <div class="form-group">
+      {{ form.slots.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.slots(class='form-control') }}</div>
+    </div>
     <div class="col-sm-2"></div>
     {{ form.submit(class='btn btn-submit')}}
     {{ form.hidden_tag() }}

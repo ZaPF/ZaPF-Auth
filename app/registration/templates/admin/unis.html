@@ -6,16 +6,26 @@
 <div class="container">
   <h1>Unis</h1>
 
+  <p>Der Wert in der Spalte "Slots" sind die Plätze, die der Fachschaft gewährt werden (Gremienplätze zählen nicht dazu)</p> 
+
   <table class='table'>
     <tr>
       <th>Name</th>
       <th>Token</th>
+      <th>Slots</th>
+      <th>Total registrations</th>
+      <th>Confirmed</th>
+      <th>Gremienplätze</th>
       <th>Actions</th>
     </tr>
     {% for uni in unis %}
     <tr>
       <td>{{ uni.name  }}</td>
       <td>{{ uni.token }}</td>
+      <td class="text-center">{{ uni.slots }}</td>
+      <td class="text-center">{{ unis_registrations[uni.id]['total'] }}</td>
+      <td class="text-center">{{ unis_registrations[uni.id]['confirmed'] }}</td>
+      <td class="text-center">{{ unis_registrations[uni.id]['gremien'] }}</td>
       <td>
         <div class="btn-group" role="group">
           <a class="btn-default btn" href="{{url_for('registration.registrations_by_uni', uni_id=uni.id)}}">

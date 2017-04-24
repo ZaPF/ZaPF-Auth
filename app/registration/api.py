@@ -109,6 +109,7 @@ def api_registration_priorities():
 
     return jsonify(
             uni=g.uni.name,
+            slots=g.uni.slots,
             registrations=[format_reg(reg) for reg in registrations if reg.confirmed]
                          +[format_reg(reg) for reg in registrations if not reg.confirmed]
         )
