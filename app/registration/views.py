@@ -91,6 +91,24 @@ def edit_uni(uni_id):
         return redirect(url_for('registration.unis'))
     return render_template('admin/uniform.html', form = form)
 
+@registration_blueprint.route('/admin/uni/<int:uni_id>/slots/increase')
+@groups_sufficient('admin', 'orga')
+def uni_slots_increase(uni_id):
+    uni = Uni.query.filter_by(id=uni_id).first()
+    uni.slots = uni.slots + 1
+    db.session.add(uni)
+    db.session.commit()
+    return redirect(url_for('registration.unis'))
+
+@registration_blueprint.route('/admin/uni/<int:uni_id>/slots/decrease')
+@groups_sufficient('admin', 'orga')
+def uni_slots_decrease(uni_id):
+    uni = Uni.query.filter_by(id=uni_id).first()
+    uni.slots = uni.slots - 1
+    db.session.add(uni)
+    db.session.commit()
+    return redirect(url_for('registration.unis'))
+
 @registration_blueprint.route('/admin/registration')
 @groups_sufficient('admin', 'orga')
 def registrations():

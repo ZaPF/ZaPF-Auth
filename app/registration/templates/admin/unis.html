@@ -22,7 +22,15 @@
     <tr>
       <td>{{ uni.name  }}</td>
       <td>{{ uni.token }}</td>
-      <td class="text-center">{{ uni.slots }}</td>
+      <td class="text-center">
+        <a href="{{ url_for('registration.uni_slots_decrease', uni_id=uni.id) }}">
+          <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </a>
+        {{ uni.slots }}
+        <a href="{{ url_for('registration.uni_slots_increase', uni_id=uni.id) }}">
+          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+        </a>
+      </td>
       <td class="text-center">{{ unis_registrations[uni.id]['total'] }}</td>
       <td class="text-center">{{ unis_registrations[uni.id]['confirmed'] }}</td>
       <td class="text-center">{{ unis_registrations[uni.id]['gremien'] }}</td>
