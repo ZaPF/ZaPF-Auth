@@ -4,6 +4,7 @@ from . import registration_blueprint, token_auth
 from .models import Uni, Registration
 from .helpers import send_registration_success_mail
 from app.user import groups_required
+from app.user.models import User
 from app.oauth2 import oauth
 from app.db import db
 import json
@@ -18,6 +19,16 @@ def api_unis():
 @oauth.require_oauth('registration')
 def api_register():
     user = request.oauth.user
+    other_username = None
+    if request.headers.get('Content-Type') == 'application/json':
+        req = request.get_json()
+        other_username = req['username']
+    elif request.args.get('username'):
+        other_username = request.args.get('username')
+    if (user.is_admin or 'orga' in user.groups) and other_username:
+        user = User.get(other_username)
+        if not user:
+            return "Username unknown", 409
     registration = Registration.query.filter_by(username=user.username).first()
     if request.method == 'POST' \
         and request.headers.get('Content-Type') == 'application/json':
