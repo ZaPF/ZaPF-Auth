@@ -46,7 +46,7 @@ class User(UserMixin, LDAPOrm):
 
     def delete(self):
         """
-        Remove a user.
+        Delete a group.
         """
         for group in self.groups:
             group.leave(self)

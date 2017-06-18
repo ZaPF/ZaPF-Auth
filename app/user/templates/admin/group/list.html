@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Groups{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Groups</h1>
+
+  <div id="search-group" class="form-group has-feedback">
+    <label class="control-label sr-only" for="search">Search for users</label>
+    <div class="input-group">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+      <input id="search" type="text" class="form-control input-lg" placeholder="Search">
+    </div>
+  </div>
+
+  <table class='table'>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tbody id="users">
+      {% for group in groups %}
+      <tr>
+        <td><a href="{{ url_for('user.group_page', group_name=group.group_name) }}">{{ group.group_name }}</a></td>
+        <td>{{ group.description }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

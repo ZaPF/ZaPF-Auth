@@ -48,7 +48,7 @@ def confirm(func=None,
             data={
                 'title': title,
                 'action': action,
-                'back': back,
+                'back': url_for(back) if back else get_redirect_target(),
                 'prompt': prompt,
                 'text': text
                 })

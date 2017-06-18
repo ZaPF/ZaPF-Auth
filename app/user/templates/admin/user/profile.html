@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.name }}{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="page-header">
+      <h1>{{ user.full_name }} <small>{{ user.username }}</small></h1>
+    </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading"><h2>General information</h2></div>
+      <div class="panel-body form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">First name</label>
+          <div class="col-sm10"><p class="form-control-static">{{ user.firstName }}</p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Surname</label>
+          <div class="col-sm10"><p class="form-control-static">{{ user.surname }}</p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Email</label>
+          <div class="col-sm10"><p class="form-control-static">{% if user.mail %}<a href="mailto:{{ user.mail }}">{{ user.mail }}{% else %}-{% endif %}</a></p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">LDAP DN</label>
+          <div class="col-sm10"><p class="form-control-static">{{ user.dn }}</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="clearfix">
+          Groups
+          <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Join group <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              {% for group in groups %}
+              <li><a href="{{ url_for('user.join', username=user.username, group_name=group.group_name) }}">{{ group.group_name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </h2>
+      </div>
+        <ul class="list-group">
+        {% for group in user.groups %}
+          <li class="list-group-item">
+            <h4 class="list-group-item-heading clearfix">
+              <a href="{{ url_for('user.group_page', group_name=group.group_name)}}">{{ group.group_name }}</a>
+              <a class="btn btn-default pull-right"
+                 href="{{ url_for('user.leave', username=user.username, group_name=group.group_name) }}">
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+              Leave</a>
+            </h4>
+            <p class="list-group-item-text">{{ group.description }}</p>
+          </li>
+        {% endfor %}
+        </ul>
+    </div>
+  </div>
+{% endblock %}

@@ -12,7 +12,7 @@
         {{ wtf.form_errors(form) }}
         {% if data.back %}
         <div class="btn-group pull-right">
-          <a class="btn btn-lg btn-default" href="{{ url_for(data.back) }}">
+          <a class="btn btn-lg btn-default" href="{{ data.back }}">
              <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back
           </a>
           {{ form.submit(class='btn btn-lg btn-primary btn-danger', value=data.action) }}
