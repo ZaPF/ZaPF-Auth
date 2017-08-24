@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Resend confirmation mail{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <form  method="POST">
+      {{ wtf.form_errors(form) }}
+      {{ form.submit(class='btn btn-lg btn-primary') }}
+      <a href="{{ url_for('user.login') }}" class="btn btn-lg btn-primary">Back</a>
+      {{ form.hidden_tag() }}
+    </form>
+  </div>
+{% endblock %}

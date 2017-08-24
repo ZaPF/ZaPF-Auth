@@ -7,7 +7,7 @@ from flask import current_app
 
 from app.orm import LDAPOrm
 
-from .helpers import send_password_reset_mail
+from .helpers import send_password_reset_mail, send_confirm_mail
 
 class AnonymousUser(AnonymousUserMixin):
     @property
@@ -152,7 +152,7 @@ class User(UserMixin, LDAPOrm):
 
     @property
     def data(self):
-        return json.dumps({'confirm_email': self.confirm_email,
+        return json.dumps({'confirm_mail': self.confirm_mail,
                            'reset_password': self.reset_password})
 
     @data.setter
@@ -160,15 +160,21 @@ class User(UserMixin, LDAPOrm):
         try:
             jsonData = json.loads(value)
         except:
-            self.confirm_email = None
+            self.confirm_mail = None
             self.reset_password = None
             return
-        self.confirm_email = jsonData['confirm_email']
+        self.confirm_mail = jsonData['confirm_mail']
         self.reset_password = jsonData['reset_password']
 
     def reset_password_start(self):
         self.reset_password = (binascii.hexlify(os.urandom(20)).decode('ascii'), int(time.time()) + 24 * 60 * 60)
         send_password_reset_mail(self)
+        self.save()
+
+    def confirm_mail_start(self):
+        self.confirm_mail = {'confirmed': False,
+          'token': binascii.hexlify(os.urandom(20)).decode('ascii'), 'valid_till': int(time.time()) + 24 * 60 * 60}
+        send_confirm_mail(self)
         self.save()
 
 class Group(LDAPOrm):

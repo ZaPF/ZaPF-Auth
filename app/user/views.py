@@ -2,13 +2,15 @@ from flask import render_template, url_for, \
             redirect, flash, request, current_app
 from flask_ldap3_login.forms import LDAPLoginForm
 from .models import User
-from flask_login import login_user, current_user, login_required, logout_user
+import flask_login
+from flask_login import login_user, current_user, logout_user
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, TextField, SubmitField, PasswordField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms.fields.html5 import EmailField
 import time
 from app.views import is_safe_url, get_redirect_target
+from . import login_required
 
 from . import user_blueprint, admin
 
@@ -57,14 +59,13 @@ class PasswordResetFinishForm(FlaskForm):
     confirm = PasswordField('repeat')
     submit = SubmitField('Set new password')
 
+class ResendConfirmMailForm(FlaskForm):
+    submit = SubmitField('Resend confirmation mail')
+
 @user_blueprint.route('/')
+@login_required
 def home():
-    # Redirect users who are not logged in.
-    if not current_user or current_user.is_anonymous:
-        return redirect(url_for('user.login'))
-
     # User is logged in, so show them a page with their cn and dn.
-
     return render_template("index.html")
 
 @user_blueprint.route('/login', methods=['GET', 'POST'])
@@ -95,9 +96,10 @@ def signup():
             surname = form.surname.data,
             mail = form.mail.data,
             )
+        user.confirm_mail_start()
         current_app.logger.info("creating user: {}".format(user))
         flash("Your user account has been created.", 'info')
-        flash("Da es noch keine E-Mail-Authentifizierung bisher gibt, kannst du dich direkt einloggen!", 'warning')
+        flash("Your E-Mail has to be confirmed before you can login!", 'warning')
         return form.redirect()
 
     return render_template('/signup.html', form=form)
@@ -138,7 +140,7 @@ def reset_password_finish(username, token):
     user = User.get(username)
 
     if not user:
-        return redirect('/')
+        return redirect(url_for('user.login'))
     if not user.reset_password or user.reset_password[0] != token or user.reset_password[1] < int(time.time()):
         flash('Your password reset token is invalid or expired.', 'error')
         return redirect(url_for('user.home'))
@@ -150,6 +152,35 @@ def reset_password_finish(username, token):
         user.reset_password = None
         user.save()
         flash('New password has been set.', 'info')
-        return redirect(url_for('user.home'))
+        return redirect(url_for('user.login'))
 
     return render_template('reset_password_finish.html', form=form)
+
+@user_blueprint.route('/user/confirm_mail', methods=['GET', 'POST'])
+@flask_login.login_required
+def confirm_mail_resend():
+    form = ResendConfirmMailForm()
+    if form.validate_on_submit():
+        current_user.confirm_mail_start()
+        logout_user()
+        return redirect(url_for('user.login'))
+    return render_template('resend_confirm_mail.html', form=form)
+
+@user_blueprint.route('/user/<string:username>/confirm_mail/<string:token>', methods=['GET', 'POST'])
+def confirm_mail_finish(username, token):
+    user = User.get(username)
+
+    if not user:
+        return redirect(url_for('user.login'))
+    if not user.confirm_mail or user.confirm_mail['token'] != token or user.confirm_mail['valid_till'] < int(time.time()):
+        flash('Your mail confirmation token is invalid or expired.', 'error')
+        return redirect(url_for('user.login'))
+
+    user.confirm_mail['confirmed'] = True
+    user.confirm_mail['token'] = None
+    user.confirm_mail['valid_till'] = None
+    user.save()
+
+    flash('E-Mail confirmed', 'success')
+
+    return redirect('/')

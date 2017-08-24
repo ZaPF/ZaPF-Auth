@@ -3,13 +3,12 @@ Administrative views for OAuth2.
 """
 from flask import render_template, url_for, \
             redirect, flash, request, current_app
-from flask_login import login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextField, SubmitField, FieldList
 from wtforms.validators import DataRequired
 
 from .models import Client
-from app.user import groups_required
+from app.user import groups_required, login_required
 from . import oauth2_blueprint
 
 class AddClientForm(FlaskForm):

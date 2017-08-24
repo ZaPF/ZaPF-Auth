@@ -1,11 +1,11 @@
 from flask import render_template, redirect, url_for, flash, abort
-from flask_login import login_required, current_user
+from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo, Optional
 from wtforms.fields.html5 import EmailField
 from app.views import confirm, is_safe_url
-from . import groups_required, user_blueprint
+from . import groups_required, user_blueprint, login_required
 from .models import User
 
 class UserEditForm(FlaskForm):
@@ -62,6 +62,8 @@ def edit_user(username, back_url = None):
 
     form = UserEditForm()
     if form.validate_on_submit():
+        old_mail = user.mail
+
         if form.password.data:
             user.update(
               givenName = form.givenName.data,
@@ -75,6 +77,10 @@ def edit_user(username, back_url = None):
               surname = form.surname.data,
               mail = form.mail.data
             )
+
+        if not current_user.is_admin and old_mail != form.mail.data:
+            user.confirm_mail_start()
+            flash('E-Mail changed, new confirmation required. Check your mails', 'warning')
 
         flash('User information changed', 'success')
         return redirect(back_url)
