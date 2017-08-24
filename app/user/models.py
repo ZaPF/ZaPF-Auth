@@ -1,7 +1,13 @@
+import json
+import binascii
+import os
+import time
 from flask_login import UserMixin, AnonymousUserMixin
 from flask import current_app
 
 from app.orm import LDAPOrm
+
+from .helpers import send_password_reset_mail
 
 class AnonymousUser(AnonymousUserMixin):
     @property
@@ -32,6 +38,8 @@ class User(UserMixin, LDAPOrm):
         self._full_name = None
         self._password = None
         self.mail = mail
+        self.reset_password = None
+        self.confirm_mail = None
 
     # FIXME: This could be simplified to just create a User object, populate it,
     @staticmethod
@@ -115,6 +123,7 @@ class User(UserMixin, LDAPOrm):
         self.surname = entry.sn.value
         self._full_name = entry.cn.value
         self.mail = entry.mail.value
+        self.data = entry.description.value
 
     def _orm_mapping_save(self, entry):
         # FIXME: It would be nice if the ORM could somehow automagically
@@ -122,6 +131,7 @@ class User(UserMixin, LDAPOrm):
         entry.sn = self.surname
         entry.cn = self.full_name
         entry.givenName = self.firstName
+        entry.description = self.data
         if self.password:
             entry.userPassword = self._password
         if self.mail:
@@ -139,6 +149,27 @@ class User(UserMixin, LDAPOrm):
                 firstName = self.firstName,
                 surname = self.surname
                 )
+
+    @property
+    def data(self):
+        return json.dumps({'confirm_email': self.confirm_email,
+                           'reset_password': self.reset_password})
+
+    @data.setter
+    def data(self, value):
+        try:
+            jsonData = json.loads(value)
+        except:
+            self.confirm_email = None
+            self.reset_password = None
+            return
+        self.confirm_email = jsonData['confirm_email']
+        self.reset_password = jsonData['reset_password']
+
+    def reset_password_start(self):
+        self.reset_password = (binascii.hexlify(os.urandom(20)).decode('ascii'), int(time.time()) + 24 * 60 * 60)
+        send_password_reset_mail(self)
+        self.save()
 
 class Group(LDAPOrm):
     # This doesn't really work either, so we have to overload _basedn

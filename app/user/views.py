@@ -7,6 +7,7 @@ from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, TextField, SubmitField, PasswordField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms.fields.html5 import EmailField
+import time
 from app.views import is_safe_url, get_redirect_target
 
 from . import user_blueprint, admin
@@ -43,6 +44,18 @@ class SignUpForm(FlaskForm):
         """
         if User.get(field.data):
             raise ValidationError('User already exists')
+
+class PasswordResetStartForm(FlaskForm):
+    user_or_mail = StringField('user_or_mail', validators=[DataRequired('Please enter a username or mail')])
+    recaptcha = RecaptchaField()
+    submit = SubmitField('Reset password')
+
+class PasswordResetFinishForm(FlaskForm):
+    password = PasswordField('password', validators=[
+            DataRequired('Please enter a password'),
+            EqualTo('confirm', 'Passwords must match')])
+    confirm = PasswordField('repeat')
+    submit = SubmitField('Set new password')
 
 @user_blueprint.route('/')
 def home():
@@ -104,3 +117,39 @@ def logout():
 @login_required
 def edit_me():
     return admin.edit_user(current_user.username, url_for('user.edit_me'))
+
+@user_blueprint.route('/user/reset_password', methods=['GET', 'POST'])
+def reset_password_start():
+    form = PasswordResetStartForm()
+    if form.validate_on_submit():
+        user = User.get(form.user_or_mail.data)
+        if not user:
+            users = User.query('mail: {}'.format(form.user_or_mail.data))
+            if len(users) > 0:
+                user = users[0]
+        if user:
+            user.reset_password_start()
+        flash('If your username or mail is valid, you should recive a mail with instructions soon!', 'info')
+        return redirect(url_for('user.home'))
+    return render_template('reset_password_start.html', form=form)
+
+@user_blueprint.route('/user/<string:username>/reset_password/<string:token>', methods=['GET', 'POST'])
+def reset_password_finish(username, token):
+    user = User.get(username)
+
+    if not user:
+        return redirect('/')
+    if not user.reset_password or user.reset_password[0] != token or user.reset_password[1] < int(time.time()):
+        flash('Your password reset token is invalid or expired.', 'error')
+        return redirect(url_for('user.home'))
+
+    form = PasswordResetFinishForm()
+
+    if form.validate_on_submit():
+        user.password = form.password.data
+        user.reset_password = None
+        user.save()
+        flash('New password has been set.', 'info')
+        return redirect(url_for('user.home'))
+
+    return render_template('reset_password_finish.html', form=form)
