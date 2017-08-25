@@ -7,6 +7,7 @@ from wtforms.fields.html5 import EmailField
 from app.views import confirm, is_safe_url
 from . import groups_required, user_blueprint, login_required
 from .models import User
+from .views import MailInUseValidator
 
 class UserEditForm(FlaskForm):
     username = StringField('Username')
@@ -14,7 +15,8 @@ class UserEditForm(FlaskForm):
     surname = StringField('Surname', validators=[DataRequired('Please enter a surname')])
     mail = EmailField('E-Mail', validators=[
             DataRequired('Please enter an E-Mail address'),
-            Email('Please enter a valid E-Mail address')])
+            Email('Please enter a valid E-Mail address'),
+            MailInUseValidator()])
     password = PasswordField('Password', validators=[
             Optional(False),
             EqualTo('confirm_password', 'Passwords must match')])

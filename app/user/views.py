@@ -12,15 +12,26 @@ import time
 from app.views import is_safe_url, get_redirect_target
 from . import login_required
 
+class UsernameInUseValidator(object):
+    def __call__(self, form, field):
+        if User.get(field.data):
+            raise ValidationError('User already exists')
+
+class MailInUseValidator(object):
+    def __call__(self, form, field):
+        if len(User.query('mail: {}'.format(field.data))) != 0:
+            raise ValidationError('E-Mail address already in use')
+
 from . import user_blueprint, admin
 
 class SignUpForm(FlaskForm):
-    username = StringField('user', validators=[DataRequired('Please enter a username')])
+    username = StringField('user', validators=[DataRequired('Please enter a username'), UsernameInUseValidator()])
     givenName = StringField('givenName', validators=[DataRequired('Please enter your given name')])
     surname = StringField('surname', validators=[DataRequired('Please enter your surname')])
     mail = EmailField('email', validators=[
             DataRequired('Please enter your E-Mail address'),
-            Email('Please enter a valid E-Mail address')])
+            Email('Please enter a valid E-Mail address'),
+            MailInUseValidator()])
     password = PasswordField('password', validators=[
             DataRequired('Please enter a password'),
             EqualTo('confirm', 'Passwords must match')])
@@ -39,13 +50,6 @@ class SignUpForm(FlaskForm):
             return redirect(self.next.data)
         target = get_redirect_target()
         return redirect(target or url_for(endpoint, **values))
-
-    def validate_username(form, field):
-        """
-        Check if the user exists already
-        """
-        if User.get(field.data):
-            raise ValidationError('User already exists')
 
 class PasswordResetStartForm(FlaskForm):
     user_or_mail = StringField('user_or_mail', validators=[DataRequired('Please enter a username or mail')])
