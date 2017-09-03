@@ -22,7 +22,8 @@ def api_register():
     other_username = None
     if request.headers.get('Content-Type') == 'application/json':
         req = request.get_json()
-        other_username = req['username']
+        if 'username' in req:
+            other_username = req['username']
     elif request.args.get('username'):
         other_username = request.args.get('username')
     if (user.is_admin or 'orga' in user.groups) and other_username:
