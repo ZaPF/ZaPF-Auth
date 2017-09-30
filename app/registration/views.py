@@ -10,7 +10,7 @@ from app.views import confirm
 import io
 import csv
 
-from . import api, sose17
+from . import api, wise17
 
 class UniForm(FlaskForm):
     name = StringField('Uni Name')

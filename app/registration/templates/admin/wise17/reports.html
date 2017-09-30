@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}WiSe17: Auswertungen{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h3>
+    Verfügbare Auswertungen für ZaPF Winter17:
+  </h3>
+
+  <ul>
+    <li>
+      <a href="{{ url_for('registration.registration_wise17_report_exkursionen') }}">
+        Exkursionen
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_wise17_report_essen') }}">
+        Essen
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_wise17_report_rahmenprogramm') }}">
+        Rahmenprogramm
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_wise17_report_tshirts') }}">
+        T-Shirts
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_wise17_report_hoodie') }}">
+        Hoodies
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_wise17_report_spitznamen') }}">
+        Spitznamen
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('registration.registration_wise17_report_sonstiges') }}">
+        Schlafen und Sonsiges
+      </a>
+    </li>
+  </ul>
+</div>
+{% endblock %}

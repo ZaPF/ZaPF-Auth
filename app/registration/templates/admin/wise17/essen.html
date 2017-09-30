@@ -1,0 +1,394 @@
+{% extends "base.html" %}
+
+{% block title %}WiSe17: Essen{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="btn-group" role="group">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
+    </a>
+  </div>
+
+  <h1>
+  Essen-Auswertung für ZaPF Winter17
+  </h1>
+
+  <div> 
+    <ul>
+      <li>
+        <a href="#sec-essen">Essens-Auswertung</a>
+      </li>
+      <li>
+        <a href="#sec-mittag1">Sonntag-Auswertung</a>
+      </li>
+      <li>
+        <a href="#sec-mittag2">Montag-Auswertung</a>
+      </li>
+      <li>
+        <a href="#sec-mittag3">Dienstag-Auswertung</a>
+      </li>
+      <li>
+        <a href="#sec-heiss">Heißgetränke-Auswertung</a>
+      </li>
+      <li>
+        <a href="#sec-wunsch">Getränkewunsch-Auswertung</a>
+      </li>
+      <li>
+        <a href="#sec-allergien">Allergien-Auswertung</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <h2 id="sec-essen">
+    Auswertung der Essenstypen:
+  </h2>
+  <div class="panel-group">
+  {% for type, data in result_essen.items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-essen-{{ type }}">
+          Essenstyp: {{ data['label'] }}
+        </a>
+        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-essen-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data['registrations'] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+  <h2 id="sec-mittag1">
+    Auswertung des Mittagsessens Sonntag:
+  </h2>
+  <div class="panel-group">
+  {% for type, data in result_mittag1.items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-mittag1-{{ type }}">
+          Sonntag: {{ data['label'] }}
+        </a>
+        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-mittag1-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data['registrations'] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+  <h2 id="sec-mittag2">
+    Auswertung des Mittagsessen Montag:
+  </h2>
+  <div class="panel-group">
+  {% for type, data in result_mittag2.items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-mittag2-{{ type }}">
+          Essenstyp: {{ data['label'] }}
+        </a>
+        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-mittag2-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data['registrations'] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+  <h2 id="sec-mittag3">
+    Auswertung des Mittagessen Dienstag:
+  </h2>
+  <div class="panel-group">
+  {% for type, data in result_mittag3.items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-mittag3-{{ type }}">
+          Essenstyp: {{ data['label'] }}
+        </a>
+        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-mittag3-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data['registrations'] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+  <h2 id="sec-heiss">
+    Auswertung der Heißgetränketypen:
+  </h2>
+  <div class="panel-group">
+  {% for type, data in result_heisse_getraenke.items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-heiss-{{ type }}">
+          Heißgetränketyp: {{ data['label'] }}
+        </a>
+        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-heiss-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data['registrations'] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+  <h2 id="sec-wunsch">
+    Auswertung der Getränkewünsche:
+  </h2>
+  {% if result_getraenkewunsch | length == 0 %}
+  <p>Keine Registrierung mit Getränkewunsch vorhanden!
+  {% else %}
+  <div class="table-responsive">
+  <table class='table table-striped'>
+    <tr>
+      <th>Uni</th>
+      <th>Name</th>
+      <th>Getränke</th>
+      <th>Aktionen</th>
+    </tr>
+    {% for reg in result_getraenkewunsch %}
+    <tr>
+      <td>
+      {% if reg.uni %}
+        <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+          {{ reg.uni.name }}
+        </a>
+      {% endif %}
+      </td>
+      <td>
+        <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+          {{ reg.user.full_name }}
+        </a>
+      </td>
+      <td>
+        {{ reg.data['getraenk'] }}
+      </td>
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  </div>  
+  {% endif %}
+
+
+  <h2 id="sec-allergien">
+    Auswertung der Allergien:
+  </h2>
+  {% if result_allergien | length == 0 %}
+  <p>Keine Registrierung mit Allergien vorhanden!
+  {% else %}
+  <div class="table-responsive">
+  <table class='table table-striped'>
+    <tr>
+      <th>Uni</th>
+      <th>Name</th>
+      <th>Allergien</th>
+      <th>Aktionen</th>
+    </tr>
+    {% for reg in result_allergien %}
+    <tr>
+      <td>
+      {% if reg.uni %}
+        <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+          {{ reg.uni.name }}
+        </a>
+      {% endif %}
+      </td>
+      <td>
+        <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+          {{ reg.user.full_name }}
+        </a>
+      </td>
+      <td>
+        {{ reg.data['allergien'] }}
+      </td>
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  </div>  
+  {% endif %}
+
+</div>
+{% endblock %}

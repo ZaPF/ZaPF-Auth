@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}SoSe17: Registierung von "{{ reg.user.full_name }}"{% endblock %}
+
+{% macro show_form_errors(form, container = True) %}
+{% if form.errors -%} {# don't output anything if there are no errors #}
+{% if container -%}
+  <div class="row">
+    <div class="col-sm-12">
+{% endif -%}
+      <div class="alert alert-danger" role="alert">
+        <p><strong>Errors when validating form data:</strong></p>
+        {{ wtf.form_errors(form) }}
+      </div>
+{% if container %}
+    </div>
+  </div>
+{% endif -%}
+{% endif -%}
+{% endmacro -%}
+
+{% block content %}
+<div class="container">
+  <h2>
+    Sommer17: Details der Registrierung von "{{ reg.user.full_name }}"
+  </h2>
+
+  <form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="form-horizontal">
+  {{ show_form_errors(form) }}
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="vorname">Vorname</label>
+    <div class="col-sm-9">
+      <input id="vorname" name="vorname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.firstName }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="nachname">Nachname</label>
+    <div class="col-sm-9">
+      <input id="nachname" name="nachname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.surname }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.spitzname.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.spitzname(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="mail">E-Mail</label>
+    <div class="col-sm-9">
+      <input id="mail" name="mail" type="text" class="form-control" readonly="readonly" value="{{ reg.user.mail }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="uni">Uni</label>
+    <div class="col-sm-9">
+      <input id="uni" name="uni" type="text" class="form-control" readonly="readonly" value="{{ reg.uni.name }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="essen">Essenstyp</label>
+    <div class="col-sm-9">
+      <input id="essen" name="essen" type="text" class="form-control" readonly="readonly" value="{{ ESSEN_TYPES[reg.data['essen']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="allergien">Allergien</label>
+    <div class="col-sm-9">
+      <input id="allergien" name="allergien" type="text" class="form-control" readonly="readonly" value="{{ reg.data['allergien'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="heiss">Heißgetränk</label>
+    <div class="col-sm-9">
+      <input id="heiss" name="heiss" type="text" class="form-control" readonly="readonly" value="{{ HEISSE_GETRAENKE_TYPES[reg.data['heissgetraenk']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="getraenk">Getränkewunsch</label>
+    <div class="col-sm-9">
+      <input id="getraenk" name="getraenk" type="text" class="form-control" readonly="readonly" value="{{ reg.data['getraenk'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="tshirt">T-Shirt-Größe</label>
+    <div class="col-sm-9">
+      <input id="tshirt" name="tshirt" type="text" class="form-control" readonly="readonly" value="{{ TSHIRTS_TYPES[reg.data['tshirt']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="zelten">Zelten</label>
+    <div class="col-sm-9">
+      <input id="zelten" name="zelten" type="text" class="form-control" readonly="readonly" value="{{ ZELTEN_TYPES[reg.data['zelten']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="ex1">Exkursion: Erstwunsch</label>
+    <div class="col-sm-9">
+      <input id="ex1" name="ex1" type="text" class="form-control" readonly="readonly" value="{{ EXKURSIONEN_TYPES[reg.data['exkursion1']][0] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="ex2">Exkursion: Zweitwunsch</label>
+    <div class="col-sm-9">
+      <input id="ex2" name="ex2" type="text" class="form-control" readonly="readonly" value="{{ EXKURSIONEN_TYPES[reg.data['exkursion2']][0] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="ex3">Exkursion: Drittwunsch</label>
+    <div class="col-sm-9">
+      <input id="ex3" name="ex3" type="text" class="form-control" readonly="readonly" value="{{ EXKURSIONEN_TYPES[reg.data['exkursion3']][0] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="ex4">Exkursion: Viertwunsch</label>
+    <div class="col-sm-9">
+      <input id="ex4" name="ex4" type="text" class="form-control" readonly="readonly" value="{{ EXKURSIONEN_TYPES[reg.data['exkursion4']][0] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.exkursion_overwrite.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.exkursion_overwrite(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="birthday">Geburtsdatum</label>
+    <div class="col-sm-9">
+      <input id="birthday" name="birthday" type="text" class="form-control" readonly="readonly" value="{{ reg.data['geburtsdatum'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="alkoholfrei">Alkoholfreie Alternative?</label>
+    <div class="col-sm-9">
+      <input id="alkoholfrei" name="alkoholfrei" type="text" class="form-control" readonly="readonly" value="{% if reg.data['alkoholfrei'] %}Ja{% else %}Nein{% endif %}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="musikwunsch">Musikwunsch</label>
+    <div class="col-sm-9">
+      <input id="musikwunsch" name="musikwunsch" type="text" class="form-control" readonly="readonly" value="{{ reg.data['musikwunsch'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="kommentar">Kommentar</label>
+    <div class="col-sm-9">
+      <input id="kommentar" name="kommentar" type="text" class="form-control" readonly="readonly" value="{{ reg.data['kommentar'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="orga">Orgaprobleme</label>
+    <div class="col-sm-9">
+      <input id="orga" name="orga" type="text" class="form-control" readonly="readonly" value="{{ reg.data['orgaprobleme'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-offset-3 col-sm-9">
+      {{ form.submit(class='btn btn-lg btn-default') }}
+    </div>
+  </div>
+  </div>
+  </form>
+</div>
+{% endblock %}
