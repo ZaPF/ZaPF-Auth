@@ -247,9 +247,14 @@ def registration_wise17_report_essen():
             not result_mittag1[mittag1_type] or not result_mittag2[mittag2_type] or not result_mittag3[mittag3_type]):
             return None
         result_essen[essen_type]['registrations'].append(reg)
-        result_mittag1[mittag1_type]['registrations'].append(reg)
-        result_mittag2[mittag2_type]['registrations'].append(reg)
-        result_mittag3[mittag3_type]['registrations'].append(reg)
+        if essen_type == 'vegetarisch' or essen_type == 'vegan':
+            result_mittag1['vegan']['registrations'].append(reg)
+            result_mittag2['vegan']['registrations'].append(reg)
+            result_mittag3['vegan']['registrations'].append(reg)
+        else:
+            result_mittag1[mittag1_type]['registrations'].append(reg)
+            result_mittag2[mittag2_type]['registrations'].append(reg)
+            result_mittag3[mittag3_type]['registrations'].append(reg)
         result_heisse_getraenke[heisse_getraenke]['registrations'].append(reg)
         if getraenkewunsch:
             result_getraenkewunsch.append(reg)
