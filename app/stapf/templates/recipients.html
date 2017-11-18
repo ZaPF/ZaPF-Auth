@@ -2,9 +2,64 @@
 
 {% block title %}Adressaten{% endblock %}
 
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+// Adapted from http://jsfiddle.net/ukW2C/3/
+$("#search").keyup(function () {
+      //split the current value of search
+      var data = this.value.split(" ");
+
+      //create a jquery object of the rows
+      var jo = $("#recipients").find("tr");
+      if (this.value == "") {
+                jo.show();
+                $("#search-group").removeClass("has-error");
+                $("#search-group").removeClass("has-success");
+                return;
+            }
+      //hide all the rows
+      jo.hide();
+
+      //Recusively filter the jquery object to get results.
+      filtered = jo.filter(function (i, v) {
+                var $t = $(this);
+                for (var d = 0; d < data.length; ++d) {
+                              if ($t.is(":contains('" + data[d] + "')")) {
+                                                return true;
+                                            }
+                          }
+                return false;
+            });
+      //show the rows that match.
+      filtered.show();
+
+      //update the search bar validation status
+      if (filtered.length) {
+        $("#search-group").addClass("has-success");
+        $("#search-group").removeClass("has-error");
+      } else {
+        $("#search-group").addClass("has-error");
+        $("#search-group").removeClass("has-success");
+      }
+}).focus(function () {
+      this.value = "";
+      $(this).unbind('focus');
+});
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="container">
   <h1>Adressaten</h1>
+
+  <div id="search-group" class="form-group has-feedback">
+    <label class="control-label sr-only" for="search">Suche für Adressaten</label>
+    <div class="input-group">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+      <input id="search" type="text" class="form-control input-lg" placeholder="Suche">
+    </div>
+  </div>
 
   <div class="btn-group" role="group">
     <a class="btn btn-default" href="{{url_for('stapf.recipient_new')}}">
@@ -23,6 +78,7 @@
       <th>Kommentar</th>
       <th>Actions</th>
     </tr>
+    <tbody id="recipients">
     {% for recipient in recipients %}
     <tr>
       <td>{{ recipient.name }}</td>
@@ -41,6 +97,7 @@
       </td>
     </tr>
     {% endfor %}
+    </tbody>
   </table>
   </div>
 </div>
