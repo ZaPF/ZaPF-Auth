@@ -29,9 +29,9 @@ def send_batch_mails(batch):
                     msg.attach(batch.decision.filename, "application/pdf", fp.read())
                 conn.send(msg)
 
-        msg = Message(batch.subject, recipients=[current_app.config['MAIL_STAPF']],
-                      body=batch.message, sender=current_app.config['MAIL_STAPF'])
-        with current_app.open_resource(batch.decision.file_path) as fp:
-            msg.attach(batch.decision.filename, "application/pdf", fp.read())
-        conn.send(msg)
+        #msg = Message(batch.subject, recipients=[current_app.config['MAIL_STAPF']],
+        #              body=batch.message, sender=current_app.config['MAIL_STAPF'])
+        #with current_app.open_resource(batch.decision.file_path) as fp:
+        #    msg.attach(batch.decision.filename, "application/pdf", fp.read())
+        #conn.send(msg)
 
