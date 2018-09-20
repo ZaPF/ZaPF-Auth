@@ -1,7 +1,7 @@
 from flask import request, abort, g
 from flask.json import jsonify
 from . import registration_blueprint, token_auth
-from .models import Uni, Registration
+from .models import Uni, Registration, Mascot
 from .helpers import send_registration_success_mail
 from app.user import groups_required
 from app.user.models import User
@@ -125,3 +125,47 @@ def api_registration_priorities():
             registrations=[format_reg(reg) for reg in registrations if reg.confirmed]
                          +[format_reg(reg) for reg in registrations if not reg.confirmed]
         )
+
+@registration_blueprint.route('/api/mascots', methods=['GET', 'POST'])
+@token_auth.login_required
+def api_mascots():
+    if request.method == 'POST' \
+        and request.headers.get('Content-Type') == 'application/json':
+        req = request.get_json()
+        
+        mascot = Mascot(req['name'], g.uni.id)
+        db.session.add(mascot)
+        db.session.commit()
+        return "OK"
+
+
+    mascots = Mascot.query.filter_by(uni_id = g.uni.id)
+
+    def format_masc(mascot):
+        return {
+            'id': mascot.id,
+            'name': mascot.name,
+        }
+
+    return jsonify(
+            uni=g.uni.name,
+            mascots=[format_masc(masc) for masc in mascots]
+        )
+
+@registration_blueprint.route('/api/mascots/delete', methods=['GET', 'POST'])
+@token_auth.login_required
+def delete_mascot():
+    if request.headers.get('Content-Type') == 'application/json':
+        req = request.get_json()
+        if 'id' in req:
+            mascot_id = req['id']
+    elif request.args.get('username'):
+        mascot_id = request.args.get('id')
+    mascot = Mascot.query.filter_by(id=mascot_id).first()
+    print(mascot.uni_id)
+    if(mascot.uni_id == g.uni.id):
+       db.session.delete(mascot)
+       db.session.commit()
+
+    return "OK"
+

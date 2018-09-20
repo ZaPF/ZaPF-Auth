@@ -61,3 +61,17 @@ class Uni(db.Model):
 
     def __repr__(self):
         return "<Uni: {}>".format(self.name)
+
+class Mascot(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    name = db.Column(db.Text(), unique = False)
+    uni_id = db.Column(db.Integer(), db.ForeignKey('uni.id'))
+    uni = db.relationship('Uni', backref=db.backref('Mascots', lazy='dynamic', cascade="all, delete-orphan"))
+
+
+    def __init__(self, name, uni_id):
+        self.name = name
+        self.uni_id = uni_id
+
+    def __repr__(self):
+        return "<Mascot: {}>".format(self.name)
