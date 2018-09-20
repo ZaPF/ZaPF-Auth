@@ -11,7 +11,7 @@
   {% if uni %}
     <a href="{{ url_for('registration.mascots') }}" class="btn btn-default">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-      All registrations
+      All mascots
     </a>
   {% endif %}
 
@@ -31,8 +31,8 @@
         </a>
       {% endif %}
       </td>
-      <td>{{ masc.name }}</td>
     {% endif %}
+      <td>{{ masc.name }}</td>
       <td>
         <div class="btn-group" role="group">
           <a class="btn-danger btn" href="{{url_for('registration.del_mascot', masc_id=masc.id)}}">
