@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Mascots{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>
+  Mascots {% if uni %}for {{ uni.name }}{% endif %}
+  </h1>
+
+  {% if uni %}
+    <a href="{{ url_for('registration.mascots') }}" class="btn btn-default">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+      All registrations
+    </a>
+  {% endif %}
+
+  <table class='table'>
+    <tr>
+    {% if uni == None %}
+      <th>Uni</th>
+    {% endif %}
+      <th>Name</th>
+    {% for masc in mascots %}
+    <tr>
+    {% if uni == None %}
+      <td>
+      {% if masc.uni %}
+        <a href="{{url_for('registration.mascots_by_uni', uni_id=masc.uni.id)}}">
+{{ masc.uni.name }}
+        </a>
+      {% endif %}
+      </td>
+      <td>{{ masc.name }}</td>
+    {% endif %}
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn-danger btn" href="{{url_for('registration.del_mascot', masc_id=masc.id)}}">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

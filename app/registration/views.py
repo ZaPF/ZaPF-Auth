@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, jsonify, Response
 from . import registration_blueprint
 from app.db import db
-from .models import Uni, Registration
+from .models import Uni, Registration, Mascot
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.fields.html5 import IntegerField
@@ -209,3 +209,59 @@ def registrations_export_attendee_csv():
                        reg.confirmed, reg.priority, reg.is_zapf_attendee]
                       for reg in registrations])
     return Response(result.getvalue(), mimetype='text/csv')
+
+@registration_blueprint.route('/admin/mascots')
+@groups_sufficient('admin', 'orga')
+def mascots():
+    mascots = Mascot.query.all()
+    return render_template('admin/mascots.html',
+        mascots=mascots,
+        uni = None
+    )
+
+@registration_blueprint.route('/admin/uni/<int:uni_id>/mascots')
+@groups_sufficient('admin', 'orga')
+def mascots_by_uni(uni_id):
+    mascots = Mascot.query.filter_by(uni_id=uni_id).all()
+    return render_template('admin/mascots.html',
+        mascots = mascots,
+        uni = Uni.query.filter_by(id=uni_id).first()
+    )
+
+@registration_blueprint.route('/admin/mascots/<int:masc_id>/delete', methods=['GET', 'POST'])
+@groups_sufficient('admin', 'orga')
+@confirm(title='Delete mascot',
+        action='Delete mascot',
+        back='registration.mascots')
+def del_mascot(masc_id):
+    masc = Mascot.query.filter_by(id=masc_id).first()
+    db.session.delete(masc)
+    db.session.commit()
+    flash('Deleted {}'.format(masc.name))
+    return redirect(url_for('registration.mascots'))
+
+@registration_blueprint.route('/admin/mascots/export/json')
+@groups_sufficient('admin', 'orga')
+def mascot_export_json():
+    mascots = Registration.query.all()
+    return jsonify(mascots = [
+        {
+         'name': masc.username,
+         'uni_name': masc.uni.name,
+        }
+        for masc in mascots
+    ])
+
+@registration_blueprint.route('/admin/mascots/export/csv')
+@groups_sufficient('admin', 'orga')
+def mascots_export_csv():
+    mascots = Mascot.query.order_by(Registration.uni_id).all()
+    result = io.StringIO()
+    writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
+    writer.writerows([[masc.name,reg.uni.name]
+                      for masc in mascots])
+    return Response(result.getvalue(), mimetype='text/csv')
+
+
+
+
