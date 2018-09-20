@@ -9,11 +9,18 @@ import io
 import csv
 
 EXKURSIONEN_TYPES = {
-  'test1': ('test1', 'Ziellos in der Gegend rumstarren'),
-  'test2': ('test2', 'Dumme Exkursionen erfinden'),
+  'schwab': ('Weingut Schwab mit Wienprobe und Brotzeit (10€ Selbstbeteiligung)', 25, 'Schwab'),
+  'vaqtec': ('va-Q-tec', 15, 'Vaqtec'),
+  'zae': ('Zentrum für angewandte Energieforschung Bayern & Fraunhofer EZRT', 15, 'ZAE & Fraunhofer'),
+  'noell': ('Bilfinger Noell', 20, 'Noell'),
+  'isc': ('Fraunhofer ISC', 20, 'Fraunhofer'),
+  'mind': ('M!ND-Center', 30, 'Mind-Center'),
+  'stfr': ('Stadtführung mit Residenz', 25, 'StadResidenz'),
+  'stff': ('Stadtführung mit Festung Marienberg', 25, 'StadFestung'),
+  'mft': ('Mainfranken-Theater', 20, 'Theater'),
+  'xray': ('Röntgen-Gedächtnisstätte', 20, 'Röntgen'),
   'egal': ('ist mir egal', -1, 'Egal'),
   'keine': ('keine exkursion', -1, 'Keine'),
-  'stf': ('Stadtführung', 20, 'Stadtführung'),
   'nospace': ('Konnte keiner Exkursion zugeordnet werden', -1, 'Noch offen'),
 }
 
@@ -25,24 +32,17 @@ EXKURSIONEN_TYPES_FORM = [('nooverwrite', '')] + [(name, data[0]) for name, data
 
 TSHIRTS_TYPES = {
   'keins': 'Nein, ich möchte keins',
-  'fitted_5xl': 'fitted 5XL',
-  'fitted_4xl': 'fitted 4XL',
-  'fitted_3xl': 'fitted 3XL',
-  'fitted_xxl': 'fitted XXL',
   'fitted_xl': 'fitted XL',
   'fitted_l': 'fitted L',
   'fitted_m': 'fitted M',
   'fitted_s': 'fitted S',
   'fitted_xs': 'fitted XS',
-  '5xl': '5XL',
-  '4xl': '4XL',
   '3xl': '3XL',
   'xxl': 'XXL',
   'xl': 'XL',
   'l': 'L',
   'm': 'M',
   's': 'S',
-  'xs': 'XS'
 }
 
 ESSEN_TYPES = {
