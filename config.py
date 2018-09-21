@@ -18,7 +18,11 @@ class Config:
     LDAP_GROUP_MEMBERS_ATTR = 'member'
     LDAP_READONLY = False
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///anmeldung.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///main.db'
+    SQLALCHEMY_BINDS = {
+        'anmeldung': 'sqlite:///anmeldung.db',
+        'stapf':     'sqlite:///stapf.db'
+    }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     LOGOUT_ALLOWED_NEXT = [ "https://anmeldung.zapf.in/oauth/loggedout" ]
@@ -28,6 +32,9 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_DEFAULT_SENDER = 'topf@zapf.in'
     MAIL_NEXT_ZAPF_ORGA = 'topf@zapf.in'
+    MAIL_STAPF          = 'stapf@zapf.in'
+
+    STAPF_DECISIONS_PATH = 'stapf/decisions'
 
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
     import ldap3

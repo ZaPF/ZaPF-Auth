@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% macro show_form_errors(form, container = True) %}
+{% if form.errors -%} {# don't output anything if there are no errors #}
+{% if container -%}
+  <div class="row">
+    <div class="col-sm-12">
+{% endif -%}
+      <div class="alert alert-danger" role="alert">
+        <p><strong>Errors when validating form data:</strong></p>
+        {{ wtf.form_errors(form) }}
+      </div>
+{% if container %}
+    </div>
+  </div>
+{% endif -%}
+{% endif -%}
+{% endmacro -%}
+
+{% block title %}Adressaten-Liste importieren{% endblock %}
+
+{% block content %}
+<div class="container">
+  <form class="form-horizontal" method="POST">
+  {{ form.hidden_tag() }}
+  
+  <div class="form-horizontal">
+    {{ show_form_errors(form) }}
+
+    <div class="form-group row">
+      {{ form.name.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.name(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.recipients.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.recipients(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.comment.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.comment(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-offset-3 col-sm-9">
+        {{ form.submit(class='btn btn-lg btn-default') }}
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+{% endblock %}

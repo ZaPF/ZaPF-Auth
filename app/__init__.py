@@ -53,6 +53,10 @@ def create_app(profile="default"):
     app.register_blueprint(registration_blueprint)
     init_reg(app)
 
+    from app.stapf import stapf_blueprint, init_app as init_stapf
+    app.register_blueprint(stapf_blueprint)
+    init_stapf(app)
+
     return app
 
 def check_sanity(fix=True):

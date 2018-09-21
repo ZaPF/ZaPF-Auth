@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Adressaten-Listen{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Adressaten-Listen</h1>
+
+  <div class="btn-group" role="group">
+    <a class="btn btn-default" href="{{url_for('stapf.recipients_list_new')}}">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Neue Adressaten-Liste
+    </a>
+    <a class="btn btn-default" href="{{url_for('stapf.recipients_list_import_mails')}}">
+      <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Importiere Adressaten-Liste (Mail)
+    </a>
+  </div>
+
+  <br />
+
+  <div class="table-responsive">
+  <table class='table'>
+    <tr>
+      <th>Name</th>
+      <th>Kommentar</th>
+      <th>Aktionen</th>
+    </tr>
+    {% for recipients_list in recipients_lists %}
+    <tr>
+      <td>{{ recipients_list.name }}</td>
+      <td>{{ recipients_list.comment }}</td>
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn-default btn" href="{{url_for('stapf.recipients_list', recipients_list_id=recipients_list.id)}}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Bearbeiten
+          </a>
+          <a class="btn-danger btn" href="{{url_for('stapf.recipients_list_delete', recipients_list_id=recipients_list.id)}}">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  </div>
+</div>
+{% endblock %}

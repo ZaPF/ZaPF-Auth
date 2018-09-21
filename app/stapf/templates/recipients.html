@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Adressaten{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Adressaten</h1>
+
+  <div class="btn-group" role="group">
+    <a class="btn btn-default" href="{{url_for('stapf.recipient_new')}}">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Neuer Adressat
+    </a>
+  </div>
+
+  <br />
+
+  <div class="table-responsive">
+  <table class='table'>
+    <tr>
+      <th>Name</th>
+      <th>Organisation</th>
+      <th>E-Mail</th>
+      <th>Kommentar</th>
+      <th>Actions</th>
+    </tr>
+    {% for recipient in recipients %}
+    <tr>
+      <td>{{ recipient.name }}</td>
+      <td>{{ recipient.organisation_name }}</td>
+      <td>{{ recipient.mail }}</td>
+      <td>{{ recipient.comment }}</td>
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn-default btn" href="{{url_for('stapf.recipient', recipient_id=recipient.id)}}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Bearbeiten
+          </a>
+          <a class="btn-danger btn" href="{{url_for('stapf.recipient_delete', recipient_id=recipient.id)}}">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  </div>
+</div>
+{% endblock %}
