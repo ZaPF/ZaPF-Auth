@@ -65,6 +65,7 @@ class Uni(db.Model):
         return "<Uni: {}>".format(self.name)
 
 class Mascot(db.Model):
+    __bind_key__ = 'anmeldung'
     id = db.Column(db.Integer(), primary_key = True)
     name = db.Column(db.Text(), unique = False)
     uni_id = db.Column(db.Integer(), db.ForeignKey('uni.id'))
