@@ -297,17 +297,22 @@ def registration_wise18_report_sonstiges():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_schlafen = {}
     result_kommentar = []
+    result_minderjaehrig = []
     for name, label in SCHLAFEN_TYPES.items():
         result_schlafen[name] = {'label': label, 'registrations': []}
     for reg in registrations:
         schlafen_type = reg.data['schlafen']
-        kommentar = reg.data['addx']
+        kommentar = reg.data['kommentar']
+        minderjaehrig = reg.data['minderjaehrig']
         result_schlafen[schlafen_type]['registrations'].append(reg)
         if kommentar:
             result_kommentar.append(reg)
+        if minderjaehrig:
+            result_minderjaehrig.append(reg)
     return render_template('admin/wise18/sonstiges.html',
         result_schlafen = result_schlafen,
-        result_kommentar = result_kommentar
+        result_kommentar = result_kommentar,
+        result_minderjaehrig = result_minderjaehrig
     )
 
 @registration_blueprint.route('/admin/registration/report/wise18/spitznamen')

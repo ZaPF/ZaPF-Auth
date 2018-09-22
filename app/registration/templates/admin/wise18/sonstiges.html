@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe17: Schlafen und Sonstiges{% endblock %}
+{% block title %}WiSe18: Schlafen und Sonstiges{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="btn-group" role="group">
-    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_reports') }}">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
     </a>
   </div>
 
   <h1>
-  Schlafen und Sonstiges-Auswertung für ZaPF Winter17
+  Schlafen und Sonstiges-Auswertung für ZaPF Winter18
   </h1>
 
   <h2 id="sec-essen">
-    Auswertung der Schlafgewohnheiten:
+    Auswertung der Schlafstätten:
   </h2>
   <div class="panel-group">
   {% for type, data in result_schlafen.items() %}
@@ -23,7 +23,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" href="#collapse-schlafen-{{ type }}">
-          Schlafgewohnheit: {{ data['label'] }}
+          Schlafstätte: {{ data['label'] }}
         </a>
         <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
       </h4>
@@ -46,13 +46,13 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -66,20 +66,20 @@
   {% endfor %}
   </div>
 
-  <h2 id="sec-addx" name="sec-groesse">
-  @ &sum; x
+  <h2 id="sec-kommentar" name="sec-groesse"
+    Kommentare
   </h2>
   <div class="panel-group">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" href="#collapse-addx">
-          @ &sum; x
+        <a data-toggle="collapse" href="#collapse-kommentar">
+          Kommentare
         </a>
-        <span class="badge" style="float: right">{{ result_addx | length }}</span>
+        <span class="badge" style="float: right">{{ result_kommentar | length }}</span>
       </h4>
     </div>
-    <div id="collapse-addx" class="panel-collapse collapse">
+    <div id="collapse-kommentar" class="panel-collapse collapse">
       <div class="table-responsive">
       <table class='table table-striped'>
         <tr>
@@ -87,7 +87,7 @@
           <th>Name</th>
           <th>Aktionen</th>
         </tr>
-        {% for reg in result_addx %}
+        {% for reg in result_kommentar %}
         <tr>
           <td>
           {% if reg.uni %}
@@ -97,13 +97,13 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -115,6 +115,66 @@
     </div>
   </div>
   </div>
+
+  <h2id="sec-kommentar" name="sec-groesse">
+      Minderjährige:
+  </h2>
+  <div class="list-group">
+    {% if result_minderjaehrig == [] %}
+    <div class="list-group-item list-group-item-success">
+        <h4 class="list-group-heading">Keine Minderjährigen Zapfika.</h4>
+      </div>
+    {% else %}
+  <div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading list-group-item-danger">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-minderjaehrig">
+          MINDERJÄHRIGE ZAPFIKA
+        </a>
+        <span class="badge" style="float: right">{{ result_minderjaehrig | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-minderjaehrig" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in result_minderjaehrig %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  </div>
+
+
+
 
 </div>
 {% endblock %}
