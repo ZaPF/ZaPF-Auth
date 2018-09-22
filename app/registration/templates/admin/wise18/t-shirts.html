@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe17: T-Shirt{% endblock %}
+{% block title %}WiSe18: T-Shirt{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="btn-group" role="group">
-    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_reports') }}">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
     </a>
   </div>
 
   <h1>
-  T-Shirt-Auswertung für ZaPF Winter17
+  T-Shirt-Auswertung für ZaPF Winter18
   </h1>
 
   <div>
@@ -36,7 +36,7 @@
         <a data-toggle="collapse" href="#collapse-{{ type }}">
           T-Shirt-Größe: {{ data['label'] }}
         </a>
-        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+        <span class="badge" style="float: right">{{ data['total'] }} ({{ data['registrations'] | length }} Zapfika)</span>
       </h4>
     </div>
     <div id="collapse-{{ type }}" class="panel-collapse collapse">
@@ -45,6 +45,7 @@
         <tr>
           <th>Uni</th>
           <th>Name</th>
+          <th>Shirts</th>
           <th>Aktionen</th>
         </tr>
         {% for reg in data['registrations'] %}
@@ -57,13 +58,16 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
+            {{ reg.data['addtshirt'] + 1 }}
+          </td>
+          <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -88,7 +92,7 @@
         <a data-toggle="collapse" href="#collapse-{{ type }}">
           Uni: {{ data['name'] }}
         </a>
-        <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+        <span class="badge" style="float: right">{{ data['total'] }} ({{data['registrations'] | length }} Zapfika) </span>
       </h4>
     </div>
     <div id="collapse-{{ type }}" class="panel-collapse collapse">
@@ -108,12 +112,13 @@
         <tr>
           <th>Name</th>
           <th>T-Shirt-Größe</th>
+          <th>Anzahl</th>
           <th>Aktionen</th>
         </tr>
         {% for reg in data['registrations'] %}
         <tr>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
@@ -121,8 +126,11 @@
             {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
           </td>
           <td>
+            {{ reg.data['addtshirt'] + 1 }}
+          </td>
+          <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>

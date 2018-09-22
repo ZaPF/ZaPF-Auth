@@ -169,17 +169,25 @@ def registration_wise18_report_tshirts():
         result_unis[uni.id] = {
             'name': uni.name,
             'registrations': [],
-            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()}
+            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()},
+            'total': 0
         }
     for name, label in TSHIRTS_TYPES.items():
-        result[name] = {'label': label, 'registrations': []}
+        result[name] = {'label': label, 'registrations': [], 'total': 0}
     for reg in registrations:
         tshirt_size = reg.data['tshirt']
+        additional_shirts = reg.data['addtshirt']
         if not result[tshirt_size]:
-            return None
+            return None     
         result[tshirt_size]['registrations'].append(reg)
+        result[tshirt_size]['total'] +=1
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['types'][tshirt_size] += 1
+        result_unis[reg.uni.id]['total'] += 1
+        if additional_shirts:
+            result[tshirt_size]['total'] += additional_shirts
+            result_unis[reg.uni.id]['types'][tshirt_size] += additional_shirts
+            result_unis[reg.uni.id]['total'] += additional_shirts
     return render_template('admin/wise18/t-shirts.html',
         result = result,
         result_unis = result_unis,
@@ -198,7 +206,7 @@ def registration_wise18_report_hoodie():
         result_unis[uni.id] = {
             'name': uni.name,
             'registrations': [],
-            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()}
+            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()},
         }
     for name, label in TSHIRTS_TYPES.items():
         result[name] = {'label': label, 'registrations': []}
