@@ -15,7 +15,7 @@ from . import api, wise18
 class UniForm(FlaskForm):
     name = StringField('Uni Name')
     token = StringField('Token')
-    slots = IntegerField('Token', default=3)
+    slots = IntegerField('Slots', default=3)
     submit = SubmitField()
 
 @registration_blueprint.route('/admin/uni')
