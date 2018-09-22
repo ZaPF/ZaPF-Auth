@@ -80,16 +80,20 @@ ANREISE_TYPES = {
   'auto': 'Auto',
   'flug': 'Flugzeug',
   'fahrrad': 'Fahrrad',
+  'boot': 'Boot',
   'zeitmaschine': 'Zeitmaschine',
   'einhorn': 'Einhorn'
 }
 
 ABREISE_TYPES = {
-  'fr': 'Freitag',
-  'sa': 'Samstag',
-  'somo': 'Sonntag morgen',
-  'somi': 'Sonntag mittag',
-  'soab': 'Sonntag abend'
+        'ende': 'Nach dem Plenum',
+        'so810': 'Sonntag 8-10',
+        'so1012': 'Sonntag 10-12',
+        'so1214': 'Sonntag 12-14',
+        'so1416': 'Sonntag 14-16',
+        'so1618': 'Sonntag 16-18',
+        'so1820': 'Sonntag 18-20',
+        'vorso': 'Vor Sonntag'
 }
 
 class Winter18ExkursionenOverwriteForm(FlaskForm):
@@ -203,6 +207,32 @@ def registration_wise18_report_tshirts():
         result = result,
         result_unis = result_unis,
         TSHIRTS_TYPES = TSHIRTS_TYPES
+    )
+
+@registration_blueprint.route('/admin/registration/report/wise18/anabreise')
+@groups_sufficient('admin', 'orga')
+def registration_wise18_report_anabreise():
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    unis = Uni.query.order_by(Uni.id)
+    result_anreise = {}
+    result_abreise = {}
+
+    for name, label in ANREISE_TYPES.items():
+        result_anreise[name] = {'label': label, 'registrations': []}
+    for name, label in ABREISE_TYPES.items():
+        result_abreise[name] = {'label': label, 'registrations': []}
+    for reg in registrations:
+        anreise = reg.data['anreise']
+        abreise = reg.data['abreise']
+        if not result_abreise[abreise] or not result_anreise[anreise]:
+            return None     
+        result_anreise[anreise]['registrations'].append(reg)
+        result_abreise[abreise]['registrations'].append(reg)
+    return render_template('admin/wise18/anabreise.html',
+        result_anreise = result_anreise,
+        result_abreise = result_abreise,
+        ANREISE_TYPES = ANREISE_TYPES,
+        ABREISE_TYPES = ABREISE_TYPES
     )
 
 @registration_blueprint.route('/admin/registration/report/wise18/hoodie')
@@ -356,17 +386,17 @@ def registration_wise18_details_registration(reg_id):
     if 'exkursion_overwrite' in reg.data:
         form.exkursion_overwrite.data = reg.data['exkursion_overwrite']
     form.spitzname.data = reg.data['spitzname']
-#FIXME
     return render_template('admin/wise18/details.html',
         reg = reg,
         form = form,
         EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
         ESSEN_TYPES = ESSEN_TYPES,
-
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         SCHLAFEN_TYPES = SCHLAFEN_TYPES,
         HEISSE_GETRAENKE_TYPES = HEISSE_GETRAENKE_TYPES,
-        ANREISE_TYPES = ANREISE_TYPES
+        ANREISE_TYPES = ANREISE_TYPES,
+        ABREISE_TYPES = ABREISE_TYPES,
+        HOODIE_TYPES = HOODIE_TYPES
     )
 
 @registration_blueprint.route('/admin/registration/report/wise18/stimmkarten/latex')
@@ -505,16 +535,6 @@ def registration_wise18_export_t_shirt_latex():
     if i != 0:
         result.append("}")
     return Response("\n".join(result), mimetype="application/x-latex")
-
-#@registration_blueprint.route('/admin/registration/report/wise17/wichteln/csv')
-#@groups_sufficient('admin', 'orga')
-#def registrations_wise17_export_wichteln_csv():
-#    registrations = Registration.query.all()
-#    result = io.StringIO()
-#    writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
-#    writer.writerows([[reg.user.full_name, reg.uni.name, reg.data['spitzname']]
-#                      for reg in registrations if reg.is_zapf_attendee])
-#    return Response(result.getvalue(), mimetype='text/csv')
 
 @registration_blueprint.route('/admin/registration/report/wise18/exkursionen/latex')
 @groups_sufficient('admin', 'orga')

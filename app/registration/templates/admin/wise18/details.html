@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}WiSe17: Registierung von "{{ reg.user.full_name }}"{% endblock %}
+{% block title %}WiSe18: Registierung von "{{ reg.user.full_name }}"{% endblock %}
 
 {% macro show_form_errors(form, container = True) %}
 {% if form.errors -%} {# don't output anything if there are no errors #}
@@ -23,7 +23,7 @@
 {% block content %}
 <div class="container">
   <h2>
-    Winter17: Details der Registrierung von "{{ reg.user.full_name }}"
+    Winter18: Details der Registrierung von "{{ reg.user.full_name }}"
   </h2>
 
   <form method="POST">
@@ -67,24 +67,6 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="mittag1">Mittagessen Sonntag</label>
-    <div class="col-sm-9">
-      <input id="mittag1" name="mittag1" type="text" class="form-control" readonly="readonly" value="{{ MITTAG1_TYPES[reg.data['mittag1']] }}" />
-    </div>
-  </div>
-  <div class="form-group row">
-    <label class="col-sm-3 control-label" for="mittag2">Mittagessen Montag</label>
-    <div class="col-sm-9">
-      <input id="mittag2" name="mittag2" type="text" class="form-control" readonly="readonly" value="{{ MITTAG2_TYPES[reg.data['mittag2']] }}" />
-    </div>
-  </div>
-  <div class="form-group row">
-    <label class="col-sm-3 control-label" for="mittag3">Mittagessen Dienstag</label>
-    <div class="col-sm-9">
-      <input id="mittag3" name="mittag3" type="text" class="form-control" readonly="readonly" value="{{ MITTAG3_TYPES[reg.data['mittag3']] }}" />
-    </div>
-  </div>
-  <div class="form-group row">
     <label class="col-sm-3 control-label" for="allergien">Allergien</label>
     <div class="col-sm-9">
       <input id="allergien" name="allergien" type="text" class="form-control" readonly="readonly" value="{{ reg.data['allergien'] }}" />
@@ -97,9 +79,9 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="getraenk">Getränkewunsch</label>
+    <label class="col-sm-3 control-label" for="getraenk">Essenswunsch</label>
     <div class="col-sm-9">
-      <input id="getraenk" name="getraenk" type="text" class="form-control" readonly="readonly" value="{{ reg.data['getraenk'] }}" />
+      <input id="getraenk" name="getraenk" type="text" class="form-control" readonly="readonly" value="{{ reg.data['essenswunsch'] }}" />
     </div>
   </div>
   <div class="form-group row">
@@ -109,15 +91,27 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="hoodie">Hoodie-Größe</label>
+    <label class="col-sm-3 control-label" for="addtshirt">Zusätzliche T-Shirts</label>
     <div class="col-sm-9">
-      <input id="hoodie" name="hoodie" type="text" class="form-control" readonly="readonly" value="{{ TSHIRTS_TYPES[reg.data['hoodie']] }}" />
+      <input id="addtshirt" name="addtshirt" type="text" class="form-control" readonly="readonly" value="{{ reg.data['addtshirt'] }}" />
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="muetze">Mütze?</label>
+    <label class="col-sm-3 control-label" for="hoodie">Hoodie-Größe</label>
     <div class="col-sm-9">
-      <input id="muetze" name="muetze" type="text" class="form-control" readonly="readonly" value="{% if reg.data['muetze'] %}Ja{% else %}Nein{% endif %}" />
+      <input id="hoodie" name="hoodie" type="text" class="form-control" readonly="readonly" value="{{ HOODIE_TYPES[reg.data['hoodie']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="handtuch">Handtuch</label>
+    <div class="col-sm-9">
+      <input id="handtuch" name="handtuch" type="text" class="form-control" readonly="readonly" value="{% if reg.data['handtuch'] %}Ja{% else %}Nein{% endif %}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="handtuch">Römer</label>
+    <div class="col-sm-9">
+      <input id="roemer" name="roemer" type="text" class="form-control" readonly="readonly" value="{% if reg.data['roemer'] %}Ja{% else %}Nein{% endif %}" />
     </div>
   </div>
   <div class="form-group row">
@@ -151,21 +145,39 @@
     </div>
   </div>
   <div class="form-group row">
+    <label class="col-sm-3 control-label" for="alternativprogramm">Alternativprogramm</label>
+    <div class="col-sm-9">
+      <input id="alternativprogramm" name="alternativprogramm" type="text" class="form-control" readonly="readonly" value="{% if reg.data['alternativprogramm'] %}Ja{% else %}Nein{% endif %}" />
+    </div>
+  </div>
+  <div class="form-group row">
     <label class="col-sm-3 control-label" for="anreise">Anreise</label>
     <div class="col-sm-9">
       <input id="anreise" name="anreise" type="text" class="form-control" readonly="readonly" value="{{ ANREISE_TYPES[reg.data['anreise']] }}" />
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="mittwoch">Mittwoch schon abreisen?</label>
+    <label class="col-sm-3 control-label" for="anreisejahr">Anreisejahr</label>
     <div class="col-sm-9">
-      <input id="mittwoch" name="mittwoch" type="text" class="form-control" readonly="readonly" value="{% if reg.data['workshop'] %}Ja{% else %}Nein{% endif %}" />
+      <input id="anreisejahr" name="anreisejahr" type="text" class="form-control" readonly="readonly" value="{{ reg.data['anreisejahr'] }}" />
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="addx">@ &sum; x</label>
+    <label class="col-sm-3 control-label" for="anreise">Abreise</label>
     <div class="col-sm-9">
-      <input id="addx" name="addx" type="text" class="form-control" readonly="readonly" value="{% if reg.data['addx'] %}Ja{% else %}Nein{% endif %}" />
+      <input id="abreise" name="abreise" type="text" class="form-control" readonly="readonly" value="{{ ABREISE_TYPES[reg.data['abreise']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="schlafen">Schlafen</label>
+    <div class="col-sm-9">
+      <input id="schlafen" name="schlafen" type="text" class="form-control" readonly="readonly" value="{{ SCHLAFEN_TYPES[reg.data['schlafen']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="minderjaehrig">MINDERJÄHRIG</label>
+    <div class="col-sm-9">
+      <input id="minderjaehrig" name="minderjaehrig" type="text" class="form-control" readonly="readonly" value="{% if reg.data['minderjaehrig'] %}Ja{% else %}Nein{% endif %}" />
     </div>
   </div>
   <div class="form-group row">
