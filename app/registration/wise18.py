@@ -239,11 +239,11 @@ def registration_wise18_report_essen():
             return None
         result_essen[essen_type]['registrations'].append(reg)
         result_heisse_getraenke[heisse_getraenke]['registrations'].append(reg)
-        if getraenkewunsch:
-            result_getraenkewunsch.append(reg)
+        if essenswunsch:
+            result_essenswunsch.append(reg)
         if allergien:
             result_allergien.append(reg)
-    return render_template('admin/sose18/essen.html',
+    return render_template('admin/wise18/essen.html',
         result_essen = result_essen,
         result_heisse_getraenke = result_heisse_getraenke,
         result_essenswunsch = result_essenswunsch,
