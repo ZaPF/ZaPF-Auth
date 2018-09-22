@@ -91,6 +91,7 @@ def wise18_calculate_exkursionen(registrations):
         return reg.id
     result = {}
     regs_later = []
+    regs_notfirst = []
     regs_overwritten = [reg for reg in registrations
                             if 'exkursion_overwrite' in reg.data and reg.data['exkursion_overwrite'] != 'nooverwrite']
     regs_normal = sorted(
@@ -113,13 +114,21 @@ def wise18_calculate_exkursionen(registrations):
         got_slot = False
         for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
             exkursion_selected = reg.data[field]
-            if not result[exkursion_selected]:
-                return None
-            if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
-                result[exkursion_selected]['registrations'].append((reg, field_index))
-                result[exkursion_selected]['free'] -= 1
+            if exkursion_selected == 'schwab':
+                result['schwab']['registrations'].append((reg, field_index))
+                result['schwab']['free'] -= 1
                 got_slot = True
                 break;
+        if not got_slot:
+            for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
+                exkursion_selected = reg.data[field]
+                if not result[exkursion_selected]:
+                    return None
+                if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
+                    result[exkursion_selected]['registrations'].append((reg, field_index))
+                    result[exkursion_selected]['free'] -= 1
+                    got_slot = True
+                    break;
         if not got_slot:
             result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
     for reg in regs_later:
@@ -245,7 +254,7 @@ def registration_wise18_report_essen():
 @groups_sufficient('admin', 'orga')
 def registration_wise18_report_rahmenprogramm():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    result_alternativprogrmm = []
+    result_alternativprogramm = []
     result_musikwunsch = []
     for reg in registrations:
         alternativprogramm = reg.data['alternativprogramm']
@@ -325,9 +334,7 @@ def registration_wise18_details_registration(reg_id):
         form = form,
         EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
         ESSEN_TYPES = ESSEN_TYPES,
-        MITTAG1_TYPES = MITTAG1_TYPES,
-        MITTAG2_TYPES = MITTAG2_TYPES,
-        MITTAG3_TYPES = MITTAG3_TYPES,
+
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         SCHLAFEN_TYPES = SCHLAFEN_TYPES,
         HEISSE_GETRAENKE_TYPES = HEISSE_GETRAENKE_TYPES,

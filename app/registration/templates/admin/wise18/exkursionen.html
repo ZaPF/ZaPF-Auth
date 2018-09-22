@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe17: Exkursionen{% endblock %}
+{% block title %}WiSe18: Exkursionen{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="btn-group" role="group">
-    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_reports') }}">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
     </a>
   </div>
 
   <h1>
-  Exkursionsverteilung für ZaPF Winter17
+  Exkursionsverteilung für ZaPF Winter18
   </h1>
 
   <h4>
@@ -59,7 +59,7 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg[0].id) }}">
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg[0].id) }}">
               {{ reg[0].user.full_name }}
             </a>
           </td>
@@ -70,7 +70,7 @@
           {% endif %}
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg[0].id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg[0].id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
