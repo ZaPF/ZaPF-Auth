@@ -45,6 +45,17 @@ TSHIRTS_TYPES = {
   's': 'S',
 }
 
+HOODIE_TYPES = {
+        'keins': 'Nein, ich möchte keins',
+        '3xl': '3XL',
+        'xxl': 'XXL',
+        'xl': 'XL',
+        'l': 'L',
+        'm': 'M',
+        's': 'S',
+        'xs': 'XS',
+        }
+
 ESSEN_TYPES = {
   'vegetarisch': 'Vegetarisch',
   'vegan': 'Vegan',
@@ -201,29 +212,33 @@ def registration_wise18_report_hoodie():
     unis = Uni.query.order_by(Uni.id)
     result = {}
     result_unis = {}
-    result_muetze = []
+    result_handtuch = []
+    result_roemer = []
     for uni in unis:
         result_unis[uni.id] = {
             'name': uni.name,
             'registrations': [],
-            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()},
+            'types': {name: 0 for name, label in HOODIE_TYPES.items()},
         }
-    for name, label in TSHIRTS_TYPES.items():
+    for name, label in HOODIE_TYPES.items():
         result[name] = {'label': label, 'registrations': []}
     for reg in registrations:
         hoodie_size = reg.data['hoodie']
         if not result[hoodie_size]:
             return None
-        if reg.data['muetze']:
-            result_muetze.append(reg)
+        if reg.data['handtuch']:
+            result_handtuch.append(reg)
+        if reg.data['roemer']:
+            result_roemer.append(reg)
         result[hoodie_size]['registrations'].append(reg)
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['types'][hoodie_size] += 1
     return render_template('admin/wise18/hoodie.html',
         result = result,
         result_unis = result_unis,
-        result_muetze = result_muetze,
-        TSHIRTS_TYPES = TSHIRTS_TYPES
+        result_handtuch = result_handtuch,
+        result_roemer = result_roemer,
+        HOODIE_TYPES = HOODIE_TYPES
     )
 
 @registration_blueprint.route('/admin/registration/report/wise18/essen')

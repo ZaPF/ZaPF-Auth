@@ -1,23 +1,26 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe17: Hoodies und Mützen{% endblock %}
+{% block title %}WiSe18: Hoodies und Mützen{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="btn-group" role="group">
-    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_reports') }}">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
     </a>
   </div>
 
   <h1>
-  Hoodie und Mützen-Auswertung für ZaPF Winter17
+  Hoodie, Römer und Handtuch-Auswertung für ZaPF Winter18
   </h1>
 
   <div>
     <ul>
       <li>
-        <a href="#sec-muetze">Auswertung der Mützen</a>
+        <a href="#sec-handtuch">Auswertung der Handtücher</a>
+      </li>
+      <li>
+        <a href="#sec-roemer">Auswertung der Römer</a>
       </li>
       <li>
         <a href="#sec-groesse">Auswertung nach Größe</a>
@@ -28,17 +31,17 @@
     </ul>
   </div>
 
-  <h3 id="sec-muetze" name="sec-groesse">
-  Auswertung der Mützen
+  <h3 id="sec-handtuch" name="sec-handtuch">
+  Auswertung der Handtücher
   </h3>
   <div class="panel-group">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" href="#collapse-muetze">
-          Will Mütze
+          Will Handtuch
         </a>
-        <span class="badge" style="float: right">{{ result_muetze | length }}</span>
+        <span class="badge" style="float: right">{{ result_handtuch | length }}</span>
       </h4>
     </div>
     <div id="collapse-muetze" class="panel-collapse collapse">
@@ -49,7 +52,7 @@
           <th>Name</th>
           <th>Aktionen</th>
         </tr>
-        {% for reg in result_muetze %}
+        {% for reg in result_handtuch %}
         <tr>
           <td>
           {% if reg.uni %}
@@ -59,13 +62,63 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<h3 id="sec-roemer" name="sec-roemer">
+  Auswertung der Römer
+  </h3>
+  <div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-roemer">
+          Will Römer
+        </a>
+        <span class="badge" style="float: right">{{ result_roemer | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-muetze" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in result_roemer %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -110,13 +163,13 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -150,7 +203,7 @@
         <ul class="list-unstyled">
           {% for name, amount in data['types'].items() if amount > 0 %}
             <li>
-              T-Shirt-Größe: {{ TSHIRTS_TYPES[name] }}
+              T-Shirt-Größe: {{ HOODIE_TYPES[name] }}
               <span class="badge">{{ amount }}</span>
             </li>
           {% endfor %}
@@ -166,16 +219,16 @@
         {% for reg in data['registrations'] %}
         <tr>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
-            {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
+            {{ HOODIE_TYPES[reg.data['tshirt']] }}
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise18_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
