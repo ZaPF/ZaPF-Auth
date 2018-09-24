@@ -19,8 +19,8 @@ EXKURSIONEN_TYPES = {
   'stff': ('Stadtführung mit Festung Marienberg', 25, 'StadFestung'),
   'mft': ('Mainfranken-Theater', 20, 'Theater'),
   'xray': ('Röntgen-Gedächtnisstätte', 20, 'Röntgen'),
-  'egal': ('ist mir egal', -1, 'Egal'),
-  'keine': ('keine exkursion', -1, 'Keine'),
+  'egal': ('Ist mir egal', -1, 'Egal'),
+  'keine': ('Keine Exkursion', -1, 'Keine'),
   'nospace': ('Konnte keiner Exkursion zugeordnet werden', -1, 'Noch offen'),
 }
 
@@ -32,6 +32,7 @@ EXKURSIONEN_TYPES_FORM = [('nooverwrite', '')] + [(name, data[0]) for name, data
 
 TSHIRTS_TYPES = {
   'keins': 'Nein, ich möchte keins',
+  'fitted_xxl': 'fitted XXL',
   'fitted_xl': 'fitted XL',
   'fitted_l': 'fitted L',
   'fitted_m': 'fitted M',
@@ -43,6 +44,7 @@ TSHIRTS_TYPES = {
   'l': 'L',
   'm': 'M',
   's': 'S',
+  'xs': 'XS',
 }
 
 HOODIE_TYPES = {
@@ -123,7 +125,7 @@ def wise18_calculate_exkursionen(registrations):
         result[exkursion_selected]['registrations'].append((reg, -1))
         result[exkursion_selected]['free'] -= 1
     for reg in regs_normal:
-        if reg.uni.name == 'Alumni':
+        if reg.uni.name == 'Universidad de los saccos veteres':
             regs_later.append(reg)
             continue;
         got_slot = False
