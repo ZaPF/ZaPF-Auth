@@ -63,7 +63,11 @@
             </a>
           </td>
           <td>
-            {{ reg.data['addtshirt'] + 1 }}
+	    {% if reg.data['addtshirt'] is not none and reg.data['addtshirt'] > 0 %}
+	    {{ reg.data['addtshirt'] + 1 }}
+	    {% else%}
+	    1
+	    {% endif %}
           </td>
           <td>
             <div class="btn-group" role="group">
@@ -126,7 +130,11 @@
             {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
           </td>
           <td>
-            {{ reg.data['addtshirt'] + 1 }}
+	    {% if reg.data['addtshirt'] is not none and reg.data['addtshirt'] > 0 %}
+	    {{ reg.data['addtshirt'] + 1 }}
+	    {% else%}
+	    1
+            {% endif %}
           </td>
           <td>
             <div class="btn-group" role="group">

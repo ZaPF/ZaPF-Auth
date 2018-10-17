@@ -201,7 +201,7 @@ def registration_wise18_report_tshirts():
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['types'][tshirt_size] += 1
         result_unis[reg.uni.id]['total'] += 1
-        if additional_shirts:
+        if additional_shirts is not None and additional_shirts>0:
             result[tshirt_size]['total'] += additional_shirts
             result_unis[reg.uni.id]['types'][tshirt_size] += additional_shirts
             result_unis[reg.uni.id]['total'] += additional_shirts
