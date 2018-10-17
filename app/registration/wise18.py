@@ -131,7 +131,7 @@ def wise18_calculate_exkursionen(registrations):
         got_slot = False
         for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
             exkursion_selected = reg.data[field]
-            if exkursion_selected == 'schwab':
+            if exkursion_selected == 'schwab' and (result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0):
                 result['schwab']['registrations'].append((reg, field_index))
                 result['schwab']['free'] -= 1
                 got_slot = True
