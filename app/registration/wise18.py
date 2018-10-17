@@ -84,7 +84,7 @@ ANREISE_TYPES = {
   'fahrrad': 'Fahrrad',
   'boot': 'Boot',
   'zeitmaschine': 'Zeitmaschine',
-  'einhorn': 'Einhorn'
+  'badeente': 'Badeente'
 }
 
 ABREISE_TYPES = {
