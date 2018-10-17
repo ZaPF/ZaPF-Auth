@@ -108,7 +108,9 @@ def wise18_calculate_exkursionen(registrations):
         return reg.id
     result = {}
     regs_later = []
-    regs_notfirst = []
+    regs_tryagain = []
+    regs_notyet = []
+
     regs_overwritten = [reg for reg in registrations
                             if 'exkursion_overwrite' in reg.data and reg.data['exkursion_overwrite'] != 'nooverwrite']
     regs_normal = sorted(
@@ -127,27 +129,38 @@ def wise18_calculate_exkursionen(registrations):
     for reg in regs_normal:
         if reg.uni.name == 'Universidad de los saccos veteres':
             regs_later.append(reg)
-            continue;
-        got_slot = False
-        for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
+        else:
+            regs_notyet.append(reg)
+            
+    regs_tryagain = regs_notyet
+    regs_notyet = []
+    for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
+        for reg in regs_tryagain:
             exkursion_selected = reg.data[field]
             if exkursion_selected == 'schwab' and (result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0):
                 result['schwab']['registrations'].append((reg, field_index))
                 result['schwab']['free'] -= 1
-                got_slot = True
-                break;
-        if not got_slot:
-            for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
-                exkursion_selected = reg.data[field]
-                if not result[exkursion_selected]:
-                    return None
-                if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
-                    result[exkursion_selected]['registrations'].append((reg, field_index))
-                    result[exkursion_selected]['free'] -= 1
-                    got_slot = True
-                    break;
-        if not got_slot:
-            result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
+            else:
+                regs_notyet.append(reg)
+        regs_tryagain = regs_notyet
+        regs_notyet = []
+
+    for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
+        for reg in regs_tryagain:
+            exkursion_selected = reg.data[field]
+            if not result[exkursion_selected]:
+                   return None
+            if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
+                   result[exkursion_selected]['registrations'].append((reg, field_index))
+                   result[exkursion_selected]['free'] -= 1
+            else:
+                   regs_notyet.append(reg)
+        regs_tryagain = regs_notyet
+        regs_notyet = []
+
+    result['nospace']['registrations'] = [(reg, len(EXKURSIONEN_FIELD_NAMES) + 1) for reg in regs_tryagain]
+
+
     for reg in regs_later:
         for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
             exkursion_selected = reg.data[field]
@@ -157,6 +170,9 @@ def wise18_calculate_exkursionen(registrations):
                 result[exkursion_selected]['registrations'].append((reg, field_index))
                 result[exkursion_selected]['free'] -= 1
                 break;
+            else:
+                result['nospace']['registrations'].append((reg,len(EXKURSIONEN_FIELD_NAMES))
+
     return result
 
 @registration_blueprint.route('/admin/registration/report/wise18')
