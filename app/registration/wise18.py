@@ -171,7 +171,7 @@ def wise18_calculate_exkursionen(registrations):
                 result[exkursion_selected]['free'] -= 1
                 break;
             else:
-                result['nospace']['registrations'].append((reg,len(EXKURSIONEN_FIELD_NAMES))
+                result['nospace']['registrations'].append((reg,len(EXKURSIONEN_FIELD_NAMES)+1))
 
     return result
 
