@@ -20,13 +20,14 @@ def api_unis():
 def api_register():
     user = request.oauth.user
     other_username = None
+
     if request.headers.get('Content-Type') == 'application/json':
         req = request.get_json()
         if 'username' in req:
             other_username = req['username']
     elif request.args.get('username'):
         other_username = request.args.get('username')
-    if (user.is_admin or 'orga' in user.groups) and other_username:
+    if (user.is_admin or user.is_in_group('orga')) and other_username:
         user = User.get(other_username)
         if not user:
             return "Username unknown", 409
