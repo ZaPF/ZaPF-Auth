@@ -1,0 +1,13 @@
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+delete: olcAccess
+-
+add: olcAccess
+olcAccess: {0}to dn.exact="" by * read
+olcAccess: {1}to dn.base="cn=Subschema" by * read
+olcAccess: {2}to attrs=userpassword by self =xw by dn.base="uid=zapf-auth,dc=zapf,dc=in" break by anonymous auth by * none
+olcAccess: {3}to dn.subtree="ou=users,dc=zapf,dc=in" by self write by dn.base="uid=zapf-auth,dc=zapf,dc=in" write by dn.subtree="ou=users,dc=zapf,dc=in" search
+olcAccess: {4}to dn.children="ou=groups,dc=zapf,dc=in" attrs=cn,entry by dn.base="uid=zapf-auth,dc=zapf,dc=in" break by dnattr=member read
+olcAccess: {5}to dn.subtree="ou=groups,dc=zapf,dc=in" by dn.base="uid=zapf-auth,dc=zapf,dc=in" write by dn.subtree="ou=users,dc=zapf,dc=in" search
+olcAccess: {6}to dn.subtree="ou=oauth2,dc=zapf,dc=in" by dn.base="uid=zapf-auth,dc=zapf,dc=in" write
+olcAccess: {7}to dn.subtree="dc=zapf,dc=in" by dn.base="uid=zapf-auth,dc=zapf,dc=in" search

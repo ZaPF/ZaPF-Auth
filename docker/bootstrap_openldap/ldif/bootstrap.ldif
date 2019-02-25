@@ -1,0 +1,26 @@
+dn: uid=zapf-auth,dc=zapf,dc=in
+changetype: add
+uid: zapf-auth
+objectClass: top
+objectClass: simpleSecurityObject
+objectClass: account
+description: Bind user for ZaPF-Auth
+userPassword: {SSHA}98H1A4YLoIZaceCtVoXIekAalnwlFsQd
+
+dn: ou=groups,dc=zapf,dc=in
+changetype: add
+objectClass: organizationalUnit
+ou: groups
+description: Automagically added by quasisentient sanity checks
+
+dn: ou=users,dc=zapf,dc=in
+changetype: add
+objectClass: organizationalUnit
+ou: users
+description: Automagically added by quasisentient sanity checks
+
+dn: ou=oauth2,dc=zapf,dc=in
+changetype: add
+objectClass: organizationalUnit
+ou: oauth2
+description: Automagically added by quasisentient sanity checks

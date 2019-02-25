@@ -1,0 +1,13 @@
+docker/
+__pycache__/
+!docker/entrypoint.sh
+!docker/gunicorn.conf
+env/
+test/
+Dockerfile
+.dockerignore
+docker-compose.yml
+*.swp
+*.swo
+*.pyc
+*.pyo

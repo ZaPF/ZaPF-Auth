@@ -10,3 +10,5 @@ slapd.args
 slapd.pid
 
 *.db
+
+docker/auth.conf

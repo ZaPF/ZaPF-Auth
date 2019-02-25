@@ -1,0 +1,35 @@
+version: '3.2'
+services:
+  openldap:
+    image: osixia/openldap
+    environment:
+      LDAP_ORGANISATION: "ZaPF"
+      LDAP_DOMAIN: "zapf.in"
+      LDAP_BACKEND: "mdb"
+    expose:
+      - "389"
+      - "689"
+    volumes:
+      - type: bind
+        source: ./docker/bootstrap_openldap/schema
+        target: /container/service/slapd/assets/config/bootstrap/schema/custom
+      - type: bind
+        source: ./docker/bootstrap_openldap/acl.ldif
+        target: /container/service/slapd/assets/config/bootstrap/ldif/07-general-acl.ldif
+      - type: bind
+        source: ./docker/bootstrap_openldap/ldif
+        target: /container/service/slapd/assets/config/bootstrap/ldif/custom
+    command: --copy-service
+  auth:
+    build: .
+    image: zapf-auth:latest
+    ports:
+      - "80"
+    volumes:
+      - type: bind
+        source: ./docker/auth.conf
+        target: /etc/auth.conf
+    environment:
+      AUTH_SETTINGS: /etc/auth.conf
+    depends_on:
+      - openldap
