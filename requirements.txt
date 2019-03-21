@@ -13,3 +13,4 @@ flask_oauthlib>=0.9.5
 ipython>=7.3.0
 ldap3>=2.5.2
 requests-oauthlib==1.1.0
+flask-babel>=0.12.2

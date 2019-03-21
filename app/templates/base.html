@@ -12,7 +12,7 @@
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only">{% trans %}Toggle navigation {% endtrans %}</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -26,22 +26,26 @@
       <ul class="nav navbar-nav">
       {% if current_user.is_admin %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {% trans %}Admin{% endtrans %} <span class="caret"></span>
+          </a>
           <ul class="dropdown-menu">
-            <li><a href="{{url_for('user.list_users')}}">Users</a></li>
-            <li><a href="{{url_for('oauth2.clients')}}">OAuth2 Applications</a></li>
+            <li><a href="{{url_for('user.list_users')}}">{% trans %}Users{% endtrans %}</a></li>
+            <li><a href="{{url_for('oauth2.clients')}}">{% trans %}OAuth2 Applications{% endtrans %}</a></li>
           </ul>
         </li>
       {% endif %}
 
       {% if current_user.is_in_group('orga') or current_user.is_admin %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Orga <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {% trans %}Orga{% endtrans %}<span class="caret"></span>
+          </a>
           <ul class="dropdown-menu">
-            <li><a href="{{url_for('registration.unis')}}">Unis</a></li>
-            <li><a href="{{url_for('registration.registrations')}}">Registration</a></li>
-            <li><a href="{{url_for('registration.mascots')}}">Mascots</a></li>
-            <li><a href="{{url_for('registration.registration_wise17_reports')}}">Reports WiSe17</a></li>
+            <li><a href="{{url_for('registration.unis')}}">{% trans %}Unis{% endtrans %}</a></li>
+            <li><a href="{{url_for('registration.registrations')}}">{% trans %}Registration{% endtrans %}</a></li>
+            <li><a href="{{url_for('registration.mascots')}}">{% trans %}Mascots{% endtrans %}</a></li>
+            <li><a href="{{url_for('registration.registration_wise17_reports')}}">{% trans %}Reports WiSe17{% endtrans %}</a></li>
           </ul>
         </li>
       {% endif %}
@@ -49,8 +53,8 @@
 
       <ul class="nav navbar-nav navbar-right">
       {% if current_user.is_authenticated %}
-        <li><a href="{{url_for('user.edit_me')}}">Settings</a></li>
-        <li><a href="{{url_for('user.logout')}}">logout</a></li>
+        <li><a href="{{url_for('user.edit_me')}}">{% trans %}Settings{% endtrans %}</a></li>
+        <li><a href="{{url_for('user.logout')}}">{% trans %}Logout{% endtrans %}</a></li>
       {% endif %}
       </ul>
     </div>

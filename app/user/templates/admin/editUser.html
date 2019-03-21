@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Edit user "{{ user.username }}"{% endblock %}
+{% block title %}{% trans username=user.username%}Edit user "{{ username }}"{% endtrans %}{% endblock %}
 
 {% macro show_form_errors(form, container = True) %}
 {% if form.errors -%} {# don't output anything if there are no errors #}
@@ -10,7 +10,7 @@
     <div class="col-sm-12">
 {% endif -%}
       <div class="alert alert-danger" role="alert">
-        <p><strong>Errors when validating form data:</strong></p>
+        <p><strong>{% trans %}Errors when validating form data:{% endtrans %}</strong></p>
         {{ wtf.form_errors(form) }}
       </div>
 {% if container %}

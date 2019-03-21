@@ -2,6 +2,8 @@ from flask import render_template, url_for, request
 from flask_wtf import FlaskForm
 from wtforms import SubmitField
 from functools import wraps, partial
+from flask.ext.babel import gettext, ngettext
+
 try:
         from urllib.parse import urlparse, urljoin
 except ImportError:
@@ -26,10 +28,10 @@ class ConfirmationForm(FlaskForm):
     submit = SubmitField('Do it')
 
 def confirm(func=None,
-        title="Are you sure?",
-        action="Yes",
+        title=gettext("Are you sure?"),
+        action=gettext("Yes"),
         prompt=None,
-        text="There is probably no turning back after this...",
+        text=gettext("There is probably no turning back after this..."),
         back=None
         ):
     """

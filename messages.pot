@@ -1,0 +1,207 @@
+# Translations template for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-02-25 16:10+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: app/views.py:31
+msgid "Are you sure?"
+msgstr ""
+
+#: app/views.py:32
+msgid "Yes"
+msgstr ""
+
+#: app/views.py:34
+msgid "There is probably no turning back after this..."
+msgstr ""
+
+#: app/oauth2/views.py:24
+#, python-format
+msgid "Logged in user: %(username)s (%(full_name)s)"
+msgstr ""
+
+#: app/templates/base.html:15
+msgid "Toggle navigation "
+msgstr ""
+
+#: app/templates/base.html:30
+msgid "Admin"
+msgstr ""
+
+#: app/templates/base.html:33 app/user/templates/admin/listUsers.html:54
+msgid "Users"
+msgstr ""
+
+#: app/templates/base.html:34
+msgid "OAuth2 Applications"
+msgstr ""
+
+#: app/templates/base.html:42
+msgid "Orga"
+msgstr ""
+
+#: app/templates/base.html:45
+msgid "Unis"
+msgstr ""
+
+#: app/templates/base.html:46
+msgid "Registration"
+msgstr ""
+
+#: app/templates/base.html:47
+msgid "Mascots"
+msgstr ""
+
+#: app/templates/base.html:48
+msgid "Reports WiSe17"
+msgstr ""
+
+#: app/templates/base.html:56
+msgid "Settings"
+msgstr ""
+
+#: app/templates/base.html:57
+msgid "Logout"
+msgstr ""
+
+#: app/templates/confirmationPage.html:10
+#, python-format
+msgid "Are you sure to %(action)s?"
+msgstr ""
+
+#: app/templates/confirmationPage.html:14
+msgid "Back"
+msgstr ""
+
+#: app/user/templates/index.html:9
+msgid "You are member in the following groups:"
+msgstr ""
+
+#: app/user/templates/login.html:18
+msgid "Don't have an account?"
+msgstr ""
+
+#: app/user/templates/login.html:18
+msgid "Sign up!"
+msgstr ""
+
+#: app/user/templates/login.html:19
+msgid "Don't know your password?"
+msgstr ""
+
+#: app/user/templates/login.html:19
+msgid "Reset password!"
+msgstr ""
+
+#: app/user/templates/login.html:20
+msgid "Sign in"
+msgstr ""
+
+#: app/user/templates/resend_confirm_mail.html:4
+msgid "Resend confirmation mail"
+msgstr ""
+
+#: app/user/templates/reset_password_finish.html:10
+#: app/user/templates/reset_password_finish.html:14
+msgid "Set new password"
+msgstr ""
+
+#: app/user/templates/reset_password_start.html:10
+msgid "Reset password"
+msgstr ""
+
+#: app/user/templates/reset_password_start.html:14
+msgid "Reset your password"
+msgstr ""
+
+#: app/user/templates/signup.html:10
+msgid "Sign Up"
+msgstr ""
+
+#: app/user/templates/signup.html:14
+msgid "Create your account"
+msgstr ""
+
+#: app/user/templates/admin/listUsers.html:66 app/user/templates/signup.html:15
+msgid "Username"
+msgstr ""
+
+#: app/user/templates/signup.html:17
+msgid "Given name"
+msgstr ""
+
+#: app/user/templates/signup.html:18
+msgid "Surname"
+msgstr ""
+
+#: app/user/templates/signup.html:20
+msgid "Email"
+msgstr ""
+
+#: app/user/templates/signup.html:21
+msgid "Password"
+msgstr ""
+
+#: app/user/templates/signup.html:22
+msgid "Repeat Password"
+msgstr ""
+
+#: app/user/templates/signup.html:25
+msgid "Already have an account?"
+msgstr ""
+
+#: app/user/templates/signup.html:25
+msgid "Sign in!"
+msgstr ""
+
+#: app/user/templates/signup.html:26
+msgid "Sign Up!"
+msgstr ""
+
+#: app/user/templates/admin/editUser.html:4
+#, python-format
+msgid "Edit user \"%(username)s\""
+msgstr ""
+
+#: app/user/templates/admin/editUser.html:13
+msgid "Errors when validating form data:"
+msgstr ""
+
+#: app/user/templates/admin/listUsers.html:57
+msgid "Search for users"
+msgstr ""
+
+#: app/user/templates/admin/listUsers.html:67
+msgid "Full name"
+msgstr ""
+
+#: app/user/templates/admin/listUsers.html:68
+msgid "E-Mail"
+msgstr ""
+
+#: app/user/templates/admin/listUsers.html:69
+msgid "Actions"
+msgstr ""
+
+#: app/user/templates/admin/listUsers.html:80
+msgid "Edit"
+msgstr ""
+
+#: app/user/templates/admin/listUsers.html:83
+msgid "Delete"
+msgstr ""
+

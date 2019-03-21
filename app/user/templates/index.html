@@ -6,7 +6,7 @@
   <div class="container">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        You are member in the following groups:
+        {% trans %}You are member in the following groups:{% endtrans %}
       </div>
       {% if current_user.is_authenticated %}
         <ul class="list-group">

@@ -51,10 +51,10 @@ $("#search").keyup(function () {
 
 {% block content %}
 <div class="container">
-  <h1>Users</h1>
+  <h1>{% trans %}Users{% endtrans %}</h1>
 
   <div id="search-group" class="form-group has-feedback">
-    <label class="control-label sr-only" for="search">Search for users</label>
+    <label class="control-label sr-only" for="search">{% trans %}Search for users{% endtrans %}</label>
     <div class="input-group">
       <span class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
       <input id="search" type="text" class="form-control input-lg" placeholder="Search">
@@ -63,10 +63,10 @@ $("#search").keyup(function () {
 
   <table class='table'>
     <tr>
-      <th>Username</th>
-      <th>Full name</th>
-      <th>E-Mail</th>
-      <th>Actions</th>
+      <th>{% trans %}Username{% endtrans %}</th>
+      <th>{% trans %}Full name{% endtrans %}</th>
+      <th>{% trans %}E-Mail{% endtrans %}</th>
+      <th>{% trans %}Actions{% endtrans %}</th>
     </tr>
     <tbody id="users">
       {% for user in users %}
@@ -77,10 +77,10 @@ $("#search").keyup(function () {
         <td>
           <div class="btn-group" role="group">
             <a class="btn-default btn" href="{{url_for('user.edit_user', username=user.username)}}">
-              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;{% trans %}Edit{% endtrans %}
             </a>
             <a class="btn-danger btn" href="{{url_for('user.delete_user', username=user.username)}}">
-              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Delete
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;{% trans %}Delete{% endtrans %}
             </a>
           </div>
         </td>

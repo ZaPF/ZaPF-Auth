@@ -1,6 +1,7 @@
 from flask import Flask, current_app
 from config import config
 from flask_mail import Mail
+from flask.ext.babel import Babel
 import logging
 
 from . import models
@@ -33,6 +34,8 @@ def create_app(profile="default"):
     # Set up sanity checks.
     from . import sanity
     app.sanity_check_modules = [sanity]
+
+    babel = Babel(app)
 
     from flask_bootstrap import Bootstrap
     Bootstrap(app)

@@ -7,23 +7,23 @@
       href="{{url_for('static', filename='signin.css')}}">
 {% endblock %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}{% trans %}Sign Up{% endtrans %}{% endblock %}
 {% block content %}
   <div class="container">
     <form class="form-signup" method="POST">
-      <h2 class="form-signup-heading">Create your account</h2>
-      {{ form.username(class='form-control', placeholder='Username') }}
+      <h2 class="form-signup-heading">{% trans %}Create your account{% endtrans %}</h2>
+      {{ form.username(class='form-control', placeholder=gettext('Username')) }}
       <div class="input-group">
-        {{ form.givenName(class='form-control', placeholder='Given name') }}
-        {{ form.surname(class='form-control', placeholder='Surname') }}
+        {{ form.givenName(class='form-control', placeholder=gettext('Given name')) }}
+        {{ form.surname(class='form-control', placeholder=gettext('Surname')) }}
       </div>
-      {{ form.mail(class='form-control', placeholder='Email') }}
-      {{ form.password(class='form-control', placeholder='Password') }}
-      {{ form.confirm(class='form-control', placeholder='Repeat Password') }}
+      {{ form.mail(class='form-control', placeholder=gettext('Email')) }}
+      {{ form.password(class='form-control', placeholder=gettext('Password')) }}
+      {{ form.confirm(class='form-control', placeholder=gettext('Repeat Password')) }}
       {{ wtf.form_errors(form) }}
       {{ form.recaptcha }}
-      <p>Already have an account? <a href="{{url_for('user.login')}}">Sign in!</a></p>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up!</button>
+      <p>{% trans %}Already have an account?{% endtrans %} <a href="{{url_for('user.login')}}">{% trans %}Sign in!{% endtrans %}</a></p>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans %}Sign Up!{% endtrans %}</button>
       {{ form.hidden_tag() }}
     </form>
   </div>
