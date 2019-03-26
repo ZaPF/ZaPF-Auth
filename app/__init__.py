@@ -1,7 +1,7 @@
-from flask import Flask, current_app
+from flask import Flask, current_app, g
 from config import config
 from flask_mail import Mail
-from flask.ext.babel import Babel
+from flask_babel import Babel
 import logging
 
 from . import models

@@ -2,7 +2,7 @@ from flask import render_template, url_for, request
 from flask_wtf import FlaskForm
 from wtforms import SubmitField
 from functools import wraps, partial
-from flask.ext.babel import gettext, ngettext
+from flask_babel import gettext, ngettext
 
 try:
         from urllib.parse import urlparse, urljoin

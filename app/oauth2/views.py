@@ -3,7 +3,7 @@ from flask import current_app, render_template
 from . import oauth2_blueprint, oauth, admin
 from flask_login import current_user, login_user
 from flask_ldap3_login.forms import LDAPLoginForm
-from flask.ext.babel import Babel
+from flask_babel import Babel, gettext
 from app.user import login_required
 
 @oauth2_blueprint.route('/oauth/authorize', methods=['GET', 'POST'])

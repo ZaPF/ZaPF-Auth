@@ -18,6 +18,8 @@ class Config:
     LDAP_GROUP_MEMBERS_ATTR = 'member'
     LDAP_READONLY = False
 
+    BABEL_TRANSLATION_DIRECTORIES='translations/'
+
     SQLALCHEMY_DATABASE_URI = 'sqlite:///anmeldung.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
