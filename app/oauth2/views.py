@@ -22,7 +22,7 @@ def authorize(*args, **kwargs):
         # via form.user.
         current_app.logger.debug(
                 gettext("Logged in user: %(username)s (%(full_name)s)",
-                    username=form.user.username, fullname=form.user.full_name))
+                    username=form.user.username, full_name=form.user.full_name))
         login_user(form.user)  # Tell flask-login to log them in.
         return True
 
