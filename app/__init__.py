@@ -37,6 +37,10 @@ def create_app(profile="default"):
 
     babel = Babel(app)
 
+    @babel.localeselector
+    def get_locale():
+        return g.get('lang', app.config['BABEL_DEFAULT_LOCALE'])
+
     from flask_bootstrap import Bootstrap
     Bootstrap(app)
 
