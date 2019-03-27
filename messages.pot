@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-25 16:10+0100\n"
+"POT-Creation-Date: 2019-03-26 20:04-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,57 @@ msgstr ""
 #: app/oauth2/views.py:24
 #, python-format
 msgid "Logged in user: %(username)s (%(full_name)s)"
+msgstr ""
+
+#: app/registration/views.py:17
+msgid "Uni Name"
+msgstr ""
+
+#: app/registration/views.py:18
+msgid "Token"
+msgstr ""
+
+#: app/registration/views.py:19
+msgid "Slots"
+msgstr ""
+
+#: app/registration/views.py:50 app/registration/views.py:86
+msgid "There is already a uni with that name"
+msgstr ""
+
+#: app/registration/views.py:52 app/registration/views.py:88
+msgid "There is already a uni with that token"
+msgstr ""
+
+#: app/registration/views.py:61
+msgid "Delete university"
+msgstr ""
+
+#: app/registration/views.py:62 app/user/templates/admin/listUsers.html:83
+msgid "Delete"
+msgstr ""
+
+#: app/registration/views.py:68
+#, python-format
+msgid "Deleted university %(name)s\""
+msgstr ""
+
+#: app/registration/views.py:133 app/registration/views.py:134
+msgid "Delete registration"
+msgstr ""
+
+#: app/registration/views.py:140
+#, python-format
+msgid "Deleted %(username)s's registration"
+msgstr ""
+
+#: app/registration/views.py:234 app/registration/views.py:235
+msgid "Delete mascot"
+msgstr ""
+
+#: app/registration/views.py:241
+#, python-format
+msgid "Deleted %(name)s"
 msgstr ""
 
 #: app/templates/base.html:15
@@ -199,9 +250,5 @@ msgstr ""
 
 #: app/user/templates/admin/listUsers.html:80
 msgid "Edit"
-msgstr ""
-
-#: app/user/templates/admin/listUsers.html:83
-msgid "Delete"
 msgstr ""
 

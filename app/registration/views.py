@@ -7,15 +7,16 @@ from wtforms import StringField, SubmitField
 from wtforms.fields.html5 import IntegerField
 from app.user import groups_sufficient
 from app.views import confirm
+from flask_babel import gettext
 import io
 import csv
 
 from . import api, wise17
 
 class UniForm(FlaskForm):
-    name = StringField('Uni Name')
-    token = StringField('Token')
-    slots = IntegerField('Slots', default=3)
+    name = StringField(gettext('Uni Name'))
+    token = StringField(gettext('Token'))
+    slots = IntegerField(gettext('Slots'), default=3)
     submit = SubmitField()
 
 @registration_blueprint.route('/admin/uni')
@@ -46,9 +47,9 @@ def add_uni():
             db.session.commit()
         except IntegrityError as e:
             if 'uni.name' in str(e.orig):
-                form.name.errors.append("There is already a uni with that name")
+                form.name.errors.append(gettext("There is already a uni with that name"))
             elif 'uni.token' in str(e.orig):
-                form.token.errors.append("There is already a uni with that token")
+                form.token.errors.append(gettext("There is already a uni with that token"))
             else:
                 raise
             return render_template('admin/uniform.html', form = form)
@@ -57,14 +58,14 @@ def add_uni():
 
 @registration_blueprint.route('/admin/uni/<int:uni_id>/delete', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
-@confirm(title='Delete university',
-        action='Delete',
+@confirm(title=gettext('Delete university'),
+        action=gettext('Delete'),
         back='registration.unis')
 def delete_uni(uni_id):
     uni = Uni.query.filter_by(id=uni_id).first()
     db.session.delete(uni)
     db.session.commit()
-    flash('Deleted university "{}"'.format(uni.name), 'success')
+    flash(gettext('Deleted university "%(name)s"', name=uni.name), 'success')
     return redirect(url_for('registration.unis'))
 
 @registration_blueprint.route('/admin/uni/<int:uni_id>/edit', methods=['GET', 'POST'])
@@ -82,9 +83,9 @@ def edit_uni(uni_id):
             db.session.commit()
         except IntegrityError as e:
             if 'uni.name' in str(e.orig):
-                form.name.errors.append("There is already a uni with that name")
+                form.name.errors.append(gettext("There is already a uni with that name"))
             elif 'uni.token' in str(e.orig):
-                form.token.errors.append("There is already a uni with that token")
+                form.token.errors.append(gettext("There is already a uni with that token"))
             else:
                 raise
             return render_template('admin/uniform.html', form = form)
@@ -129,14 +130,14 @@ def registrations_by_uni(uni_id):
 
 @registration_blueprint.route('/admin/registration/<int:reg_id>/delete', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
-@confirm(title='Delete registration',
-        action='Delete registration',
+@confirm(title=gettext('Delete registration'),
+        action=gettext('Delete registration'),
         back='registration.registrations')
 def delete_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
     db.session.delete(reg)
     db.session.commit()
-    flash('Deleted {}\'s registration'.format(reg.username))
+    flash(gettext('Deleted %(username)s\'s registration', username=reg.username))
     return redirect(url_for('registration.registrations'))
 
 @registration_blueprint.route('/admin/registration/export/json')
@@ -230,14 +231,14 @@ def mascots_by_uni(uni_id):
 
 @registration_blueprint.route('/admin/mascots/<int:masc_id>/delete', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
-@confirm(title='Delete mascot',
-        action='Delete mascot',
+@confirm(title=gettext('Delete mascot'),
+        action=gettext('Delete mascot'),
         back='registration.mascots')
 def del_mascot(masc_id):
     masc = Mascot.query.filter_by(id=masc_id).first()
     db.session.delete(masc)
     db.session.commit()
-    flash('Deleted {}'.format(masc.name))
+    flash(gettext('Deleted %(name)s', name=masc.name))
     return redirect(url_for('registration.mascots'))
 
 @registration_blueprint.route('/admin/mascots/export/json')
