@@ -7,7 +7,6 @@ from flask import current_app
 import ldap3
 
 from app.orm import LDAPOrm
-from app.oauth2.models import Scope
 
 from .helpers import send_password_reset_mail, send_confirm_mail
 
@@ -220,6 +219,8 @@ class Group(LDAPOrm):
 
     @property
     def scopes(self):
+        from app.oauth2.models import Scope
+
         safe_dn = ldap3.utils.conv.escape_filter_chars(self.dn)
 
         search_filter = "&({group_filter}({members_attr}={group_dn}))".format(
