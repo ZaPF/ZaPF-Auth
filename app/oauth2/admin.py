@@ -10,6 +10,7 @@ from wtforms.validators import DataRequired
 from .models import Client
 from app.oauth2.models import Scope
 from app.user import groups_required, login_required
+from app.user.models import Group
 from . import oauth2_blueprint
 
 class MultipleFieldForm(FlaskForm):
@@ -156,10 +157,11 @@ def edit_scope(scope_name):
     if form.validate_on_submit() and form.submit.data:
         form.remove_empty(form.groups)
         scope.description = form.description.data
-        scope.groups = form.groups.data
+        scope.groups = [Group.get(group) for group in form.groups.data]
         scope.save()
         return redirect(url_for('oauth2.clients'))
 
+    # FIXME: check the group exists
     elif form.addGroup.data:
         form.remove_empty(form.groups)
         form.groups.append_entry(form.group.data)
@@ -177,7 +179,7 @@ def add_scope():
         scope = Scope.create(
             name = form.name.data,
             description = form.description.data,
-            groups = form.groups.data,
+            groups = [Group.get(group) for group in form.groups.data],
             )
         flash("Added scope {name}".format(
             name = scope.name
@@ -185,6 +187,7 @@ def add_scope():
         return redirect(url_for('oauth2.clients'))
 
     elif form.addGroup.data:
+        # FIXME: check the group exists
         form.remove_empty(form.groups)
         form.groups.append_entry(form.group.data)
 
