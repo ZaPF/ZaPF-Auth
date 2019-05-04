@@ -114,6 +114,10 @@ class User(UserMixin, LDAPOrm):
                 ]
 
     @property
+    def scopes(self):
+        return []
+
+    @property
     def is_admin(self):
         return self.is_in_group('admin')
 
