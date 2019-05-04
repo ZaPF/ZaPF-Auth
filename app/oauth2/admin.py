@@ -161,11 +161,12 @@ def edit_scope(scope_name):
         scope.save()
         return redirect(url_for('oauth2.clients'))
 
-    # FIXME: check the group exists
     elif form.addGroup.data:
         form.remove_empty(form.groups)
-        form.groups.append_entry(form.group.data)
-        form.group.data = ""
+        group = Group.get(form.group.data)
+        if group:
+            form.groups.append_entry(group.group_name)
+            form.group.data = ""
 
     return render_template('/admin/oauth2/edit_scope.html', form=form, scope=scope)
 
@@ -187,8 +188,10 @@ def add_scope():
         return redirect(url_for('oauth2.clients'))
 
     elif form.addGroup.data:
-        # FIXME: check the group exists
         form.remove_empty(form.groups)
-        form.groups.append_entry(form.group.data)
+        group = Group.get(form.group.data)
+        if group:
+            form.groups.append_entry(group.group_name)
+            form.group.data = ""
 
     return render_template('/admin/oauth2/add_scope.html', form=form)
