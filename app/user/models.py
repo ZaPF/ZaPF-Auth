@@ -230,7 +230,7 @@ class Group(LDAPOrm):
         )
 
         results = current_app.ldap3_login_manager.connection.search(
-            search_base=current_app.config.get(Scope.basedn_config_var),
+            search_base=current_app.config.get(Scope._basedn()),
             search_filter=search_filter,
             attributes=current_app.config.get('LDAP_GET_GROUP_ATTRIBUTES'),
             search_scope=ldap3.SUBTREE,
