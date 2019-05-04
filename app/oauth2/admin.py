@@ -190,6 +190,6 @@ def add_scope():
 
     elif form.addGroup.data:
         form.remove_empty(form.groups)
-        form.scopes.append_entry(form.group.data)
+        form.groups.append_entry(form.group.data)
 
     return render_template('/admin/oauth2/scope_form.html', form=form)
