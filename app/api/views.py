@@ -8,7 +8,7 @@ def apiMe():
     user = request.oauth.user
     return jsonify(
             email = user.mail,
-            username = user.username,
+            user_id = user.username,
             firstName = user.firstName,
             surname = user.surname,
             full_name = user.full_name
