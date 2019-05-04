@@ -51,10 +51,10 @@ class Scope(LDAPOrm):
     objectClasses = ['groupOfNames']
     keyMapping = ('cn', 'name')
 
-    def __init__(self, name = None, description=None, groups=None):
+    def __init__(self, name = None, description=None, groups=[]):
         self._scope_name = name
         self.description = description
-        self._groups = groups
+        self._groups = [group.dn for group in groups]
 
     @staticmethod
     def create(name = None, groups=[], description=None):

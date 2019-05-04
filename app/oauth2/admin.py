@@ -167,7 +167,7 @@ def edit_scope(scope_name):
         form.groups.append_entry(form.group.data)
         form.group.data = ""
 
-    return render_template('/admin/oauth2/edit_scope.html', form=form)
+    return render_template('/admin/oauth2/edit_scope.html', form=form, scope=scope)
 
 @oauth2_blueprint.route('/admin/oauth2/scope/new', methods=['GET', 'POST'])
 @login_required
