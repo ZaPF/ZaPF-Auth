@@ -39,6 +39,45 @@
   <a class="btn btn-default" href="{{url_for('oauth2.add_client')}}">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Client
   </a>
+
+  <h1>{% trans %}Scopes{% endtrans %}</h1>
+
+  <table class='table'>
+    <tr>
+      <th>{% trans %}Name{% endtrans %}</th>
+      <th>{% trans %}Description{% endtrans %}</th>
+      <th>{% trans %}Groups{% endtrans %}</th>
+      <th>{% trans %}Actions{% endtrans %}</th>
+    </tr>
+  {% for scope in scopes %}
+    <tr>
+      <td>{{scope.name}}</td>
+      <td>{{scope.description}}</td>
+      <td>
+        <ul>
+          {% for group in scope.groups %}
+          <li>{{ group.name }}</li>
+          {% else %}
+          {% trans %}All{% endtrans %}
+          {% endfor %}
+        </ul>
+      </td>
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn-default btn" href="{{url_for('oauth2.edit_scope', scope_name=scope.name)}}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {% trans %}Edit{% endtrans %}
+          </a>
+          <a class="btn-danger btn" href="{{url_for('oauth2.delete_scope', scope_name=scope.name)}}">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {% trans %}Delete{% endtrans %}
+          </a>
+        </div>
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
+  <a class="btn btn-default" href="{{url_for('oauth2.add_scope')}}">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans %}Add Scope{% endtrans %}
+  </a>
 </div>
 
 {% endblock %}

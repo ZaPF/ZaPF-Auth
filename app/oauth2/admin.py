@@ -8,6 +8,7 @@ from wtforms import StringField, TextField, SubmitField, FieldList
 from wtforms.validators import DataRequired
 
 from .models import Client
+from app.oauth2.models import Scope
 from app.user import groups_required, login_required
 from . import oauth2_blueprint
 
@@ -34,12 +35,32 @@ class AddClientForm(FlaskForm):
         while temp:
             field.append_entry(temp.pop())
 
+class AddScopeForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
+    description = TextField('description')
+
+    groups = FieldList(StringField('Name'))
+    group = StringField('Group')
+    addGroup = SubmitField('Add Group')
+
+    submit = SubmitField('Submit')
+
+    def remove_empty(self, field):
+        temp = []
+        while field.entries:
+            entry = field.pop_entry()
+            if (entry.data):
+                temp.append(entry.data)
+        while temp:
+            field.append_entry(temp.pop())
+
 @oauth2_blueprint.route('/admin/oauth2/client')
 @login_required
 @groups_required('admin')
 def clients():
     clients = Client.query()
-    return render_template('/admin/oauth2/clients.html', clients=clients)
+    scopes = Scope.query()
+    return render_template('/admin/oauth2/clients.html', clients=clients, scopes=scopes)
 
 
 @oauth2_blueprint.route('/admin/oauth2/client/<string:client_id>/delete')
@@ -113,3 +134,62 @@ def add_client():
         form.uris.append_entry(form.uri.data)
 
     return render_template('/admin/oauth2/new.html', form=form)
+
+@oauth2_blueprint.route('/admin/oauth2/scope/<string:scope_name>/delete')
+@login_required
+@groups_required('admin')
+def delete_scope(scope_name):
+    scope = Scope.get(scope_name)
+    flash('Deleted scope: {name}'.format(
+        name = scope.name), 'info')
+    scope.delete()
+    return redirect(url_for('oauth2.clients'))
+
+@oauth2_blueprint.route('/admin/oauth2/scope/<string:scope_name>', methods=['GET', 'POST'])
+@login_required
+@groups_required('admin')
+def edit_scope(scope_name):
+    scope = Scope.get(scope_name)
+
+    form = AddScopeForm(name = scope.name,
+            description = scope.description,
+            groups = scope.groups,
+            )
+
+    if form.validate_on_submit() and form.submit.data:
+        form.remove_empty(form.groups)
+        scope.name = form.name.data
+        scope.description = form.description.data
+        scope.groups = form.groups.data
+        scope.save()
+        return redirect(url_for('oauth2.clients'))
+
+    elif form.addGroup.data:
+        form.remove_empty(form.groups)
+        form.groups.append_entry(form.group.data)
+        form.group.data = ""
+
+    return render_template('/admin/oauth2/scope_form.html', form=form)
+
+@oauth2_blueprint.route('/admin/oauth2/scope/new', methods=['GET', 'POST'])
+@login_required
+@groups_required('admin')
+def add_scope():
+    form = AddScopeForm()
+    if form.validate_on_submit() and form.submit.data:
+        form.remove_empty(form.groups)
+        scope = Scope.create(
+            name = form.name.data,
+            description = form.description.data,
+            groups = form.groups.data,
+            )
+        flash("Added scope {name}".format(
+            name = scope.name
+            ), 'info')
+        return redirect(url_for('oauth2.clients'))
+
+    elif form.addScope.data:
+        form.remove_empty(form.groups)
+        form.scopes.append_entry(form.group.data)
+
+    return render_template('/admin/oauth2/scope_form.html', form=form)

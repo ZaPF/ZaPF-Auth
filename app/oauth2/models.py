@@ -1,5 +1,5 @@
 from app.orm import LDAPOrm
-from app.user.models import User, AnonymousUser
+from app.user.models import User, AnonymousUser, Group
 
 class Grant(object):
     user_id =  None
@@ -46,6 +46,59 @@ class Token(object):
     def scopes(self):
         return self._scopes
 
+class Scope(LDAPOrm):
+    basedn_config_var = 'LDAP_OAUTH2_CLIENT_DN'
+    objectClasses = ['groupOfNames']
+    keyMapping = ('cn', 'scope_name')
+
+    def __init__(self, name = None, description=None, groups=None):
+        self._scope_name = name
+        self.description = description
+        self._groups = groups
+
+    @property
+    def groups(self):
+        return [Group.from_dn(dn) for dn in self._groups]
+
+    @members.setter
+    def members(self, groups):
+        self._groups = [group.dn for group in groups]
+
+    @property
+    def scope_name(self):
+        # Read-only.
+        return self._group_name
+
+    def add_group(self, group):
+        """
+        Add a group to the scope.
+        """
+        self._groups.append(group.dn)
+
+    def leave(self, user):
+        """
+        Remove a group from the scope.
+        """
+        self._groups = [ dn for dn in self._members if dn != group.dn ]
+
+    def _orm_mapping_load(self, entry):
+        # FIXME: It would be nice if the ORM could somehow automagically
+        # build up this mapping.
+        self.dn = entry.entry_dn
+        self._scope_name = entry.cn.value
+        self.description = entry.description.value
+        self._groups = entry.member.values
+
+    def _orm_mapping_save(self, entry):
+        # FIXME: It would be nice if the ORM could somehow automagically
+        # build up this mapping.
+        if self._groups:
+            entry.member = self._groups
+        if self.description:
+            entry.description = self._group_name
+
+    def __repr__(self):
+        return '<Scope {name}>'.format(name=self.group_name)
 
 class Client(LDAPOrm):
     basedn_config_var = 'LDAP_OAUTH2_CLIENT_DN'
