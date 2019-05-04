@@ -49,7 +49,7 @@ class Token(object):
 class Scope(LDAPOrm):
     basedn_config_var = 'LDAP_OAUTH2_CLIENT_DN'
     objectClasses = ['groupOfNames']
-    keyMapping = ('cn', 'scope_name')
+    keyMapping = ('cn', 'name')
 
     def __init__(self, name = None, description=None, groups=None):
         self._scope_name = name
