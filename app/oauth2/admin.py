@@ -12,7 +12,17 @@ from app.oauth2.models import Scope
 from app.user import groups_required, login_required
 from . import oauth2_blueprint
 
-class AddClientForm(FlaskForm):
+class MultipleFieldForm(FlaskForm):
+    def remove_empty(self, field):
+        temp = []
+        while field.entries:
+            entry = field.pop_entry()
+            if (entry.data):
+                temp.append(entry.data)
+        while temp:
+            field.append_entry(temp.pop())
+
+class AddClientForm(MultipleFieldForm):
     name = StringField('name', validators=[DataRequired()])
     description = TextField('description')
 
@@ -26,33 +36,20 @@ class AddClientForm(FlaskForm):
 
     submit = SubmitField('Submit')
 
-    def remove_empty(self, field):
-        temp = []
-        while field.entries:
-            entry = field.pop_entry()
-            if (entry.data):
-                temp.append(entry.data)
-        while temp:
-            field.append_entry(temp.pop())
-
-class AddScopeForm(FlaskForm):
+class AddScopeForm(MultipleFieldForm):
     name = StringField('name', validators=[DataRequired()])
     description = TextField('description')
-
     groups = FieldList(StringField('Name'))
     group = StringField('Group')
     addGroup = SubmitField('Add Group')
-
     submit = SubmitField('Submit')
 
-    def remove_empty(self, field):
-        temp = []
-        while field.entries:
-            entry = field.pop_entry()
-            if (entry.data):
-                temp.append(entry.data)
-        while temp:
-            field.append_entry(temp.pop())
+class EditScopeForm(MultipleFieldForm):
+    description = TextField('description')
+    groups = FieldList(StringField('Name'))
+    group = StringField('Group')
+    addGroup = SubmitField('Add Group')
+    submit = SubmitField('Submit')
 
 @oauth2_blueprint.route('/admin/oauth2/client')
 @login_required
@@ -151,14 +148,13 @@ def delete_scope(scope_name):
 def edit_scope(scope_name):
     scope = Scope.get(scope_name)
 
-    form = AddScopeForm(name = scope.name,
+    form = EditScopeForm(
             description = scope.description,
             groups = scope.groups,
             )
 
     if form.validate_on_submit() and form.submit.data:
         form.remove_empty(form.groups)
-        scope.name = form.name.data
         scope.description = form.description.data
         scope.groups = form.groups.data
         scope.save()
@@ -169,7 +165,7 @@ def edit_scope(scope_name):
         form.groups.append_entry(form.group.data)
         form.group.data = ""
 
-    return render_template('/admin/oauth2/scope_form.html', form=form)
+    return render_template('/admin/oauth2/edit_scope.html', form=form)
 
 @oauth2_blueprint.route('/admin/oauth2/scope/new', methods=['GET', 'POST'])
 @login_required
@@ -192,4 +188,4 @@ def add_scope():
         form.remove_empty(form.groups)
         form.groups.append_entry(form.group.data)
 
-    return render_template('/admin/oauth2/scope_form.html', form=form)
+    return render_template('/admin/oauth2/add_scope.html', form=form)

@@ -58,9 +58,11 @@ class Scope(LDAPOrm):
 
     @staticmethod
     def create(name = None, groups=[], description=None):
-        scope = Scope()
-        scope.name = name
-        scope.groups = groups
+        scope = Scope(
+            name=name,
+            description=description,
+            groups=groups,
+        )
         scope.save()
         return scope
 
