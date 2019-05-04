@@ -56,6 +56,14 @@ class Scope(LDAPOrm):
         self.description = description
         self._groups = groups
 
+    @staticmethod
+    def create(name = None, groups=[], description=None):
+        scope = Scope()
+        scope.name = name
+        scope.groups = groups
+        scope.save()
+        return scope
+
     @property
     def groups(self):
         return [Group.from_dn(dn) for dn in self._groups]
