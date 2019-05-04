@@ -233,8 +233,7 @@ class Group(LDAPOrm):
             search_base=current_app.config.get(Scope.basedn_config_var),
             search_filter=search_filter,
             attributes=current_app.config.get('LDAP_GET_GROUP_ATTRIBUTES'),
-            search_scope=getattr(
-                ldap3, current_app.config.get('LDAP_GROUP_SEARCH_SCOPE'))
+            search_scope=ldap3.SUBTREE,
         )
 
         print(scopes)
