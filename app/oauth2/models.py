@@ -60,14 +60,14 @@ class Scope(LDAPOrm):
     def groups(self):
         return [Group.from_dn(dn) for dn in self._groups]
 
-    @members.setter
+    @groups.setter
     def members(self, groups):
         self._groups = [group.dn for group in groups]
 
     @property
-    def scope_name(self):
+    def name(self):
         # Read-only.
-        return self._group_name
+        return self._scope_name
 
     def add_group(self, group):
         """
@@ -75,7 +75,7 @@ class Scope(LDAPOrm):
         """
         self._groups.append(group.dn)
 
-    def leave(self, user):
+    def remove_group(self, group):
         """
         Remove a group from the scope.
         """
