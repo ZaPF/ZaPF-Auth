@@ -151,7 +151,7 @@ def edit_scope(scope_name):
 
     form = EditScopeForm(
             description = scope.description,
-            groups = scope.groups,
+            groups = [group.group_name for group in scope.groups],
             )
 
     if form.validate_on_submit() and form.submit.data:
