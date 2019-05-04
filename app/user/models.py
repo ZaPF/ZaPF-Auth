@@ -4,14 +4,20 @@ import os
 import time
 from flask_login import UserMixin, AnonymousUserMixin
 from flask import current_app
+import ldap3
 
 from app.orm import LDAPOrm
+from app.oauth2.models import Scope
 
 from .helpers import send_password_reset_mail, send_confirm_mail
 
 class AnonymousUser(AnonymousUserMixin):
     @property
     def groups(self):
+        return []
+
+    @property
+    def scopes(self):
         return []
 
     def is_in_group(self, group):
@@ -207,6 +213,26 @@ class Group(LDAPOrm):
     @members.setter
     def members(self, users):
         self._members = [user.dn for user in users]
+
+    @property
+    def scopes(self):
+        safe_dn = ldap3.utils.conv.escape_filter_chars(self.dn)
+
+        search_filter = "&({group_filter}({members_attr}={group_dn}))".format(
+            group_filter=self.config.get('LDAP_GROUP_OBJECT_FILTER'),
+            members_attr=self.config.get('LDAP_GROUP_MEMBERS_ATTR'),
+            group_dn=safe_dn,
+        )
+
+        results = current_app.ldap3_login_manager.connection.search(
+            search_base=current_app.config.get(Scope.basedn_config_var),
+            search_filter=search_filter,
+            attributes=self.config.get('LDAP_GET_GROUP_ATTRIBUTES'),
+            search_scope=getattr(
+                ldap3, current_app.config.get('LDAP_GROUP_SEARCH_SCOPE'))
+        )
+
+        print(scopes)
 
     def join(self, user):
         """

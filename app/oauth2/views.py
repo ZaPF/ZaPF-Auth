@@ -15,7 +15,7 @@ def handle_oauth_request(*args, kwargs):
         'registration_priorities'
         ])
     requested_scopes = set(kwargs['scopes'])
-    return True
+    return requested_scopes.issubset(user_scopes)
 
 @oauth2_blueprint.route('/oauth/authorize', methods=['GET', 'POST'])
 @oauth.authorize_handler
