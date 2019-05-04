@@ -108,7 +108,7 @@ class Scope(LDAPOrm):
             entry.description = self._group_name
 
     def __repr__(self):
-        return '<Scope {name}>'.format(name=self.group_name)
+        return '<Scope {name}>'.format(name=self.name)
 
 class Client(LDAPOrm):
     basedn_config_var = 'LDAP_OAUTH2_CLIENT_DN'
