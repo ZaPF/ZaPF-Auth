@@ -71,7 +71,7 @@ class Scope(LDAPOrm):
         return [Group.from_dn(dn) for dn in self._groups]
 
     @groups.setter
-    def members(self, groups):
+    def groups(self, groups):
         self._groups = [group.dn for group in groups]
 
     @property
