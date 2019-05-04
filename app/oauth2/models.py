@@ -105,7 +105,7 @@ class Scope(LDAPOrm):
         if self._groups:
             entry.member = self._groups
         if self.description:
-            entry.description = self._group_name
+            entry.description = self.description
 
     def __repr__(self):
         return '<Scope {name}>'.format(name=self.name)
