@@ -223,7 +223,7 @@ class Group(LDAPOrm):
 
         safe_dn = ldap3.utils.conv.escape_filter_chars(self.dn)
 
-        search_filter = "&({group_filter}({members_attr}={group_dn}))".format(
+        search_filter = "(&{group_filter}({members_attr}={group_dn}))".format(
             group_filter=current_app.config.get('LDAP_GROUP_OBJECT_FILTER'),
             members_attr=current_app.config.get('LDAP_GROUP_MEMBERS_ATTR'),
             group_dn=safe_dn,
