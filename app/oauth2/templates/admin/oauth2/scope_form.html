@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <form class="form-horizontal" method="POST">
+    <div class="form-group">
+      {{ form.name.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.name(class='form-control') }}</div>
+    </div>
+    <div class="form-group">
+      {{ form.description.label(class='col-sm-2 control-label') }}
+      <div class="col-sm-10">{{ form.description(class='form-control') }}</div>
+    </div>
+
+    <div class="col-sm-2"></div>
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans %}Groups{% endtrans %}</h3>
+        </div>
+        <table class="table">
+        {% for group in form.groups %}
+          <tr>
+            <td>{{ group(class='form-control') }}</td>
+          </tr>
+        {% endfor %}
+        </table>
+        <div class="panel-body">
+          <div class="input-group">
+            {{ form.group(class='form-control', placeholder='group') }}
+            <span class="input-group-btn">
+              {{ form.addGroup(class='btn btn-default') }}
+            </span>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <p>{% trans %}To remove a group, leave the field empty.{% endtrans %}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2"></div>
+    {{ form.submit(class='btn btn-submit')}}
+    {{ form.hidden_tag() }}
+  </form>
+</div>
+{% endblock %}

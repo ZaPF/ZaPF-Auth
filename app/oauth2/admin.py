@@ -188,7 +188,7 @@ def add_scope():
             ), 'info')
         return redirect(url_for('oauth2.clients'))
 
-    elif form.addScope.data:
+    elif form.addGroup.data:
         form.remove_empty(form.groups)
         form.scopes.append_entry(form.group.data)
 
