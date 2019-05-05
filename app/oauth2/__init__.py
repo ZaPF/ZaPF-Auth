@@ -41,7 +41,7 @@ def save_grant(client_id, code, request, *args, **kwargs):
     expires = datetime.utcnow() + timedelta(seconds=3600)
     requested_scopes = set(filter(
         lambda scope: scope is not None,
-        [Scope.get(scope) for scopes in request.scopes]
+        [Scope.get(scope) for scope in request.scopes]
     ))
     granted_scopes = requested_scopes & current_user.scopes
 
