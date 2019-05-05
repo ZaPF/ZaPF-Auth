@@ -13,3 +13,15 @@ def apiMe():
             surname = user.surname,
             full_name = user.full_name
             )
+
+@api_blueprint.route('/api/me/nextcloud', methods=['GET'])
+@oauth.require_oauth('nextcloud')
+def apiMe():
+    user = request.oauth.user
+    return jsonify(
+            email = user.mail,
+            user_id = user.username,
+            firstName = user.firstName,
+            lastName = user.surname,
+            displayName = user.full_name
+            )
