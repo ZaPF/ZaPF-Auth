@@ -154,3 +154,11 @@ class LDAPOrm(object):
             return
         entry.entry_delete()
         writer.commit()
+
+    def __eq__(self, other):
+        # two elements are equal if their DN is equal
+        return self.dn == other.dn
+
+    def __hash__(self):
+        # just hash the dn
+        return hsah(self.dn)
