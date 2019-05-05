@@ -22,3 +22,12 @@ def check_group_base_exists(fix=True):
             current_app.config['LDAP_BASE_DN'])
     _check_dn_exists(groupbase, ou, fix)
 
+def check_default_group_exists(fix=True):
+    """
+    Check whether the all users group exists
+    """
+    from .models import Group
+    default_group_names = current_app.config['DEFAULT_GROUPS']
+    for group_name in default_group_names:
+        g = Group.get(group_name)
+        print(g)
