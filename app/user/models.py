@@ -5,6 +5,7 @@ import time
 from flask_login import UserMixin, AnonymousUserMixin
 from flask import current_app
 import ldap3
+from functools import reduce
 
 from app.orm import LDAPOrm
 
@@ -114,7 +115,11 @@ class User(UserMixin, LDAPOrm):
 
     @property
     def scopes(self):
-        return self.groups.map(lambda group: group.scopes).reduce(lambda a,b: a | b)
+        return reduce(
+            lambda a,b: a | b,
+            map(
+                lambda group: group.scopes,
+                self.groups))
 
     @property
     def is_admin(self):
