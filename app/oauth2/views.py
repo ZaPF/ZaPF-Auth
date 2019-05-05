@@ -6,7 +6,7 @@ from flask_ldap3_login.forms import LDAPLoginForm
 from flask_babel import Babel, gettext
 from app.user import login_required
 
-def handle_oauth_request(*args, kwargs):
+def handle_oauth_request(*args, **kwargs):
     requested_scopes = set(kwargs['scopes'])
     return requested_scopes.issubset(current_user.scopes)
 
