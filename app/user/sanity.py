@@ -54,5 +54,5 @@ def check_default_group_exists(fix=True):
 
         if fix:
             default_group = Group(name=group_name)
-            default_group.join(default_user)
+            default_group.members = [default_user]
             default_group.save()
