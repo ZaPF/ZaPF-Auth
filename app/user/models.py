@@ -56,6 +56,13 @@ class User(UserMixin, LDAPOrm):
         user = User(username = username, firstName = givenName, surname = surname, mail = mail)
         user.password = password
         user.save()
+
+        # add the user to the default groups
+        for default_group_name in current_app.config['DEFAULT_GROUPS']:
+            default_group = Group.get(default_group_name)
+            default_group.join(user)
+            default_group.save()
+
         return user
 
     def delete(self):
