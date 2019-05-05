@@ -28,7 +28,7 @@ def authorize(*args, **kwargs):
                 gettext("Logged in user: %(username)s (%(full_name)s)",
                     username=form.user.username, full_name=form.user.full_name))
         login_user(form.user)  # Tell flask-login to log them in.
-        return handle_oauth_request(*args, **kwarkgs)
+        return handle_oauth_request(*args, **kwargs)
 
     return render_template('login.html', form=form)
 
