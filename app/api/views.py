@@ -1,6 +1,7 @@
 from . import api_blueprint
 from flask import request, jsonify
 from app.oauth2 import oauth
+from app.user import user_scope_required
 
 @api_blueprint.route('/api/me', methods=['GET'])
 @oauth.require_oauth('ownUserData')
@@ -16,6 +17,7 @@ def apiMe():
 
 @api_blueprint.route('/api/me/nextcloud', methods=['GET'])
 @oauth.require_oauth('nextcloud')
+@user_scope_required('nextcloud')
 def api_nextcloud():
     user = request.oauth.user
     return jsonify(

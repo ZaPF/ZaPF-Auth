@@ -75,4 +75,14 @@ def groups_required(*groups, require_all=True):
         return wrapped
     return wrapper
 
+def user_scope_required(*scope_name):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            scope_names = [scope.name for scope in current_user.scopes]
+            if scope_name not in scope_names:
+                abort(403)
+        return wrapped
+    return wrapper
+
 from . import views
