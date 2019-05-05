@@ -7,15 +7,8 @@ from flask_babel import Babel, gettext
 from app.user import login_required
 
 def handle_oauth_request(*args, kwargs):
-    user = current_user
-    user_scopes = set([
-        'ownUserData',
-        'registration',
-        'uni_list',
-        'registration_priorities'
-        ])
     requested_scopes = set(kwargs['scopes'])
-    return requested_scopes.issubset(user_scopes)
+    return requested_scopes.issubset(current_user.scopes)
 
 @oauth2_blueprint.route('/oauth/authorize', methods=['GET', 'POST'])
 @oauth.authorize_handler
@@ -23,7 +16,7 @@ def authorize(*args, **kwargs):
     if current_user.is_authenticated:
         current_app.logger.info("Authorizing {user.username}".format(
             user = current_user))
-        return handle_oauth_request(*args, **kwarkgs)
+        return handle_oauth_request(*args, **kwargs)
 
     # Otherwise instantiate a login form to log the user in.
     form = LDAPLoginForm()
