@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask_oauthlib.provider import OAuth2Provider
 from flask_cache import Cache
 from werkzeug.contrib.cache import SimpleCache
-from .models import Client, Grant, Token
+from .models import Client, Grant, Token, Scope
 from flask_login import current_user
 from datetime import datetime, timedelta
 
@@ -39,11 +39,17 @@ def load_grant(client_id, code):
 def save_grant(client_id, code, request, *args, **kwargs):
     # decide the expires time yourself
     expires = datetime.utcnow() + timedelta(seconds=3600)
+    requested_scopes = set(filter(
+        lambda scope: scope is not None,
+        [Scope.get(scope) for scopes in request.scopes]
+    ))
+    granted_scopes = requested_scopes & current_user.scopes
+
     grant = Grant(
         client_id=client_id,
         code=code['code'],
         redirect_uri=request.redirect_uri,
-        _scopes=request.scopes,
+        _scopes=[scope.name for scope in granted_scopes],
         user_id=current_user.get_id(),
         expires=expires
     )

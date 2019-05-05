@@ -16,7 +16,7 @@ def authorize(*args, **kwargs):
     if current_user.is_authenticated:
         current_app.logger.info("Authorizing {user.username}".format(
             user = current_user))
-        return handle_oauth_request(*args, **kwargs)
+        return True
 
     # Otherwise instantiate a login form to log the user in.
     form = LDAPLoginForm()
@@ -28,7 +28,7 @@ def authorize(*args, **kwargs):
                 gettext("Logged in user: %(username)s (%(full_name)s)",
                     username=form.user.username, full_name=form.user.full_name))
         login_user(form.user)  # Tell flask-login to log them in.
-        return handle_oauth_request(*args, **kwargs)
+        return True
 
     return render_template('login.html', form=form)
 
