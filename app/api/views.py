@@ -16,7 +16,7 @@ def apiMe():
 
 @api_blueprint.route('/api/me/nextcloud', methods=['GET'])
 @oauth.require_oauth('nextcloud')
-def apiMe():
+def api_nextcloud():
     user = request.oauth.user
     return jsonify(
             email = user.mail,
