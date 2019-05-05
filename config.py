@@ -18,6 +18,12 @@ class Config:
     LDAP_GROUP_MEMBERS_ATTR = 'member'
     LDAP_READONLY = False
 
+    DEFAULT_USER_UID = "admin"
+    DEFAULT_USER_GIVENNAME = "Auth"
+    DEFAULT_USER_SN = "Administrator"
+    DEFAULT_USER_PASSWORD = "changeme"
+    DEFAULT_USER_MAIL = "admin@example.com"
+
     DEFAULT_GROUPS = ['all']
 
     BABEL_TRANSLATION_DIRECTORIES='translations/'

@@ -22,12 +22,39 @@ def check_group_base_exists(fix=True):
             current_app.config['LDAP_BASE_DN'])
     _check_dn_exists(groupbase, ou, fix)
 
+def check_default_user_exists(fix=True):
+    from .models import User
+    default_uid = current_app.config['DEFAULT_USER_UID']
+
+    if User.get(default_uid):
+            return
+
+    if fix:
+        User.create(
+            default_uid,
+            current_app.config['DEFAULT_USER_GIVENNAME'],
+            current_app.config['DEFAULT_USER_SN'],
+            current_app.config['DEFAULT_USER_PASSWORD'],
+            current_app.config['DEFAULT_USER_MAIL'],
+        )
+
 def check_default_group_exists(fix=True):
     """
     Check whether the all users group exists
     """
-    from .models import Group
+    from .models import User, Group
+    check_default_user_exists(fix)
     default_group_names = current_app.config['DEFAULT_GROUPS']
+    default_uid = current_app.config['DEFAULT_USER_UID']
+    default_user = User.get(default_uid)
     for group_name in default_group_names:
-        g = Group.get(group_name)
-        print(g)
+        default_group = Group.get(group_name)
+        if default_group:
+            continue
+
+        if fix:
+            default_group = Group(
+                name=group_name,
+                members=[default_user],
+            )
+            default_group.save()
