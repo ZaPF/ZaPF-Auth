@@ -161,4 +161,4 @@ class LDAPOrm(object):
 
     def __hash__(self):
         # just hash the dn
-        return hsah(self.dn)
+        return hash(self.dn)
