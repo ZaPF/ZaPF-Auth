@@ -114,7 +114,7 @@ class User(UserMixin, LDAPOrm):
 
     @property
     def scopes(self):
-        return []
+        return self.groups.map(lambda group: group.scopes).reduce(lambda a,b: a | b)
 
     @property
     def is_admin(self):
@@ -230,13 +230,15 @@ class Group(LDAPOrm):
         )
 
         results = current_app.ldap3_login_manager.connection.search(
-            search_base=current_app.config.get(Scope._basedn()),
+            search_base=Scope._basedn(),
             search_filter=search_filter,
             attributes=current_app.config.get('LDAP_GET_GROUP_ATTRIBUTES'),
             search_scope=ldap3.SUBTREE,
         )
 
-        print(scopes)
+        return set([Scope.from_dn(item['dn'])
+                for item in current_app.ldap3_login_manager.connection.response
+                if 'type' in item and item.get('type') == 'searchResEntry'])
 
     def join(self, user):
         """
