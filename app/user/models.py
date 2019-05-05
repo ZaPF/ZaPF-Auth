@@ -225,25 +225,7 @@ class Group(LDAPOrm):
     @property
     def scopes(self):
         from app.oauth2.models import Scope
-
-        safe_dn = ldap3.utils.conv.escape_filter_chars(self.dn)
-
-        search_filter = "(&{group_filter}({members_attr}={group_dn}))".format(
-            group_filter=current_app.config.get('LDAP_GROUP_OBJECT_FILTER'),
-            members_attr=current_app.config.get('LDAP_GROUP_MEMBERS_ATTR'),
-            group_dn=safe_dn,
-        )
-
-        results = current_app.ldap3_login_manager.connection.search(
-            search_base=Scope._basedn(),
-            search_filter=search_filter,
-            attributes=current_app.config.get('LDAP_GET_GROUP_ATTRIBUTES'),
-            search_scope=ldap3.SUBTREE,
-        )
-
-        return set([Scope.from_dn(item['dn'])
-                for item in current_app.ldap3_login_manager.connection.response
-                if 'type' in item and item.get('type') == 'searchResEntry'])
+        return Scope.query_from_group(self)
 
     def join(self, user):
         """

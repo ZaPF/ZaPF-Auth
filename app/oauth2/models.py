@@ -1,5 +1,7 @@
 from app.orm import LDAPOrm
 from app.user.models import User, AnonymousUser, Group
+from flask import current_app
+import ldap3
 
 class Grant(object):
     user_id =  None
@@ -65,6 +67,27 @@ class Scope(LDAPOrm):
         )
         scope.save()
         return scope
+
+    @classmethod
+    def query_from_group(Cls, group):
+        safe_dn = ldap3.utils.conv.escape_filter_chars(group.dn)
+
+        search_filter = "(&{group_filter}({members_attr}={group_dn}))".format(
+            group_filter=current_app.config.get('LDAP_GROUP_OBJECT_FILTER'),
+            members_attr=current_app.config.get('LDAP_GROUP_MEMBERS_ATTR'),
+            group_dn=safe_dn,
+        )
+
+        results = current_app.ldap3_login_manager.connection.search(
+            search_base=Cls._basedn(),
+            search_filter=search_filter,
+            attributes=current_app.config.get('LDAP_GET_GROUP_ATTRIBUTES'),
+            search_scope=ldap3.SUBTREE,
+        )
+
+        return set([Cls.from_dn(item['dn'])
+                for item in current_app.ldap3_login_manager.connection.response
+                if 'type' in item and item.get('type') == 'searchResEntry'])
 
     @property
     def groups(self):
