@@ -58,6 +58,8 @@ class User(UserMixin, LDAPOrm):
         user.save()
 
         # add the user to the default groups
+        # refresh the user, as it now has a DN after save
+        user = User.get(username)
         for default_group_name in current_app.config['DEFAULT_GROUPS']:
             default_group = Group.get(default_group_name)
             default_group.join(user)
