@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='plugin-bootstrap-select-1.12.4/css/bootstrap-select.min.css')}}">
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('static', filename='plugin-bootstrap-select-1.12.4/js/bootstrap-select.min.js')}}"></script>
+{% endblock %}
+
+{% macro show_form_errors(form, container = True) %}
+{% if form.errors -%} {# don't output anything if there are no errors #}
+{% if container -%}
+  <div class="row">
+    <div class="col-sm-12">
+{% endif -%}
+      <div class="alert alert-danger" role="alert">
+        <p><strong>Errors when validating form data:</strong></p>
+        {{ wtf.form_errors(form) }}
+      </div>
+{% if container %}
+    </div>
+  </div>
+{% endif -%}
+{% endif -%}
+{% endmacro -%}
+
+{% block title %}Beschluss bearbeiten{% endblock %}
+
+{% block content %}
+<div class="container">
+  <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  
+  <div class="form-horizontal">
+    {{ show_form_errors(form) }}
+
+    <div class="form-group row">
+      {{ form.title.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.title(class='form-control') }}</div>
+    </div>
+    <div class="form-group row{% if form.decided.errors %} has-error{% endif %}">
+      {{ form.decided.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.decided(class='form-control') }}</div>
+    </div>
+    <div class="form-group row{% if form.recipients_lists.errors %} has-error{% endif %}">
+      {{ form.recipients_lists.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">
+        {{form.recipients_lists(class='form-control selectpicker', **{'data-live-search':'true', 'data-selected-text-format':'count > 3'})}}
+      </div>
+    </div>
+    <div class="form-group row{% if isNew and form.upload.errors %} has-error{% endif %}">
+      {{ form.upload.label(class='col-sm-3 control-label') }}
+      {% if isNew %}
+      <div class="col-sm-9">{{ form.upload() }}</div>
+      {% else %}
+      <div class="col-sm-9">
+        <a class='btn btn-link' href="{{url_for('stapf.decision_file', decision_id=decision_id)}}">
+          PDF des Beschluss downloaden
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="form-group row">
+      {{ form.comment.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.comment(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-offset-3 col-sm-9">
+        {{ form.submit(class='btn btn-lg btn-default') }}
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+{% endblock %}

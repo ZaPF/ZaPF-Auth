@@ -3,6 +3,7 @@ from app.user.models import User
 from flask import Blueprint, abort, current_app, json
 
 class Registration(db.Model):
+    __bind_key__ = 'anmeldung'
     id = db.Column(db.Integer(), primary_key = True)
     username = db.Column(db.Text(), unique = True)
     blob = db.Column(db.Text())
@@ -49,6 +50,7 @@ class Registration(db.Model):
         return self.confirmed and self.priority < self.uni.slots
 
 class Uni(db.Model):
+    __bind_key__ = 'anmeldung'
     id = db.Column(db.Integer(), primary_key = True)
     token = db.Column(db.String(256), unique = True)
     name = db.Column(db.Text(), unique = True)
@@ -63,6 +65,7 @@ class Uni(db.Model):
         return "<Uni: {}>".format(self.name)
 
 class Mascot(db.Model):
+    __bind_key__ = 'anmeldung'
     id = db.Column(db.Integer(), primary_key = True)
     name = db.Column(db.Text(), unique = False)
     uni_id = db.Column(db.Integer(), db.ForeignKey('uni.id'))

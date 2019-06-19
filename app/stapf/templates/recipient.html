@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% macro show_form_errors(form, container = True) %}
+{% if form.errors -%} {# don't output anything if there are no errors #}
+{% if container -%}
+  <div class="row">
+    <div class="col-sm-12">
+{% endif -%}
+      <div class="alert alert-danger" role="alert">
+        <p><strong>Errors when validating form data:</strong></p>
+        {{ wtf.form_errors(form) }}
+      </div>
+{% if container %}
+    </div>
+  </div>
+{% endif -%}
+{% endif -%}
+{% endmacro -%}
+
+{% block title %}Adressat bearbeiten{% endblock %}
+
+{% block content %}
+<div class="container">
+  <form class="form-horizontal" method="POST">
+  {{ form.hidden_tag() }}
+  
+  <div class="form-horizontal">
+    {{ show_form_errors(form) }}
+
+    <div class="form-group row">
+      {{ form.name.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.name(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.organisation_name.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.organisation_name(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.addressline1.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.addressline1(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.addressline2.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.addressline2(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.street.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.street(class='form-control') }}</div>
+    </div>
+    <div class="form-group row{% if form.postal_code.errors %} has-error{% endif %}">
+      {{ form.postal_code.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.postal_code(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.locality.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.locality(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.country.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.country(class='form-control') }}</div>
+    </div>
+    <div class="form-group row{% if form.mail.errors %} has-error{% endif %}">
+      {{ form.mail.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.mail(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      {{ form.comment.label(class='col-sm-3 control-label') }}
+      <div class="col-sm-9">{{ form.comment(class='form-control') }}</div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-offset-3 col-sm-9">
+        {{ form.submit(class='btn btn-lg btn-default') }}
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+{% endblock %}
