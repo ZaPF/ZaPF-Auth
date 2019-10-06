@@ -4,5 +4,13 @@ exclude = '''
     env
     | migrations
     | __pycache__
+    | \.git
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
 )
 '''
