@@ -1,13 +1,17 @@
+language: python
+
 services:
 - docker
 
 before_install:
+- pip install black
 - cp docker/test.conf docker/auth.conf
 - docker-compose build
 - docker-compose start
 
 script:
 - curl -L http://$(docker-compose port auth 80)
+- black --check --diff .
 
 after_script:
 - docker-compose down
