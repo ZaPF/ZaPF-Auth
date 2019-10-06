@@ -2,14 +2,20 @@ from app.db import db
 from app.user.models import User
 from flask import Blueprint, abort, current_app, json
 
+
 class Registration(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    username = db.Column(db.Text(), unique = True)
+    id = db.Column(db.Integer(), primary_key=True)
+    username = db.Column(db.Text(), unique=True)
     blob = db.Column(db.Text())
-    _priority = db.Column('priority', db.Integer())
-    _confirmed = db.Column('confirmed', db.Boolean())
-    uni_id = db.Column(db.Integer(), db.ForeignKey('uni.id'))
-    uni = db.relationship('Uni', backref=db.backref('Registrations', lazy='dynamic', cascade="all, delete-orphan"))
+    _priority = db.Column("priority", db.Integer())
+    _confirmed = db.Column("confirmed", db.Boolean())
+    uni_id = db.Column(db.Integer(), db.ForeignKey("uni.id"))
+    uni = db.relationship(
+        "Uni",
+        backref=db.backref(
+            "Registrations", lazy="dynamic", cascade="all, delete-orphan"
+        ),
+    )
 
     @property
     def user(self):
@@ -17,7 +23,9 @@ class Registration(db.Model):
 
     @property
     def is_guaranteed(self):
-        return any(map(self.user.is_in_group, current_app.config['ZAPF_GUARANTEED_GROUPS']))
+        return any(
+            map(self.user.is_in_group, current_app.config["ZAPF_GUARANTEED_GROUPS"])
+        )
 
     @property
     def confirmed(self):
@@ -48,13 +56,14 @@ class Registration(db.Model):
     def is_zapf_attendee(self):
         return self.confirmed and self.priority < self.uni.slots
 
+
 class Uni(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    token = db.Column(db.String(256), unique = True)
-    name = db.Column(db.Text(), unique = True)
+    id = db.Column(db.Integer(), primary_key=True)
+    token = db.Column(db.String(256), unique=True)
+    name = db.Column(db.Text(), unique=True)
     slots = db.Column(db.Integer())
 
-    def __init__(self, name, token, slots = 3):
+    def __init__(self, name, token, slots=3):
         self.name = name
         self.token = token
         self.slots = slots
@@ -62,12 +71,15 @@ class Uni(db.Model):
     def __repr__(self):
         return "<Uni: {}>".format(self.name)
 
-class Mascot(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    name = db.Column(db.Text(), unique = False)
-    uni_id = db.Column(db.Integer(), db.ForeignKey('uni.id'))
-    uni = db.relationship('Uni', backref=db.backref('Mascots', lazy='dynamic', cascade="all, delete-orphan"))
 
+class Mascot(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.Text(), unique=False)
+    uni_id = db.Column(db.Integer(), db.ForeignKey("uni.id"))
+    uni = db.relationship(
+        "Uni",
+        backref=db.backref("Mascots", lazy="dynamic", cascade="all, delete-orphan"),
+    )
 
     def __init__(self, name, uni_id):
         self.name = name

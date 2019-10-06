@@ -1,9 +1,10 @@
 from app.orm import LDAPOrm
 from app.user.models import User, AnonymousUser
 
+
 class Grant(object):
-    user_id =  None
-    client_id =  None
+    user_id = None
+    client_id = None
     code = None
     redirect_uri = None
     expires = None
@@ -22,6 +23,7 @@ class Grant(object):
     @property
     def scopes(self):
         return self._scopes
+
 
 class Token(object):
     client_id = None
@@ -48,9 +50,9 @@ class Token(object):
 
 
 class Client(LDAPOrm):
-    basedn_config_var = 'LDAP_OAUTH2_CLIENT_DN'
-    objectClasses = ['oauthClientMetadata']
-    keyMapping = ('oauthClientID', 'client_id')
+    basedn_config_var = "LDAP_OAUTH2_CLIENT_DN"
+    objectClasses = ["oauthClientMetadata"]
+    keyMapping = ("oauthClientID", "client_id")
 
     # human readable name, not required
     name = None
@@ -63,14 +65,14 @@ class Client(LDAPOrm):
 
     def __init__(self, client_id=None):
         import uuid
+
         self.client_id = client_id or str(uuid.uuid4())
 
     def __repr__(self):
-        return '<OAuth2Client: {}>'.format(
-                self.name or self.client_id)
+        return "<OAuth2Client: {}>".format(self.name or self.client_id)
 
     @staticmethod
-    def create(name = None, redirect_uris=[], default_scopes=[], description=None):
+    def create(name=None, redirect_uris=[], default_scopes=[], description=None):
         client = Client()
         client.name = name
         client.description = description
@@ -82,6 +84,7 @@ class Client(LDAPOrm):
     @property
     def client_secret(self):
         import uuid
+
         # Generate a UUID if it isn't set yet.
         if not self._client_secret:
             self._client_secret = str(uuid.uuid4())
@@ -113,8 +116,8 @@ class Client(LDAPOrm):
     @property
     def client_type(self):
         if self.is_confidential:
-            return 'confidential'
-        return 'public'
+            return "confidential"
+        return "public"
 
     @property
     def redirect_uris(self):

@@ -1,5 +1,6 @@
 from flask import current_app
 
+
 class LDAPOrm(object):
     @classmethod
     def _objectdef(cls):
@@ -10,6 +11,7 @@ class LDAPOrm(object):
         `objectClasses` class attribute.
         """
         from ldap3 import ObjectDef
+
         conn = current_app.ldap3_login_manager.connection
         return ObjectDef(cls.objectClasses, conn)
 
@@ -24,7 +26,8 @@ class LDAPOrm(object):
         # FIXME: If basedn_config_var is not specified, allow basedn to be
         # specified explicitely using cls.basedn.
         return current_app.ldap3_login_manager.compiled_sub_dn(
-            current_app.config[cls.basedn_config_var])
+            current_app.config[cls.basedn_config_var]
+        )
 
     @classmethod
     def _get_read_cursor(cls, qry=None):
@@ -36,14 +39,11 @@ class LDAPOrm(object):
 
         conn = current_app.ldap3_login_manager.connection
 
-        r = Reader(conn,
-                cls._objectdef(),
-                cls._basedn(),
-                qry)
+        r = Reader(conn, cls._objectdef(), cls._basedn(), qry)
         try:
             r.search()
         except LDAPNoSuchObjectResult:
-            raise LookupError("No such object: {qry}".format(qry = qry))
+            raise LookupError("No such object: {qry}".format(qry=qry))
             return None
 
         return r
@@ -52,15 +52,14 @@ class LDAPOrm(object):
     def from_dn(cls, dn):
         from ldap3 import Reader
         from ldap3.core.exceptions import LDAPNoSuchObjectResult
+
         conn = current_app.ldap3_login_manager.connection
 
-        r = Reader(conn,
-                cls._objectdef(),
-                cls._basedn())
+        r = Reader(conn, cls._objectdef(), cls._basedn())
         try:
             entry = r.search_object(dn)
         except LDAPNoSuchObjectResult:
-            raise LookupError("No such object: {qry}".format(qry = qry))
+            raise LookupError("No such object: {qry}".format(qry=qry))
             return None
 
         item = cls()
@@ -70,31 +69,36 @@ class LDAPOrm(object):
     @classmethod
     def query(cls, qry=None):
         r = cls._get_read_cursor(qry)
+
         def populate_from(entry):
             item = cls()
             item._orm_mapping_load(entry)
             return item
+
         return [populate_from(entry) for entry in r]
 
     @classmethod
     def get(cls, key):
         from ldap3.utils.conv import escape_filter_chars
+
         key_attr, _ = cls.keyMapping
         try:
-            return cls.query('{key_attr}: {key}'.format(
-                key_attr = escape_filter_chars(key_attr),
-                key = escape_filter_chars(key)))[0]
+            return cls.query(
+                "{key_attr}: {key}".format(
+                    key_attr=escape_filter_chars(key_attr), key=escape_filter_chars(key)
+                )
+            )[0]
         except IndexError:
             return None
 
     @property
     def key(self):
-        '''
+        """
         Get the default key (rdn attribute) used by this class.
 
         Subclasses MUST specify the mapping of their key attribute to the rdn
         attribute in the `keyMapping` class attribute in the form `(rdn, attr)`.
-        '''
+        """
         _, key = self.keyMapping
         return getattr(self, key)
 
@@ -105,8 +109,8 @@ class LDAPOrm(object):
         """
         attr, key = self.keyMapping
         return self._get_read_cursor(
-                '{key_attr}: {key}'.format(key_attr = attr, key = self.key)
-                )
+            "{key_attr}: {key}".format(key_attr=attr, key=self.key)
+        )
 
     @property
     def _default_write_cursor(self):
@@ -114,8 +118,8 @@ class LDAPOrm(object):
         return a write cursor containing just this instance.
         """
         from ldap3 import Writer
-        return Writer.from_cursor(self._default_read_cursor)
 
+        return Writer.from_cursor(self._default_read_cursor)
 
     def load(self):
         """
@@ -133,11 +137,10 @@ class LDAPOrm(object):
         except:
             attr, _ = self.keyMapping
             entry = writer.new(
-                    '{key_attr}={key},{basedn}'.format(
-                        key_attr = attr,
-                        key = self.key,
-                        basedn = self._basedn())
+                "{key_attr}={key},{basedn}".format(
+                    key_attr=attr, key=self.key, basedn=self._basedn()
                 )
+            )
 
         self._orm_mapping_save(entry)
         writer.commit()

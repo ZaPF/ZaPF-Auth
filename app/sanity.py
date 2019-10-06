@@ -6,6 +6,7 @@ from flask import current_app
 from ldap3 import ObjectDef, Reader, Writer
 from ldap3.core.exceptions import LDAPNoSuchObjectResult
 
+
 def _check_dn_exists(dn, object_def, fix=True):
     """
     Check if a certain DN exists, otherwise create it.
@@ -14,7 +15,7 @@ def _check_dn_exists(dn, object_def, fix=True):
     in the DN.
     """
     conn = current_app.ldap3_login_manager.connection
-    r = Reader(conn, object_def, current_app.config['LDAP_BASE_DN'])
+    r = Reader(conn, object_def, current_app.config["LDAP_BASE_DN"])
     try:
         base = r.search_object(dn)
     except LDAPNoSuchObjectResult:
@@ -25,4 +26,3 @@ def _check_dn_exists(dn, object_def, fix=True):
             base = w.new(dn)
             base.description = "Automagically added by quasisentient sanity checks"
             w.commit()
-
