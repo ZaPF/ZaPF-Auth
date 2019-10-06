@@ -1,0 +1,13 @@
+services:
+- docker
+
+before_install:
+- cp docker/test.conf docker/auth.conf
+- docker-compose build
+- docker-compose start
+
+script:
+- curl -L http://$(docker-compose port auth 80)
+
+after_script:
+- docker-compose down
