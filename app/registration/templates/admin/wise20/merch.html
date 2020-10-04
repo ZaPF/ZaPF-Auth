@@ -134,7 +134,7 @@
               </a>
             </td>
             <td>
-              {{ 1+reg.data['addtshirt'] }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
+              {{ reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1 }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
             </td>
             <td>
               {{ HOODIE_TYPES[reg.data['hoodie']] }}
