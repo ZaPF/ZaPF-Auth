@@ -262,8 +262,10 @@ def registration_wise20_report_merch():
             return None
         if reg.data['muetze']:
             result['hats'].append(reg)
+            result_unis[reg.uni.id]['hats'] += 1
         if reg.data['krug']:
             result['beermugs'].append(reg)
+            result_unis[reg.uni.id]['beermugs'] += 1
         result['shirts'][tshirt_size]['amount'] += tshirt_amount
         result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount})
         result['hoodies'][hoodie_size]['amount'] += 1
@@ -271,8 +273,6 @@ def registration_wise20_report_merch():
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['shirts'][tshirt_size] += 1
         result_unis[reg.uni.id]['hoodies'][hoodie_size] += 1
-        result_unis[reg.uni.id]['hats'] += 1
-        result_unis[reg.uni.id]['beermugs'] += 1
     return render_template('admin/wise20/merch.html',
         result = result,
         result_unis = result_unis,
