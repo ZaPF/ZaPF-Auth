@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe17: Exkursionen{% endblock %}
+{% block title %}WiSe20: Exkursionen{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="btn-group" role="group">
-    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_reports') }}">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
     </a>
   </div>
 
   <h1>
-  Exkursionsverteilung für ZaPF Winter17
+  Exkursionsverteilung für ZaPF Winter20
   </h1>
 
   <h4>
     <span class="label label-info">Zweiwahl</span>
     <span class="label label-warning">Drittwahl</span>
-    <span class="label label-danger">Viert- und höhre Wahl</span>
+    <span class="label label-danger">Viert- und höhere Wahl</span>
     <span class="label label-success">Von Orga gesetzt</span>
   </h4>
 
@@ -44,9 +44,6 @@
         <tr>
           <th>Uni</th>
           <th>Name</th>
-        {% if type in exkursionen_types_birthday %}
-          <th>Geburtsdatum</th>
-        {% endif %}
           <th>Aktionen</th>
         </tr>
         {% for reg in data['registrations'] %}
@@ -59,18 +56,13 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg[0].id) }}">
+            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg[0].id) }}">
               {{ reg[0].user.full_name }}
             </a>
           </td>
-          {% if type in exkursionen_types_birthday %}
-          <td>
-            {{ reg[0].data['geburtsdatum'] }}
-          </td>
-          {% endif %}
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg[0].id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg[0].id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>

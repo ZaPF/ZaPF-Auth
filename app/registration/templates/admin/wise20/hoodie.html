@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe17: Hoodies und Mützen{% endblock %}
+{% block title %}WiSe20: Hoodies und Mützen{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="btn-group" role="group">
-    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_reports') }}">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
     </a>
   </div>
 
   <h1>
-  Hoodie und Mützen-Auswertung für ZaPF Winter17
+  Hoodie und Mützen-Auswertung für ZaPF Winter20
   </h1>
 
   <div>
@@ -59,13 +59,13 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -110,13 +110,13 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -150,7 +150,7 @@
         <ul class="list-unstyled">
           {% for name, amount in data['types'].items() if amount > 0 %}
             <li>
-              T-Shirt-Größe: {{ TSHIRTS_TYPES[name] }}
+              Sweater-Größe: {{ HOODIE_TYPES[name] }}
               <span class="badge">{{ amount }}</span>
             </li>
           {% endfor %}
@@ -160,22 +160,22 @@
       <table class='table table-striped'>
         <tr>
           <th>Name</th>
-          <th>T-Shirt-Größe</th>
+          <th>Sweater-Größe</th>
           <th>Aktionen</th>
         </tr>
         {% for reg in data['registrations'] %}
         <tr>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
-            {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
+            {{ HOODIE_TYPES[reg.data['hoodie']] }}
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>

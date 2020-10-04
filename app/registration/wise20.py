@@ -12,39 +12,59 @@ EXKURSIONEN_TYPES = {
   'egal': ('ist mir egal', -1, 'Egal'),
   'keine': ('keine exkursion', -1, 'Keine'),
   'eso': ('ESO - Europäische Südsternwarte', 20, 'ESO'),
-  'ipp': ('Neurochirurgie', 0, 'Neurochirurgie'),
-  'mpq': ('Krueckemeyer Klebstoffe', 20, 'Krueckemeyer'),
-  'mpe': ('EJOT Schrauben', 20, 'EJOT'),
-  'mpa': ('Sauerland-Pyramiden', 30, 'Sauerland'),
-  'lrz': ('Versorgungsbetriebe Siegen', 20, 'Versorgungsbetriebe'),
-  'frm2': ('FoKoS', 20, 'FoKoS'),
-  'campusfuehrung': ('Bergwerksfuehrung', 30, 'Bergwerk'),
-  'stadtfuehrung': ('Stadtführung', 20, 'Stadtführung'),
-  'isarwanderung': ('Wandern', 30, 'Wandern'),
-  'lss': ('LAN Party', 0, 'LAN Party'),
-  'aisec': ('LAN Party', 0, 'LAN Party'),
+  'ipp': ('IPP - Max-Plank-Institut für Plasmaphysik', 20, 'IPP'),
+  'mpq': ('MPQ - Max-Plank-Institut für Quantenoptik', 20, 'MPQ'),
+  'mpe': ('MPE - Max-Plank-Institut für Extraterrestrische Physik', 20, 'MPE'),
+  'mpa': ('MPA - Max-Plank-Institut für Astrophysik', 20, 'MPA'),
+  'lrz': ('LRZ - Leibniz-Rechenzentrum', 20, 'LRZ'),
+  'frm2': ('FRM II', 20, 'FRM II'),
+  'campusfuehrung': ('Ausgiebigerere Campusführung', 20, 'Campusführung'),
+  'stadtfuehrung': ('Stadtführung Garching', 20, 'Stadtführung'),
+  'isarwanderung': ('Isarwanderung', 20, 'Isarwanderung'),
+  'lss': ('Führung durch das LSS', 20, 'LSS'),
+  'aisec': ('Fraunhofer AISEC', 20, 'AISEC'),
   'nospace': ('Konnte keiner Exkursion zugeordnet werden', -1, 'Noch offen'),
 }
 
 EXKURSIONEN_FIELD_NAMES = ['exkursion1', 'exkursion2', 'exkursion3', 'exkursion4']
 
-EXKURSIONEN_TYPES_BIRTHDAY = []
-
 EXKURSIONEN_TYPES_FORM = [('nooverwrite', '')] + [(name, data[0]) for name, data in EXKURSIONEN_TYPES.items()]
 
 TSHIRTS_TYPES = {
   'keins': 'Nein, ich möchte keins',
-  'fitted_5xl': 'fitted 5XL',
-  'fitted_4xl': 'fitted 4XL',
-  'fitted_3xl': 'fitted 3XL',
-  'fitted_xxl': 'fitted XXL',
-  'fitted_xl': 'fitted XL',
-  'fitted_l': 'fitted L',
-  'fitted_m': 'fitted M',
-  'fitted_s': 'fitted S',
-  'fitted_xs': 'fitted XS',
-  '5xl': '5XL',
-  '4xl': '4XL',
+#  'fitted_5xl': 'fitted 5XL',
+#  'fitted_4xl': 'fitted 4XL',
+#  'fitted_3xl': 'fitted 3XL',
+#  'fitted_xxl': 'fitted XXL',
+#  'fitted_xl': 'fitted XL',
+#  'fitted_l': 'fitted L',
+#  'fitted_m': 'fitted M',
+#  'fitted_s': 'fitted S',
+#  'fitted_xs': 'fitted XS',
+#  '5xl': '5XL',
+#  '4xl': '4XL',
+  '3xl': '3XL',
+  'xxl': 'XXL',
+  'xl': 'XL',
+  'l': 'L',
+  'm': 'M',
+  's': 'S',
+  'xs': 'XS'
+}
+
+HOODIE_TYPES = {
+  'keins': 'Nein, ich möchte keins',
+#  'fitted_5xl': 'fitted 5XL',
+#  'fitted_4xl': 'fitted 4XL',
+#  'fitted_3xl': 'fitted 3XL',
+#  'fitted_xxl': 'fitted XXL',
+#  'fitted_xl': 'fitted XL',
+#  'fitted_l': 'fitted L',
+#  'fitted_m': 'fitted M',
+#  'fitted_s': 'fitted S',
+#  'fitted_xs': 'fitted XS',
+#  '5xl': '5XL',
+#  '4xl': '4XL',
   '3xl': '3XL',
   'xxl': 'XXL',
   'xl': 'XL',
@@ -60,45 +80,26 @@ ESSEN_TYPES = {
   'omnivor': 'Omnivor'
 }
 
-HEISSE_GETRAENKE_TYPES = {
-  'egal': 'Egal',
-  'kaffee': 'Kaffee',
-  'tee': 'Tee'
-}
-
-SCHLAFEN_TYPES = {
-  'nachteule': 'Nachteule',
-  'morgenmuffel': 'Morgenmuffel',
-  'vogel': 'Früher Vogel'
-}
-
-MITTAG1_TYPES = {
-  'vegan': 'Gemüseschnitzel mit Kräutersoße',
-  'normal': 'Schnitzel mit Rahmsoße'
-}
-
-MITTAG2_TYPES = {
-  'vegan': 'Sojaschnitzel mit Nudeln',
-  'normal': 'Hähnchen mit Nudeln'
-}
-
-MITTAG3_TYPES = {
-  'vegan': 'veg. Currywurst',
-  'normal': 'Currywurst'
-}
-
 ANREISE_TYPES = {
   'bus': 'Fernbus',
   'bahn': 'Zug',
   'auto': 'Auto',
   'flug': 'Flugzeug',
+  'floss': 'Floß',
   'fahrrad': 'Fahrrad',
-  'einhorn': 'Einhorn',
-  'uboot': 'U-Boot'
+  'sonstige': 'Sonstige'
+}
+
+ABREISE_TIMES = {
+    'fr': 'Freitag',
+    'sa': 'Samstag',
+    'sovormittag': 'Sonntag Vormittag',
+    'soabend': 'Sonntag Abend',
+    'monacht': 'Nacht auf Montag',
+    'movormittag': 'Montag Vormittag'
 }
 
 class Winter20ExkursionenOverwriteForm(FlaskForm):
-    spitzname = StringField('Spitzname')
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
 
@@ -123,58 +124,24 @@ def wise20_calculate_exkursionen(registrations):
         result[exkursion_selected]['registrations'].append((reg, -1))
         result[exkursion_selected]['free'] -= 1
     for reg in regs_normal:
-        if reg.uni.name == 'Universitas Saccos Veteres':
+        if reg.uni.name == 'Universidad de los Saccos Veteres (Alumni)':
             regs_later.append(reg)
             continue;
         got_slot = False
         for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
             exkursion_selected = reg.data[field]
-            if exkursion_selected == 'vbsi':
-                result['vbsi']['registrations'].append((reg, field_index))
-                result['vbsi']['free'] -= 1
+            if not result[exkursion_selected]:
+                return None
+            if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
+                result[exkursion_selected]['registrations'].append((reg, field_index))
+                result[exkursion_selected]['free'] -= 1
                 got_slot = True
                 break;
-            elif exkursion_selected == 'ejot':
-                result['ejot']['registrations'].append((reg, field_index))
-                result['ejot']['free'] -= 1
-                got_slot = True
-                break;
-            elif exkursion_selected == 'km':
-                result['km']['registrations'].append((reg, field_index))
-                result['km']['free'] -= 1
-                got_slot = True
-                break;
-        if not got_slot:
-            for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
-                exkursion_selected = reg.data[field]
-                if not result[exkursion_selected]:
-                    return None
-                if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
-                    result[exkursion_selected]['registrations'].append((reg, field_index))
-                    result[exkursion_selected]['free'] -= 1
-                    got_slot = True
-                    break;
         if not got_slot:
             result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
     for reg in regs_later:
         for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
             exkursion_selected = reg.data[field]
-            if exkursion_selected == 'vbsi':
-                result['vbsi']['registrations'].append((reg, field_index))
-                result['vbsi']['free'] -= 1
-                got_slot = True
-                break;
-            elif exkursion_selected == 'ejot':
-                result['ejot']['registrations'].append((reg, field_index))
-                result['ejot']['free'] -= 1
-                got_slot = True
-                break;
-            elif exkursion_selected == 'km':
-                result['km']['registrations'].append((reg, field_index))
-                result['km']['free'] -= 1
-                got_slot = True
-                break;
-        if not got_slot:
             for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
                 exkursion_selected = reg.data[field]
                 if not result[exkursion_selected]:
@@ -195,12 +162,11 @@ def registration_wise20_reports():
 @registration_blueprint.route('/admin/registration/report/wise20/exkursionen')
 @groups_sufficient('admin', 'orga')
 def registration_wise20_report_exkursionen():
-    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    registrations = [reg for reg in Registration.query.all() if reg.is_zapf_attendee]
     result = wise20_calculate_exkursionen(registrations)
     return render_template('admin/wise20/exkursionen.html',
         result = result,
-        exkursionen_types = EXKURSIONEN_TYPES,
-        exkursionen_types_birthday = EXKURSIONEN_TYPES_BIRTHDAY
+        exkursionen_types = EXKURSIONEN_TYPES
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/t-shirts')
@@ -243,9 +209,9 @@ def registration_wise20_report_hoodie():
         result_unis[uni.id] = {
             'name': uni.name,
             'registrations': [],
-            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()}
+            'types': {name: 0 for name, label in HOODIE_TYPES.items()}
         }
-    for name, label in TSHIRTS_TYPES.items():
+    for name, label in HOODIE_TYPES.items():
         result[name] = {'label': label, 'registrations': []}
     for reg in registrations:
         hoodie_size = reg.data['hoodie']
@@ -260,7 +226,7 @@ def registration_wise20_report_hoodie():
         result = result,
         result_unis = result_unis,
         result_muetze = result_muetze,
-        TSHIRTS_TYPES = TSHIRTS_TYPES
+        HOODIE_TYPES = HOODIE_TYPES
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/essen')
@@ -268,73 +234,43 @@ def registration_wise20_report_hoodie():
 def registration_wise20_report_essen():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_essen = {}
-    result_heisse_getraenke = {}
-    result_getraenkewunsch = []
     result_allergien = []
-    result_mittag1 = {}
-    result_mittag2 = {}
-    result_mittag3 = {}
+    result_alkohol = []
     for name, label in ESSEN_TYPES.items():
         result_essen[name] = {'label': label, 'registrations': []}
-    for name, label in MITTAG1_TYPES.items():
-        result_mittag1[name] = {'label': label, 'registrations': []}
-    for name, label in MITTAG2_TYPES.items():
-        result_mittag2[name] = {'label': label, 'registrations': []}
-    for name, label in MITTAG3_TYPES.items():
-        result_mittag3[name] = {'label': label, 'registrations': []}
-    for name, label in HEISSE_GETRAENKE_TYPES.items():
-        result_heisse_getraenke[name] = {'label': label, 'registrations': []}
     for reg in registrations:
         essen_type = reg.data['essen']
-        heisse_getraenke = reg.data['heissgetraenk']
-        getraenkewunsch = reg.data['getraenk']
         allergien = reg.data['allergien']
-        mittag1_type = reg.data['mittag1']
-        mittag2_type = reg.data['mittag2']
-        mittag3_type = reg.data['mittag3']
-        if (not result_essen[essen_type] or not result_heisse_getraenke[heisse_getraenke] or
-            not result_mittag1[mittag1_type] or not result_mittag2[mittag2_type] or not result_mittag3[mittag3_type]):
+        alkohol = reg.data['alkohol']
+        if (not result_essen[essen_type]):
             return None
         result_essen[essen_type]['registrations'].append(reg)
-        if essen_type == 'vegetarisch' or essen_type == 'vegan':
-            result_mittag1['vegan']['registrations'].append(reg)
-            result_mittag2['vegan']['registrations'].append(reg)
-            result_mittag3['vegan']['registrations'].append(reg)
-        else:
-            result_mittag1[mittag1_type]['registrations'].append(reg)
-            result_mittag2[mittag2_type]['registrations'].append(reg)
-            result_mittag3[mittag3_type]['registrations'].append(reg)
-        result_heisse_getraenke[heisse_getraenke]['registrations'].append(reg)
-        if getraenkewunsch:
-            result_getraenkewunsch.append(reg)
         if allergien:
             result_allergien.append(reg)
+        if alkohol:
+            result_alkohol.append(reg)
     return render_template('admin/wise20/essen.html',
         result_essen = result_essen,
-        result_heisse_getraenke = result_heisse_getraenke,
-        result_getraenkewunsch = result_getraenkewunsch,
         result_allergien = result_allergien,
-        result_mittag1 = result_mittag1,
-        result_mittag2 = result_mittag2,
-        result_mittag3 = result_mittag3
+        result_alkohol = result_alkohol
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/rahmenprogramm')
 @groups_sufficient('admin', 'orga')
 def registration_wise20_report_rahmenprogramm():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    result_mittwoch = []
     result_musikwunsch = []
+    result_freitag = []
     for reg in registrations:
-        mittwoch = reg.data['workshop']
         musikwunsch = reg.data['musikwunsch']
-        if mittwoch:
-            result_mittwoch.append(reg)
+        abreise = reg.data['abreise_zeit']
         if musikwunsch:
             result_musikwunsch.append(reg)
+        if abreise == 'fr':
+            result_freitag.append(reg)
     return render_template('admin/wise20/rahmenprogramm.html',
-        result_mittwoch = result_mittwoch,
-        result_musikwunsch = result_musikwunsch
+        result_musikwunsch = result_musikwunsch,
+        result_freitag = result_freitag
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/sonstiges')
@@ -356,21 +292,6 @@ def registration_wise20_report_sonstiges():
         result_addx = result_addx
     )
 
-@registration_blueprint.route('/admin/registration/report/wise20/spitznamen')
-@groups_sufficient('admin', 'orga')
-def registration_wise20_report_spitznamen():
-    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    result = {'with': [], 'without': []}
-    for reg in registrations:
-        spitzname = reg.data['spitzname']
-        if spitzname and spitzname != "-":
-            result['with'].append(reg)
-        else:
-            result['without'].append(reg)
-    return render_template('admin/wise20/spitznamen.html',
-        result = result
-    )
-
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_wise20', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
 def registration_wise20_details_registration(reg_id):
@@ -378,36 +299,26 @@ def registration_wise20_details_registration(reg_id):
     form = Winter20ExkursionenOverwriteForm()
     if form.validate_on_submit():
         data = reg.data
-        old_spitzname = data['spitzname']
         if 'exkursion_overwrite' in reg.data:
             old_overwrite = data['exkursion_overwrite']
         else:
             old_overwrite = 'nooverwrite'
-        data['spitzname'] = form.spitzname.data
         data['exkursion_overwrite'] = form.exkursion_overwrite.data
         reg.data = data
         db.session.add(reg)
         db.session.commit()
-        if old_spitzname != form.spitzname.data:
-            return redirect(url_for('registration.registration_wise20_report_spitznamen'))
-        elif old_overwrite != form.exkursion_overwrite.data:
+        if old_overwrite != form.exkursion_overwrite.data:
             return redirect(url_for('registration.registration_wise20_report_exkursionen'))
         else:
             return redirect(url_for('registration.registration_wise20_details_registration', reg_id = reg_id))
     if 'exkursion_overwrite' in reg.data:
         form.exkursion_overwrite.data = reg.data['exkursion_overwrite']
-    form.spitzname.data = reg.data['spitzname']
     return render_template('admin/wise20/details.html',
         reg = reg,
         form = form,
         EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
         ESSEN_TYPES = ESSEN_TYPES,
-        MITTAG1_TYPES = MITTAG1_TYPES,
-        MITTAG2_TYPES = MITTAG2_TYPES,
-        MITTAG3_TYPES = MITTAG3_TYPES,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
-        SCHLAFEN_TYPES = SCHLAFEN_TYPES,
-        HEISSE_GETRAENKE_TYPES = HEISSE_GETRAENKE_TYPES,
         ANREISE_TYPES = ANREISE_TYPES
     )
 

@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe17: T-Shirt{% endblock %}
+{% block title %}WiSe20: T-Shirt{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="btn-group" role="group">
-    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_reports') }}">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
     </a>
   </div>
 
   <h1>
-  T-Shirt-Auswertung für ZaPF Winter17
+  T-Shirt-Auswertung für ZaPF Winter20
   </h1>
 
   <div>
@@ -57,13 +57,13 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -113,7 +113,7 @@
         {% for reg in data['registrations'] %}
         <tr>
           <td>
-            <a href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
@@ -122,7 +122,7 @@
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>

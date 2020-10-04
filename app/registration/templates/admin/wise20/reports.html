@@ -1,52 +1,47 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe17: Auswertungen{% endblock %}
+{% block title %}WiSe20: Auswertungen{% endblock %}
 
 {% block content %}
 <div class="container">
   <h3>
-    Verfügbare Auswertungen für ZaPF Winter17:
+    Verfügbare Auswertungen für ZaPF Winter20 in Garching:
   </h3>
 
   <ul>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_report_exkursionen') }}">
+      <a href="{{ url_for('registration.registration_wise20_report_exkursionen') }}">
         Exkursionen
       </a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_report_essen') }}">
+      <a href="{{ url_for('registration.registration_wise20_report_essen') }}">
         Essen
       </a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_report_rahmenprogramm') }}">
+      <a href="{{ url_for('registration.registration_wise20_report_rahmenprogramm') }}">
         Rahmenprogramm
       </a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_report_tshirts') }}">
+      <a href="{{ url_for('registration.registration_wise20_report_tshirts') }}">
         T-Shirts
       </a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_report_hoodie') }}">
+      <a href="{{ url_for('registration.registration_wise20_report_hoodie') }}">
         Hoodies
       </a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_report_spitznamen') }}">
-        Spitznamen
-      </a>
-    </li>
-    <li>
-      <a href="{{ url_for('registration.registration_wise17_report_sonstiges') }}">
+      <a href="{{ url_for('registration.registration_wise20_report_sonstiges') }}">
         Schlafen und Sonsiges
       </a>
     </li>
   </ul>
   <h3>
-    Maschinenlesbare Auswertungen für ZaPF Winter17:
+    Maschinenlesbare Auswertungen für ZaPF Winter20:
   </h3>
   <ul>
     <li>
@@ -67,51 +62,51 @@
       <a href="{{ url_for('registration.registrations_export_mails_txt') }}">Emails</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registrations_wise17_export_id_name_csv') }}">ID + Name</a>
+      <a href="{{ url_for('registration.registrations_wise20_export_id_name_csv') }}">ID + Name</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registrations_wise17_export_wichteln_csv') }}">Wichteln (csv)</a>
+      <a href="{{ url_for('registration.registrations_wise20_export_wichteln_csv') }}">Wichteln (csv)</a>
     </li>
   </ul>
   <h3>
-    LaTeX-Vorlagen für ZaPF Winter17:
+    LaTeX-Vorlagen für ZaPF Winter20:
   </h3>
   <ul>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_stimmkarten_latex') }}">Stimmkarten</a>
+      <a href="{{ url_for('registration.registration_wise20_export_stimmkarten_latex') }}">Stimmkarten</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_idkarten_latex') }}">ID-Karten</a>
+      <a href="{{ url_for('registration.registration_wise20_export_idkarten_latex') }}">ID-Karten</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_tagungsausweise_latex') }}">Tagungsausweise</a>
+      <a href="{{ url_for('registration.registration_wise20_export_tagungsausweise_latex') }}">Tagungsausweise</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_strichlisten_latex') }}">Strichlisten</a>
+      <a href="{{ url_for('registration.registration_wise20_export_strichlisten_latex') }}">Strichlisten</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_bmbflisten_latex') }}">BMBF-Listen</a>
+      <a href="{{ url_for('registration.registration_wise20_export_bmbflisten_latex') }}">BMBF-Listen</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_taschentassenlisten_latex') }}">Taschentassen-Listen</a>
+      <a href="{{ url_for('registration.registration_wise20_export_taschentassenlisten_latex') }}">Taschentassen-Listen</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_ausweisidbeitraglisten_latex') }}">Ausweis-ID-Beitrag-Listen</a>
+      <a href="{{ url_for('registration.registration_wise20_export_ausweisidbeitraglisten_latex') }}">Ausweis-ID-Beitrag-Listen</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_t_shirt_latex') }}">Tshirt</a>
+      <a href="{{ url_for('registration.registration_wise20_export_t_shirt_latex') }}">Tshirt</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_exkursionen_latex') }}">Exkursionen</a>
+      <a href="{{ url_for('registration.registration_wise20_export_exkursionen_latex') }}">Exkursionen</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_unis_latex') }}">Unis</a>
+      <a href="{{ url_for('registration.registration_wise20_export_unis_latex') }}">Unis</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_unis_teilnehmer_latex') }}">Unis + Teilnehmer</a>
+      <a href="{{ url_for('registration.registration_wise20_export_unis_teilnehmer_latex') }}">Unis + Teilnehmer</a>
     </li>
     <li>
-      <a href="{{ url_for('registration.registration_wise17_export_bestaetigungen_latex') }}">Bestätigungen</a>
+      <a href="{{ url_for('registration.registration_wise20_export_bestaetigungen_latex') }}">Bestätigungen</a>
     </li>
 
   </ul>
