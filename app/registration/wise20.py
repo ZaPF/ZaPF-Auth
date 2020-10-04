@@ -140,16 +140,16 @@ def wise20_calculate_exkursionen(registrations):
         if not got_slot:
             result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
     for reg in regs_later:
+        got_slot = False
         for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
             exkursion_selected = reg.data[field]
-            for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
-                exkursion_selected = reg.data[field]
-                if not result[exkursion_selected]:
-                    return None
-                if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
-                    result[exkursion_selected]['registrations'].append((reg, field_index))
-                    result[exkursion_selected]['free'] -= 1
-                    break;
+            if not result[exkursion_selected]:
+                return None
+            if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
+                result[exkursion_selected]['registrations'].append((reg, field_index))
+                result[exkursion_selected]['free'] -= 1
+                got_slot = True
+                break;
         if not got_slot:
             result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
     return result
