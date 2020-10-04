@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# coding: utf-8
 from flask_script import Manager, Shell
 from app import create_app, check_sanity
 from flask_migrate import Migrate, MigrateCommand
