@@ -40,8 +40,8 @@ class Config:
     ZAPF_GUARANTEED_GROUPS = ['StAPF', 'TOPF', 'KommGrem', 'ZaPF e.V. Kassenpruefer', 'ZaPF e.V. Vorstand']
 
     MAIL_USE_TLS = True
-    MAIL_DEFAULT_SENDER = 'topf@zapf.in'
-    MAIL_NEXT_ZAPF_ORGA = 'topf@zapf.in'
+    MAIL_DEFAULT_SENDER = 'auth@example.com'
+    MAIL_NEXT_ZAPF_ORGA = 'orga@example.com'
 
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
     import ldap3
