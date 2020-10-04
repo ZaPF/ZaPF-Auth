@@ -229,6 +229,57 @@ def registration_wise20_report_hoodie():
         HOODIE_TYPES = HOODIE_TYPES
     )
 
+@registration_blueprint.route('/admin/registration/report/wise20/merch')
+@groups_sufficient('admin', 'orga')
+def registration_wise20_report_merch():
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    unis = Uni.query.order_by(Uni.id)
+    result = {
+        'shirts': {},
+        'hoodies': {},
+        'hats': [],
+        'beermugs': []
+    }
+    result_unis = {}
+    for uni in unis:
+        result_unis[uni.id] = {
+            'name': uni.name,
+            'registrations': [],
+            'shirts': {name: 0 for name, label in TSHIRTS_TYPES.items()},
+            'hoodies': {name: 0 for name, label in HOODIE_TYPES.items()},
+            'hats': 0,
+            'beermugs': 0
+        }
+    for name, label in TSHIRTS_TYPES.items():
+        result['shirts'][name] = {'label': label, 'amount': 0, 'requests': []}
+    for name, label in HOODIE_TYPES.items():
+        result['hoodies'][name] = {'label': label, 'amount': 0, 'requests': []}
+    for reg in registrations:
+        tshirt_size = reg.data['tshirt']
+        tshirt_amount = reg.data['addtshirt'] + 1
+        hoodie_size = reg.data['hoodie']
+        if not result[tshirt_size] or not result[hoodie_size]:
+            return None
+        if reg.data['muetze']:
+            result['hats'].append(reg)
+        if reg.data['krug']:
+            result['beermugs'].append(reg)
+        result['shirts'][tshirt_size]['amount'] += tshirt_amount
+        result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount)
+        result['hoodie'][hoodie_size]['amount'] += 1
+        result['hoodie'][hoodie_size]['requests'].append({'registration': reg, 'amount': 1)
+        result_unis[reg.uni.id]['registrations'].append(reg)
+        result_unis[reg.uni.id]['shirts'][tshirt_size] += 1
+        result_unis[reg.uni.id]['hoodies'][hoodie_size] += 1
+        result_unis[reg.uni.id]['hats'] += 1
+        result_unis[reg.uni.id]['beermugs'] += 1
+    return render_template('admin/wise20/merch.html',
+        result = result,
+        result_unis = result_unis,
+        TSHIRTS_TYPES = TSHIRTS_TYPES,
+        HOODIE_TYPES = HOODIE_TYPES
+    )
+
 @registration_blueprint.route('/admin/registration/report/wise20/essen')
 @groups_sufficient('admin', 'orga')
 def registration_wise20_report_essen():
