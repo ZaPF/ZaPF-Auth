@@ -26,6 +26,10 @@ class Config:
 
     DEFAULT_GROUPS = ['all']
 
+    DELETED_USER_GIVENNAME = "Deleted"
+    DELETED_USER_SN = "User"
+    DELETED_USER_MAIL = "deleted@example.com"
+
     BABEL_TRANSLATION_DIRECTORIES='translations/'
 
     SQLALCHEMY_DATABASE_URI = 'sqlite:///anmeldung.db'

@@ -1,5 +1,5 @@
 from app.db import db
-from app.user.models import User
+from app.user.models import User, DeletedUser
 from flask import Blueprint, abort, current_app, json
 
 class Registration(db.Model):
@@ -13,10 +13,20 @@ class Registration(db.Model):
 
     @property
     def user(self):
-        return User.get(self.username)
+        return User.get(self.username) or DeletedUser(self.username)
+
+    @property
+    def deleted(self):
+        '''
+        Check if the user belonging to this registration does not exist
+        '''
+        return self.user is None
 
     @property
     def is_guaranteed(self):
+        # If there is no user for this registration (e.g. user deleted), just return False
+        if self.deleted:
+            return False
         return any(map(self.user.is_in_group, current_app.config['ZAPF_GUARANTEED_GROUPS']))
 
     @property

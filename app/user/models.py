@@ -23,6 +23,48 @@ class AnonymousUser(AnonymousUserMixin):
     def is_in_group(self, group):
         return False
 
+class DeletedUser(UserMixin):
+    def __init__(self, username=None, *kwargs):
+        self.username = username
+
+    @property
+    def groups(self):
+        return []
+
+    @property
+    def scopes(self):
+        return []
+
+    def is_in_group(self, group):
+        return False
+
+    @property
+    def firstName(self):
+        return current_app.config['DELETED_USER_GIVENNAME']
+
+    @property
+    def surname(self):
+        return current_app.config['DELETED_USER_SN']
+
+    @property
+    def mail(self):
+        return current_app.config['DELETED_USER_MAIL']
+
+    @property
+    def full_name(self):
+        '''
+        returns the deleted user's name (defaults to "Deleted User") followed
+        by the username, e.g.:
+
+            Deleted User (alice)
+        '''
+        return "{firstName} {surname} ({username})".format(
+                firstName = self.firstName,
+                surname = self.surname,
+                username = self.username
+                )
+
+
 class User(UserMixin, LDAPOrm):
     # This doesn't really work either, so we have to overload _basedn
     # basedn_config_var = 'LDAP_OAUTH2_CLIENT_DN'
