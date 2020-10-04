@@ -319,6 +319,7 @@ def registration_wise20_details_registration(reg_id):
         EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
         ESSEN_TYPES = ESSEN_TYPES,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
+        HOODIE_TYPES = HOODIE_TYPES,
         ANREISE_TYPES = ANREISE_TYPES
     )
 
