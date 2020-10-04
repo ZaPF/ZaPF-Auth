@@ -26,10 +26,10 @@ def api_register():
             other_username = req['username']
     elif request.args.get('username'):
         other_username = request.args.get('username')
-    if (user.is_admin or 'orga' in user.groups) and other_username:
-        user = User.get(other_username)
-        if not user:
-            return "Username unknown", 409
+#    if (user.is_admin or 'Orga' in user.groups) and other_username:
+#        user = User.get(other_username)
+#        if not user:
+#            return "Username unknown", 409
     registration = Registration.query.filter_by(username=user.username).first()
     if request.method == 'POST' \
         and request.headers.get('Content-Type') == 'application/json':
