@@ -266,8 +266,8 @@ def registration_wise20_report_merch():
             result['beermugs'].append(reg)
         result['shirts'][tshirt_size]['amount'] += tshirt_amount
         result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount})
-        result['hoodie'][hoodie_size]['amount'] += 1
-        result['hoodie'][hoodie_size]['requests'].append({'registration': reg, 'amount': 1})
+        result['hoodies'][hoodie_size]['amount'] += 1
+        result['hoodies'][hoodie_size]['requests'].append({'registration': reg, 'amount': 1})
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['shirts'][tshirt_size] += 1
         result_unis[reg.uni.id]['hoodies'][hoodie_size] += 1
