@@ -63,11 +63,11 @@
           {% endfor %}
           <li>
               Mützen
-              <span class="badge">{{ result['hats'] }}</span>
+              <span class="badge">{{ result['hats'] | length}}</span>
           </li>
           <li>
               Bierkrüge
-              <span class="badge">{{ result['beermugs'] }}</span>
+              <span class="badge">{{ result['beermugs'] | length}}</span>
           </li>
         </ul>
       </div>
