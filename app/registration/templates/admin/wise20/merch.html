@@ -197,7 +197,7 @@
             </td>
             <td>
               <div class="btn-group" role="group">
-                <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=req['registration'].id) }}">
                   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
                 </a>
               </div>
@@ -251,7 +251,7 @@
             </td>
             <td>
               <div class="btn-group" role="group">
-                <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=req['registration'].id) }}">
                   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
                 </a>
               </div>
