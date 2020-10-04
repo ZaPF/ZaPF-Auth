@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, redirect, url_for, flash
+from flask import Blueprint, abort, redirect, url_for, flash, current_app
 import flask_login
 from flask_login import LoginManager, current_user, logout_user
 from flask_ldap3_login import LDAP3LoginManager
@@ -72,16 +72,6 @@ def groups_required(*groups, require_all=True):
                 (not require_all) and has_some_required_groups:
                 return f(*args, **kwargs)
             abort(403)
-        return wrapped
-    return wrapper
-
-def user_scope_required(*scope_name):
-    def wrapper(f):
-        @wraps(f)
-        def wrapped(*args, **kwargs):
-            scope_names = [scope.name for scope in current_user.scopes]
-            if scope_name not in scope_names:
-                abort(403)
         return wrapped
     return wrapper
 

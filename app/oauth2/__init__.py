@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, current_app
 from flask_oauthlib.provider import OAuth2Provider
 from flask_cache import Cache
 from werkzeug.contrib.cache import SimpleCache
@@ -45,11 +45,16 @@ def save_grant(client_id, code, request, *args, **kwargs):
     ))
     granted_scopes = requested_scopes & current_user.scopes
 
+    current_app.logger.debug("request scopes %r" % requested_scopes)
+    current_app.logger.debug("user scopes %r" % current_user.scopes)
+    current_app.logger.debug("granted scopes %r" % granted_scopes)
+
+
     grant = Grant(
         client_id=client_id,
         code=code['code'],
         redirect_uri=request.redirect_uri,
-        _scopes=[scope.name for scope in granted_scopes],
+        _scopes=request.scopes,
         user_id=current_user.get_id(),
         expires=expires
     )
