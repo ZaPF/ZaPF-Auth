@@ -83,13 +83,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-{{ type }}">
+          <a data-toggle="collapse" href="#collapse-uni-{{ type }}">
             {{ data['name'] }}
           </a>
           <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
         </h4>
       </div>
-      <div id="collapse-{{ type }}" class="panel-collapse collapse">
+      <div id="collapse-uni-{{ type }}" class="panel-collapse collapse">
         <div class="panel-body">
           <p><b>Statistik pro Größe:</b></p>
           <ul class="list-unstyled">
@@ -165,13 +165,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-{{ type }}">
+          <a data-toggle="collapse" href="#collapse-shirt-{{ type }}">
             T-Shirt: Größe {{ data['label'] }}
           </a>
           <span class="badge" style="float: right">{{ data['amount'] }}</span>
         </h4>
       </div>
-      <div id="collapse-{{ type }}" class="panel-collapse collapse">
+      <div id="collapse-shirt-{{ type }}" class="panel-collapse collapse">
         <div class="table-responsive">
         <table class='table table-striped'>
           <tr>
@@ -182,16 +182,16 @@
           </tr>
           {% for reg in data['registrations'] %}
           <tr>
-            <td>{{ reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1 }}</td>
+            <td>{{ req['amount'] }}</td>
             <td>
               <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
-                {{ reg.user.full_name }}
+                {{ req['registration'].user.full_name }}
               </a>
             </td>
             <td>
-            {% if reg.uni %}
+            {% if req['registration'].uni %}
               <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
-                {{ reg.uni.name }}
+                {{ req['registration'].uni.name }}
               </a>
             {% endif %}
             </td>
@@ -219,13 +219,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-{{ type }}">
+          <a data-toggle="collapse" href="#collapse-hoodie-{{ type }}">
             Hoodie: Größe {{ data['label'] }}
           </a>
           <span class="badge" style="float: right">{{ data['amount'] }}</span>
         </h4>
       </div>
-      <div id="collapse-{{ type }}" class="panel-collapse collapse">
+      <div id="collapse-hoodie-{{ type }}" class="panel-collapse collapse">
         <div class="table-responsive">
         <table class='table table-striped'>
           <tr>
@@ -234,18 +234,18 @@
             <th>Uni</th>
             <th>Aktionen</th>
           </tr>
-          {% for reg in data['registrations'] %}
+          {% for req in data['requests'] %}
           <tr>
-            <td>1</td>
+            <td>req['amount']</td>
             <td>
               <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
-                {{ reg.user.full_name }}
+                {{ req['registration'].user.full_name }}
               </a>
             </td>
             <td>
-            {% if reg.uni %}
+            {% if req['registration'].uni %}
               <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
-                {{ reg.uni.name }}
+                {{ req['registration'].uni.name }}
               </a>
             {% endif %}
             </td>
@@ -316,13 +316,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-muetze">
+          <a data-toggle="collapse" href="#collapse-krug">
             Bierkrüge
           </a>
           <span class="badge" style="float: right">{{ result['beermugs'] | length }}</span>
         </h4>
       </div>
-      <div id="collapse-muetze" class="panel-collapse collapse">
+      <div id="collapse-krug" class="panel-collapse collapse">
         <div class="table-responsive">
         <table class='table table-striped'>
           <tr>
