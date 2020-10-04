@@ -180,17 +180,17 @@
             <th>Uni</th>
             <th>Aktionen</th>
           </tr>
-          {% for reg in data['registrations'] %}
+          {% for req in data['requests'] %}
           <tr>
             <td>{{ req['amount'] }}</td>
             <td>
-              <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+              <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=req['registration'].id) }}">
                 {{ req['registration'].user.full_name }}
               </a>
             </td>
             <td>
             {% if req['registration'].uni %}
-              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=req['registration'].uni.id)}}">
                 {{ req['registration'].uni.name }}
               </a>
             {% endif %}
@@ -238,13 +238,13 @@
           <tr>
             <td>req['amount']</td>
             <td>
-              <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+              <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=req['registration'].id) }}">
                 {{ req['registration'].user.full_name }}
               </a>
             </td>
             <td>
             {% if req['registration'].uni %}
-              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=req['registration'].uni.id)}}">
                 {{ req['registration'].uni.name }}
               </a>
             {% endif %}
