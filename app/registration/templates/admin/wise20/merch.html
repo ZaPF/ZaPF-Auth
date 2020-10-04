@@ -182,7 +182,7 @@
           </tr>
           {% for reg in data['registrations'] %}
           <tr>
-            <td>{{ 1+reg.data['addtshirt'] }}</td>
+            <td>{{ reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1 }}</td>
             <td>
               <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
                 {{ reg.user.full_name }}

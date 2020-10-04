@@ -256,7 +256,7 @@ def registration_wise20_report_merch():
         result['hoodies'][name] = {'label': label, 'amount': 0, 'requests': []}
     for reg in registrations:
         tshirt_size = reg.data['tshirt']
-        tshirt_amount = reg.data['addtshirt'] + 1
+        tshirt_amount = reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1
         hoodie_size = reg.data['hoodie']
         if not result[tshirt_size] or not result[hoodie_size]:
             return None
