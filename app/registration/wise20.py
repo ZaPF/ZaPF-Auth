@@ -31,7 +31,7 @@ EXKURSIONEN_FIELD_NAMES = ['exkursion1', 'exkursion2', 'exkursion3', 'exkursion4
 EXKURSIONEN_TYPES_FORM = [('nooverwrite', '')] + [(name, data[0]) for name, data in EXKURSIONEN_TYPES.items()]
 
 TSHIRTS_TYPES = {
-  'keins': 'Nein, ich möchte keins',
+  'keins': 'Keines',
 #  'fitted_5xl': 'fitted 5XL',
 #  'fitted_4xl': 'fitted 4XL',
 #  'fitted_3xl': 'fitted 3XL',
@@ -53,7 +53,7 @@ TSHIRTS_TYPES = {
 }
 
 HOODIE_TYPES = {
-  'keins': 'Nein, ich möchte keins',
+  'keins': 'Keiner',
 #  'fitted_5xl': 'fitted 5XL',
 #  'fitted_4xl': 'fitted 4XL',
 #  'fitted_3xl': 'fitted 3XL',
