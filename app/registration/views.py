@@ -11,7 +11,7 @@ from flask_babel import gettext
 import io
 import csv
 
-from . import api, wise17
+from . import api, wise17, wise20
 
 class UniForm(FlaskForm):
     name = StringField(gettext('Uni Name'))
