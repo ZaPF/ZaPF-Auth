@@ -158,6 +158,7 @@ def wise20_calculate_exkursionen(registrations):
 @registration_blueprint.route('/admin/registration/report/clear')
 def registration_wise20_report_clear():
     cache.clear()
+    return redirect(url_for('registration.registration_wise20_reports'))
 
 @registration_blueprint.route('/admin/registration/report/wise20')
 @groups_sufficient('admin', 'orga')
