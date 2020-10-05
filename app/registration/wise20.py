@@ -6,7 +6,7 @@ from . import registration_blueprint
 from .models import Registration, Uni
 from app.user import groups_sufficient
 from app.db import db
-from app import cache
+from app.cache import cache
 import io
 import csv
 
