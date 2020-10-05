@@ -158,7 +158,7 @@ def wise20_calculate_exkursionen(registrations):
 @groups_sufficient('admin', 'orga')
 def registration_wise20_reports():
     registrations = [Registration.query.all()]
-    attendees = [reg for reg in registrations if reg.is_zapf_attendee]
+    attendees = [reg for reg in registrations if reg['is_zapf_attendee']]
     return render_template('admin/wise20/reports.html', registrations=len(registrations), attendees=len(attendees))
 
 @registration_blueprint.route('/admin/registration/report/wise20/exkursionen')
