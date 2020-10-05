@@ -60,6 +60,9 @@ def create_app(profile="default"):
     app.register_blueprint(registration_blueprint)
     init_reg(app)
 
+    from app.cache import cache
+    cache.init_app(app)
+
     return app
 
 def check_sanity(fix=True):

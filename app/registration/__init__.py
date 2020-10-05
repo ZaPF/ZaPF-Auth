@@ -14,5 +14,4 @@ def verify_token(token):
     return uni is not None
 
 def init_app(app):
-    cache = Cache(app)
     return app
