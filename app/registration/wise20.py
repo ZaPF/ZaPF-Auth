@@ -1,5 +1,6 @@
 from flask import render_template, jsonify, Response, redirect, url_for
 from flask_wtf import FlaskForm
+from flask_caching import Cache
 from wtforms import StringField, SelectField, SubmitField
 from . import registration_blueprint
 from .models import Registration, Uni
@@ -99,6 +100,8 @@ ABREISE_TIMES = {
     'movormittag': 'Montag Vormittag'
 }
 
+cache = Cache(app)
+
 class Winter20ExkursionenOverwriteForm(FlaskForm):
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
@@ -154,6 +157,15 @@ def wise20_calculate_exkursionen(registrations):
             result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
     return result
 
+@cache.cached()
+def get_all_registrations():
+    registrations = Registration.query.all()
+    return registrations
+
+@registration_blueprint.route('/admin/registration/report/clear')
+def registration_wise20_report_clear():
+    cache.clear()
+
 @registration_blueprint.route('/admin/registration/report/wise20')
 @groups_sufficient('admin', 'orga')
 def registration_wise20_reports():
@@ -164,7 +176,7 @@ def registration_wise20_reports():
 @registration_blueprint.route('/admin/registration/report/wise20/exkursionen')
 @groups_sufficient('admin', 'orga')
 def registration_wise20_report_exkursionen():
-    registrations = [reg for reg in Registration.query.all() if reg.is_zapf_attendee]
+    registrations = [reg for reg in get_all_registrations() if reg.is_zapf_attendee]
     result = wise20_calculate_exkursionen(registrations)
     return render_template('admin/wise20/exkursionen.html',
         result = result,

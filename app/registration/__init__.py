@@ -1,5 +1,6 @@
 from flask import Blueprint, g
 from flask_httpauth import HTTPTokenAuth
+from flask_caching import Cache
 
 token_auth = HTTPTokenAuth(scheme='ZaPF-Token')
 registration_blueprint = Blueprint('registration', __name__, template_folder='templates/')
@@ -13,4 +14,5 @@ def verify_token(token):
     return uni is not None
 
 def init_app(app):
+    cache = Cache(app)
     return app

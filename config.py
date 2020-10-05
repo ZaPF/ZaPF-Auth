@@ -47,6 +47,9 @@ class Config:
     import ldap3
     PASSWORD_HASHING_FUNC = ldap3.HASHED_SALTED_SHA384
 
+    "CACHE_TYPE": "simple", # Flask-Caching related configs
+    "CACHE_DEFAULT_TIMEOUT": 300
+
     @staticmethod
     def init_app(app):
         pass
