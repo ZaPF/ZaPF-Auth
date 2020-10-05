@@ -161,7 +161,7 @@
     T-Shirt-Auswertung nach Größe
   </h3>
   <div class="panel-group">
-    {% for type, data in result['shirts'].items() if type is not 'keins' and data['amount'] > 0 %}
+    {% for type, data in result['shirts'].items() if type != 'keins' and data['amount'] > 0 %}
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
@@ -215,7 +215,7 @@
     Sweater-Auswertung nach Größe
   </h3>
   <div class="panel-group">
-    {% for type, data in result['hoodies'].items() if type is not 'keins' and data['amount'] > 0 %}
+    {% for type, data in result['hoodies'].items() if type != 'keins' and data['amount'] > 0 %}
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
