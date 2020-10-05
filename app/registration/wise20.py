@@ -100,8 +100,6 @@ ABREISE_TIMES = {
     'movormittag': 'Montag Vormittag'
 }
 
-cache = Cache(app)
-
 class Winter20ExkursionenOverwriteForm(FlaskForm):
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
