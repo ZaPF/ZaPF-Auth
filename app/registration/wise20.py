@@ -1,6 +1,5 @@
 from flask import render_template, jsonify, Response, redirect, url_for, current_app
 from flask_wtf import FlaskForm
-from flask_caching import Cache
 from wtforms import StringField, SelectField, SubmitField
 from . import registration_blueprint
 from .models import Registration, Uni
@@ -156,11 +155,6 @@ def wise20_calculate_exkursionen(registrations):
             result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
     return result
 
-@cache.cached()
-def get_all_registrations():
-    registrations = Registration.query.all()
-    return registrations
-
 @registration_blueprint.route('/admin/registration/report/clear')
 def registration_wise20_report_clear():
     cache.clear()
@@ -175,8 +169,9 @@ def registration_wise20_reports():
 
 @registration_blueprint.route('/admin/registration/report/wise20/exkursionen')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_report_exkursionen():
-    registrations = [reg for reg in get_all_registrations() if reg.is_zapf_attendee]
+    registrations = [reg for reg in Registration.query.all() if reg.is_zapf_attendee]
     result = wise20_calculate_exkursionen(registrations)
     return render_template('admin/wise20/exkursionen.html',
         result = result,
@@ -185,6 +180,7 @@ def registration_wise20_report_exkursionen():
 
 @registration_blueprint.route('/admin/registration/report/wise20/t-shirts')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_report_tshirts():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
@@ -213,6 +209,7 @@ def registration_wise20_report_tshirts():
 
 @registration_blueprint.route('/admin/registration/report/wise20/hoodie')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_report_hoodie():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
@@ -245,6 +242,7 @@ def registration_wise20_report_hoodie():
 
 @registration_blueprint.route('/admin/registration/report/wise20/merch')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_report_merch():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
@@ -296,6 +294,7 @@ def registration_wise20_report_merch():
 
 @registration_blueprint.route('/admin/registration/report/wise20/essen')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_report_essen():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_essen = {}
@@ -322,6 +321,7 @@ def registration_wise20_report_essen():
 
 @registration_blueprint.route('/admin/registration/report/wise20/rahmenprogramm')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_report_rahmenprogramm():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_musikwunsch = []
@@ -340,6 +340,7 @@ def registration_wise20_report_rahmenprogramm():
 
 @registration_blueprint.route('/admin/registration/report/wise20/sonstiges')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_report_sonstiges():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_schlafen = {}
