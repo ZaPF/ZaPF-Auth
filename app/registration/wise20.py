@@ -1,4 +1,4 @@
-from flask import render_template, jsonify, Response, redirect, url_for
+from flask import render_template, jsonify, Response, redirect, url_for, current_app
 from flask_wtf import FlaskForm
 from flask_caching import Cache
 from wtforms import StringField, SelectField, SubmitField
