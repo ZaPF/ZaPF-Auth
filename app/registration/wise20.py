@@ -6,6 +6,7 @@ from . import registration_blueprint
 from .models import Registration, Uni
 from app.user import groups_sufficient
 from app.db import db
+from app import app
 import io
 import csv
 
@@ -100,7 +101,7 @@ ABREISE_TIMES = {
     'movormittag': 'Montag Vormittag'
 }
 
-cache = Cache(current_app)
+cache = Cache(app)
 
 class Winter20ExkursionenOverwriteForm(FlaskForm):
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
