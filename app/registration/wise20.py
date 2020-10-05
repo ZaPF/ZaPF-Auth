@@ -167,6 +167,7 @@ def registration_wise20_report_clear():
 
 @registration_blueprint.route('/admin/registration/report/wise20')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_reports():
     registrations = Registration.query.all()
     attendees = [reg for reg in registrations if reg.is_zapf_attendee]
