@@ -76,13 +76,13 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" href="#collapse-schlafen-{{ option }}">
+        <a data-toggle="collapse" href="#collapse-student-{{ option }}">
           {% if option == 'ja' %} Immatrikuliert {% else %} Nicht immatrikuliert {% endif %}
         </a>
         <span class="badge" style="float: right">{{ result['student'][option] | length }}</span>
       </h4>
     </div>
-    <div id="collapse-schlafen-{{ option }}" class="panel-collapse collapse">
+    <div id="collapse-student-{{ option }}" class="panel-collapse collapse">
       <div class="table-responsive">
       <table class='table table-striped'>
         <tr>
