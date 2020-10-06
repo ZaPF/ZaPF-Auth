@@ -161,7 +161,7 @@ def get_datetime_string():
     return datetime.now(tz=pytz.timezone('Europe/Berlin')).strftime('%d.%m.%Y %H:%M:%S %Z')
 
 @registration_blueprint.route('/admin/registration/report/clear/<target>')
-def registration_wise20_report_clear():
+def registration_wise20_report_clear(target):
     if target == all:
         cache.clear()
         return redirect(url_for('registration.registration_wise20_reports'))
