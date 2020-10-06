@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container">
-  <span class="badge badge-primary">{{ registrations }} Anmeldungen</span> <span class="badge badge-success">{{ attendees }} Teilnehmika</span> <span class="badge">Stand {{ datetime_string }}</span>
+  <span class="badge progress-bar-primary">{{ registrations }} Anmeldungen</span> <span class="badge progress-bar-success">{{ attendees }} Teilnehmika</span> <span class="badge">Stand {{ datetime_string }}</span>
   <a class="btn-default btn pull-right" href="{{url_for('registration.registration_wise20_report_clear', target='all')}}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Alle Berichte aktualisieren</a>
       
   <h1>Verfügbare Auswertungen</h1>
