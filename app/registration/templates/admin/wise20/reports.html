@@ -7,16 +7,14 @@
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-body justify-content-between">
-        <div>
-          <span class="badge">{{ attendees }} Teilnehmika</span> aus <span class="badge">{{ registrations }} Anmeldungen</span> (Stand {{ datetime_string }}).
-        </div> 
-        <a class="btn-default btn" href="{{url_for('registration.registration_wise20_report_clear', target='all')}}">Alle Berichte aktualisieren</a>
+        <span class="badge badge-primary">{{ registrations }} Anmeldungen</span> <span class="badge badge-success">{{ attendees }} Teilnehmika</span> <span class="badge">Stand {{ datetime_string }}</span>
+        <a class="btn-default btn pull-right" href="{{url_for('registration.registration_wise20_report_clear', target='all')}}">Alle Berichte aktualisieren</a>
     </div>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-human-readable">
+          <a data-toggle="collapse show" href="#collapse-human-readable">
             Verfügbare Auswertungen für ZaPF Winter20 in Garching
           </a>
         </h4>
