@@ -6,6 +6,8 @@ from .models import Registration, Uni
 from app.user import groups_sufficient
 from app.db import db
 from app.cache import cache
+from datetime import datetime
+import pytz
 import io
 import csv
 
@@ -155,18 +157,30 @@ def wise20_calculate_exkursionen(registrations):
             result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
     return result
 
-@registration_blueprint.route('/admin/registration/report/clear')
+def get_datetime_string():
+    return datetime.now(tz=pytz.timezone('Europe/Berlin')).strftime('%d.%m.%Y %H:%M:%S %Z')
+
+@registration_blueprint.route('/admin/registration/report/clear/<target>')
 def registration_wise20_report_clear():
-    cache.clear()
-    return redirect(url_for('registration.registration_wise20_reports'))
+    if target == all:
+        cache.clear()
+        return redirect(url_for('registration.registration_wise20_reports'))
+    else:
+        cache.clear(f"view/{url_for(target)}")
+        return redirect(url_for(target))
 
 @registration_blueprint.route('/admin/registration/report/wise20')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise20_reports():
+    datetime_string = get_datetime_string() 
     registrations = Registration.query.all()
     attendees = [reg for reg in registrations if reg.is_zapf_attendee]
-    return render_template('admin/wise20/reports.html', registrations=len(registrations), attendees=len(attendees))
+    return render_template('admin/wise20/reports.html',
+        registrations=len(registrations),
+        attendees=len(attendees),
+        datetime_string = datetime_string
+    )
 
 @registration_blueprint.route('/admin/registration/report/wise20/exkursionen')
 @groups_sufficient('admin', 'orga')
@@ -297,6 +311,7 @@ def registration_wise20_report_merch():
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise20_report_essen():
+    datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_essen = {}
     result_allergien = []
@@ -317,7 +332,8 @@ def registration_wise20_report_essen():
     return render_template('admin/wise20/essen.html',
         result_essen = result_essen,
         result_allergien = result_allergien,
-        result_alkohol = result_alkohol
+        result_alkohol = result_alkohol,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/rahmenprogramm')

@@ -8,6 +8,10 @@
     <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_reports') }}">
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
     </a>
+    Stand: {{ datetime_string }}
+    <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_report_clear') }}/{{ request.path }}">
+      <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Diesen Bericht aktualisieren
+    </a>
   </div>
 
   <h1>
