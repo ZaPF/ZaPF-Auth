@@ -166,7 +166,8 @@ def registration_wise20_report_clear():
         cache.clear()
         return redirect(url_for('registration.registration_wise20_reports'))
     else:
-        cache.clear(f"view/{url_for(target)}")
+        target_url = url_for(target)
+        cache.clear(f"view/{target_url}")
         return redirect(url_for(target))
 
 @registration_blueprint.route('/admin/registration/report/wise20')
