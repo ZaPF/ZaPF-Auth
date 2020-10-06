@@ -162,7 +162,7 @@ def get_datetime_string():
 
 @registration_blueprint.route('/admin/registration/report/clear/<target>')
 def registration_wise20_report_clear(target):
-    if target == all:
+    if target == 'all':
         cache.clear()
         return redirect(url_for('registration.registration_wise20_reports'))
     else:
