@@ -4,12 +4,14 @@
 
 {% block content %}
 <div class="container">
-  <div class="btn-group" role="group">
-    <a class="btn btn-default" href="{{ url_for('registration.registration_wise17_reports') }}">
-      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
-    </a>
-  </div>
-
+  <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_reports') }}">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
+  </a>  
+  <span class="badge">Stand {{ datetime_string }}</span>
+  <a class="btn btn-default pull-right" href="{{ url_for('registration.registration_wise20_report_clear', target = request.url_rule.endpoint ) }}">
+    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Diesen Bericht aktualisieren
+  </a>
+  
   <h1>
   Schlafen und Sonstiges-Auswertung für ZaPF Winter17
   </h1>
