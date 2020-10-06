@@ -7,12 +7,13 @@
   <span class="badge badge-primary">{{ registrations }} Anmeldungen</span> <span class="badge badge-success">{{ attendees }} Teilnehmika</span> <span class="badge">Stand {{ datetime_string }}</span>
   <a class="btn-default btn pull-right" href="{{url_for('registration.registration_wise20_report_clear', target='all')}}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Alle Berichte aktualisieren</a>
       
+  <h1>Verfügbare Auswertungen</h1>
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" href="#collapse-human-readable">
-            Verfügbare Auswertungen für ZaPF Winter20 in Garching
+            Interaktive Auswertungen
           </a>
         </h4>
       </div>
@@ -61,7 +62,7 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" href="#collapse-machine-readable">
-            Maschinenlesbare Auswertungen für ZaPF Winter20
+            Maschinenlesbare Auswertungen
           </a>
         </h4>
       </div>
@@ -97,7 +98,7 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" href="#collapse-latex">
-            LaTeX-Vorlagen für ZaPF Winter20:
+            LaTeX-Vorlagen:
           </a>
         </h4>
       </div>
