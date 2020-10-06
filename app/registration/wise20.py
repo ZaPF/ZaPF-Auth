@@ -380,12 +380,12 @@ def registration_wise20_report_sonstiges():
     result = {}
     result['unterkunft'] = {}
     result['unterkunft']['options'] = ['ja', 'nein']
-    result['unterkunft']['ja'] = {}
-    result['unterkunft']['nein'] = {}
+    result['unterkunft']['ja'] = []
+    result['unterkunft']['nein'] = []
     result['student'] = {}
     result['student']['options'] = ['ja', 'nein']
-    result['student']['ja'] = {}
-    result['student']['nein'] = {}
+    result['student']['ja'] = []
+    result['student']['nein'] = []
     for reg in registrations:
         result['unterkunft']['ja'].append(reg) if reg.data['eigene_unterkunft'] else result['unterkunft']['nein'].append(reg)
         result['student']['ja'].append(reg) if reg.data['immatrikuliert'] == 'ja' else result['student']['nein'].append(reg)
