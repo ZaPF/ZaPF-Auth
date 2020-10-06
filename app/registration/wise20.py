@@ -175,10 +175,16 @@ def registration_wise20_report_clear(target):
 def registration_wise20_reports():
     datetime_string = get_datetime_string() 
     registrations = Registration.query.all()
+    confirmed = [reg for reg in registrations if reg.confirmed]
     attendees = [reg for reg in registrations if reg.is_zapf_attendee]
+    students = [reg for reg in attendees if reg.data['immatrikuliert'] == 'ja']
+    gremika = [reg for reg in attendees if reg.is_guaranteed]
     return render_template('admin/wise20/reports.html',
         registrations=len(registrations),
         attendees=len(attendees),
+        students=len(students),
+        confirmed=len(confirmed),
+        gremika=len(gremika),
         datetime_string = datetime_string
     )
 
