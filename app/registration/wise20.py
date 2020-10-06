@@ -186,17 +186,20 @@ def registration_wise20_reports():
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise20_report_exkursionen():
+    datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.all() if reg.is_zapf_attendee]
     result = wise20_calculate_exkursionen(registrations)
     return render_template('admin/wise20/exkursionen.html',
         result = result,
-        exkursionen_types = EXKURSIONEN_TYPES
+        exkursionen_types = EXKURSIONEN_TYPES,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/t-shirts')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise20_report_tshirts():
+    datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
     result = {}
@@ -219,13 +222,15 @@ def registration_wise20_report_tshirts():
     return render_template('admin/wise20/t-shirts.html',
         result = result,
         result_unis = result_unis,
-        TSHIRTS_TYPES = TSHIRTS_TYPES
+        TSHIRTS_TYPES = TSHIRTS_TYPES,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/hoodie')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise20_report_hoodie():
+    datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
     result = {}
@@ -252,13 +257,15 @@ def registration_wise20_report_hoodie():
         result = result,
         result_unis = result_unis,
         result_muetze = result_muetze,
-        HOODIE_TYPES = HOODIE_TYPES
+        HOODIE_TYPES = HOODIE_TYPES,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/merch')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise20_report_merch():
+    datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
     result = {
@@ -304,7 +311,8 @@ def registration_wise20_report_merch():
         result = result,
         result_unis = result_unis,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
-        HOODIE_TYPES = HOODIE_TYPES
+        HOODIE_TYPES = HOODIE_TYPES,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/essen')
@@ -340,6 +348,7 @@ def registration_wise20_report_essen():
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise20_report_rahmenprogramm():
+    datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_musikwunsch = []
     result_freitag = []
@@ -352,13 +361,15 @@ def registration_wise20_report_rahmenprogramm():
             result_freitag.append(reg)
     return render_template('admin/wise20/rahmenprogramm.html',
         result_musikwunsch = result_musikwunsch,
-        result_freitag = result_freitag
+        result_freitag = result_freitag,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/sonstiges')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise20_report_sonstiges():
+    datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_schlafen = {}
     result_addx = []
@@ -372,7 +383,8 @@ def registration_wise20_report_sonstiges():
             result_addx.append(reg)
     return render_template('admin/wise20/sonstiges.html',
         result_schlafen = result_schlafen,
-        result_addx = result_addx
+        result_addx = result_addx,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_wise20', methods=['GET', 'POST'])
