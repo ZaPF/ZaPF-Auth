@@ -4,13 +4,10 @@
 
 {% block content %}
 <div class="container">
+  <span class="badge badge-primary">{{ registrations }} Anmeldungen</span> <span class="badge badge-success">{{ attendees }} Teilnehmika</span> <span class="badge">Stand {{ datetime_string }}</span>
+  <a class="btn-default btn pull-right" style="display: inline-block;" href="{{url_for('registration.registration_wise20_report_clear', target='all')}}">Alle Berichte aktualisieren</a>
+    
   <div class="panel-group">
-    <div class="panel panel-default">
-      <div class="panel-body justify-content-between">
-        <span class="badge badge-primary">{{ registrations }} Anmeldungen</span> <span class="badge badge-success">{{ attendees }} Teilnehmika</span> <span class="badge">Stand {{ datetime_string }}</span>
-        <a class="btn-default btn pull-right" style="display: inline;" href="{{url_for('registration.registration_wise20_report_clear', target='all')}}">Alle Berichte aktualisieren</a>
-    </div>
-    </div>
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
@@ -19,7 +16,7 @@
           </a>
         </h4>
       </div>
-      <div id="collapse-human-readable" class="panel-collapse collapse show">
+      <div id="collapse-human-readable" class="panel-collapse collapse in">
         <ul>
           <li>
             <a href="{{ url_for('registration.registration_wise20_report_exkursionen') }}">
