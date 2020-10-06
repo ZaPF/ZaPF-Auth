@@ -377,19 +377,16 @@ def registration_wise20_report_rahmenprogramm():
 def registration_wise20_report_sonstiges():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    result_schlafen = {}
-    result_addx = []
-    for name, label in SCHLAFEN_TYPES.items():
-        result_schlafen[name] = {'label': label, 'registrations': []}
+    result = {}
+    result['unterkunft'] = {}
+    result['unterkunft']['options'] = ['ja', 'nein']
+    result['student'] = {}
+    result['student']['options'] = ['ja', 'nein']
     for reg in registrations:
-        schlafen_type = reg.data['schlafen']
-        addx = reg.data['addx']
-        result_schlafen[schlafen_type]['registrations'].append(reg)
-        if addx:
-            result_addx.append(reg)
+        result['unterkunft']['ja'].append(reg) if reg.data['eigene_unterkunft'] else result['unterkunft']['nein'].append(reg)
+        result['student']['ja'].append(reg) if reg.data['immatrikuliert'] == 'ja' else result['student']['nein'].append(reg)
     return render_template('admin/wise20/sonstiges.html',
-        result_schlafen = result_schlafen,
-        result_addx = result_addx,
+        result = result,
         datetime_string = datetime_string
     )
 
