@@ -392,7 +392,7 @@ def registration_wise20_report_sonstiges():
 def registration_wise20_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
     form = Winter20ExkursionenOverwriteForm()
-    if form.validate_on_submit()ExkursionenOver:
+    if form.validate_on_submit():
         data = reg.data
         if 'exkursion_overwrite' in reg.data:
             old_overwrite = data['exkursion_overwrite']
