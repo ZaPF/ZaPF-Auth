@@ -7,7 +7,7 @@
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">
-      <span class="badge">{{ attendees }}</span> Teilnehmika aus <span class="badge">{{ registrations }}</span> Anmeldungen (Stand {{ datetime_string }}). <a class="btn-default btn" href="{{url_for('registration.registration_wise20_report_clear', target=all)}}">Alle Berichte aktualisieren</a>
+      <span class="badge">{{ attendees }}</span> Teilnehmika aus <span class="badge">{{ registrations }}</span> Anmeldungen (Stand {{ datetime_string }}). <a class="btn-default btn" href="{{url_for('registration.registration_wise20_report_clear', target='all')}}">Alle Berichte aktualisieren</a>
     </div>
     </div>
     <div class="panel panel-default">
