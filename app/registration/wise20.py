@@ -392,7 +392,7 @@ def registration_wise20_report_sonstiges():
 def registration_wise20_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
     form = Winter20ExkursionenOverwriteForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit()ExkursionenOver:
         data = reg.data
         if 'exkursion_overwrite' in reg.data:
             old_overwrite = data['exkursion_overwrite']
@@ -403,6 +403,7 @@ def registration_wise20_details_registration(reg_id):
         db.session.add(reg)
         db.session.commit()
         if old_overwrite != form.exkursion_overwrite.data:
+            cache.delete("view/{0}".format(url_for('registration.registration_wise20_report_exkursionen')))
             return redirect(url_for('registration.registration_wise20_report_exkursionen'))
         else:
             return redirect(url_for('registration.registration_wise20_details_registration', reg_id = reg_id))
