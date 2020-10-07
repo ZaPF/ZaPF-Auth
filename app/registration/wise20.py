@@ -393,9 +393,11 @@ def registration_wise20_report_sonstiges():
     result['student']['options'] = ['ja', 'nein']
     result['student']['ja'] = []
     result['student']['nein'] = []
+    result['minderjaehrig'] = []
     for reg in registrations:
         result['unterkunft']['ja'].append(reg) if reg.data['eigene_unterkunft'] else result['unterkunft']['nein'].append(reg)
         result['student']['ja'].append(reg) if reg.data['immatrikuliert'] == 'ja' else result['student']['nein'].append(reg)
+        if reg.data['minderjaehrig']: result['minderjaehrig'].append(reg)
     return render_template('admin/wise20/sonstiges.html',
         result = result,
         datetime_string = datetime_string

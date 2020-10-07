@@ -2,6 +2,20 @@
 
 {% block title %}WiSe17: Schlafen und Sonstiges{% endblock %}
 
+<div> 
+  <ul>
+    <li>
+      <a href="#sec-schlafen">Unterkunft-Auswertung</a>
+    </li>
+    <li>
+      <a href="#sec-imma">Immatrikulierte</a>
+    </li>
+    <li>
+      <a href="#sec-minderjaehrig">Minderjährige</a>
+    </li>
+  </ul>
+</div>
+
 {% block content %}
 <div class="container">
   <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_reports') }}">
@@ -16,7 +30,7 @@
   Schlafen und Sonstiges-Auswertung
   </h1>
 
-  <h2 id="sec-essen">
+  <h2 id="sec-schlafen">
     Auswertung der Unterkunft:
   </h2>
   <div class="panel-group">
@@ -68,7 +82,7 @@
   {% endfor %}
   </div>
 
-  <h2 id="sec-essen">
+  <h2 id="sec-imma">
     Auswertung des Immatrikulationsstatus:
   </h2>
   <div class="panel-group">
@@ -118,6 +132,56 @@
     </div>
   </div>
   {% endfor %}
+  </div>
+
+  <h2 id="sec-minderjaehrig">
+    Liste der Minderjährigen:
+  </h2>
+  <div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-minderjaehrig-{{ option }}">
+          Minderjährige Teilnehmika
+        </a>
+        <span class="badge" style="float: right">{{ result['minderjaehrig'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-student-{{ option }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in result['minderjaehrig'][option] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
   </div>
 
 </div>
