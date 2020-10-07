@@ -21,13 +21,13 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" href="#collapse-freitag">
+        <a data-toggle="collapse" href="#collapse-{{ key }}">
           Anreise mit {{ label }}
         </a>
         <span class="badge" style="float: right">{{ result_inbound[key] | length }}</span>
       </h4>
     </div>
-    <div id="collapse-freitag" class="panel-collapse collapse">
+    <div id="collapse-{{ key }}" class="panel-collapse collapse">
       <div class="table-responsive">
       <table class='table table-striped'>
         <tr>
