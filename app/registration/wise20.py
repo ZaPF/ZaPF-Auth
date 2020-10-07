@@ -359,6 +359,8 @@ def registration_wise20_report_rahmenprogramm():
     result_musikwunsch = []
     result_inbound = {}
     result_outbound = {}
+    for key in ANREISE_TYPES: result_inbound[key] = []
+    for key in ABREISE_TIMES: result_outbound[key] = []
     for reg in registrations:
         musikwunsch = reg.data['musikwunsch']
         abreise = reg.data['abreise_zeit']
@@ -366,7 +368,7 @@ def registration_wise20_report_rahmenprogramm():
         if musikwunsch:
             result_musikwunsch.append(reg)
         if anreise in ANREISE_TYPES.keys():
-            result_inbound[abreise].append(reg)
+            result_inbound[anreise].append(reg)
         if abreise in ABREISE_TIMES.keys():
             result_outbound[abreise].append(reg)
     return render_template('admin/wise20/rahmenprogramm.html',
