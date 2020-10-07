@@ -398,6 +398,7 @@ def registration_wise20_report_sonstiges():
     result['minderjaehrig'] = []
     result['stream'] = {}
     result['stream']['options'] = {'ja': "Ja", 'nein': "Nein", 'japasswort': "Ja, aber nur Passwortgeschützt"}
+    result['comment'] = []
     for option in result['stream']['options'].keys():
         result['stream'][option] = 0
     for reg in registrations:
