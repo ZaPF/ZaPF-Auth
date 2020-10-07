@@ -166,5 +166,59 @@
   </div>
   </div>
 
+  <h2 id="sec-mentoring">
+    Mentorika und ZäPFchen:
+  </h2>
+  <div class="panel-group">
+  {% for key in ['mentees', 'mentors', 'notmentees'] %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-{{ key }}">
+          {% if key == 'mentees' %} ZäPFchen, die Mentoren möchten
+          {% else if key == 'mentors' %} ZaPFika, die Mentoren sein möchten
+          {% else %} ZäPFchen, die keine Mentoren möchten {% endif %}
+        </a>
+        <span class="badge" style="float: right">{{ result['key'] | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-{{ key }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in result['key'] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
 </div>
 {% endblock %}

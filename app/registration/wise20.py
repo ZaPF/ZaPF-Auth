@@ -394,6 +394,9 @@ def registration_wise20_report_roles():
         if reg.data['vertrauensperson']: result['trustee'].append(reg) 
         if reg.data['protokoll']: result['minuteman'].append(reg)
         if reg.data['langzeithelfikon']: result['helper'].append(reg) 
+        if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
+        if reg.data['zaepfchen'] == 'jamentor': result['mentee'].append(reg) 
+        if reg.data['mentor']: result['mentor'].append(reg) 
     return render_template('admin/wise20/roles.html',
         result = result,
         datetime_string = datetime_string
