@@ -31,6 +31,18 @@
   <div class="form-horizontal">
   {{ show_form_errors(form) }}
   <div class="form-group row">
+    {% if reg.data['zaepfchen'] in ['ja', 'jamentor'] %}<span class="label label-default">ZäPFchen</span>{% endif %} 
+    {% if reg.data['mentor'] %}<span class="label label-warning">Möchte Mentor sein</span>{% endif %} 
+    {% if reg.data['zaepfchen'] == 'jamentor' %}<span class="label label-warning">Möchte Mentor haben</span>{% endif %} 
+    {% if reg.data['minderjaehrig'] %}<span class="label label-danger">Minderjährig</span>{% endif %} 
+    {% if reg.data['vertrauensperson'] %}<span class="label label-primary">Vertrauensperson-Anwärtikon</span>{% endif %} 
+    {% if reg.data['protokoll'] %}<span class="label label-primary">Protokollantikon-Anwärtikon</span>{% endif %} 
+    {% if reg.data['langzeithelfikon'] %}<span class="label label-primary">Langzeithelfikon-Anwärtikon</span>{% endif %} 
+    {% if reg.data['alkohol'] %}<span class="label label-info">Alkoholikon</span>{% endif %} 
+    {% if reg.is_guaranteed %}<span class="label label-info">Gremikon</span>{% endif %} 
+    {% if reg.data['immatrikuliert'] == 'ja' %}<span class="label label-success">Ist Immatrikuliert</span>{% endif %} 
+  </div>
+  <div class="form-group row">
     <label class="col-sm-3 control-label" for="vorname">Vorname</label>
     <div class="col-sm-9">
       <input id="vorname" name="vorname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.firstName }}" />
@@ -46,6 +58,12 @@
     <label class="col-sm-3 control-label" for="spitzname">Spitzname</label>
     <div class="col-sm-9">
       <input id="spitzname" name="spitzname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.spitzname }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="anrede">Anrede</label>
+    <div class="col-sm-9">
+      <input id="anrede" name="anrede" type="text" class="form-control" readonly="readonly" value="{{ ANREDEN[reg.data['anrede']] }}" />
     </div>
   </div>
   <div class="form-group row">
@@ -75,7 +93,7 @@
   <div class="form-group row">
     <label class="col-sm-3 control-label" for="tshirt">T-Shirt-Größe</label>
     <div class="col-sm-9">
-      <input id="tshirt" name="tshirt" type="text" class="form-control" readonly="readonly" value="{{ TSHIRTS_TYPES[reg.data['tshirt']] }}" />
+      <input id="tshirt" name="tshirt" type="text" class="form-control" readonly="readonly" value="{{ reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1 }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}" />
     </div>
   </div>
   <div class="form-group row">
@@ -85,9 +103,9 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="muetze">Mütze?</label>
+    <label class="col-sm-3 control-label" for="muetze">Weiteres Merch</label>
     <div class="col-sm-9">
-      <input id="muetze" name="muetze" type="text" class="form-control" readonly="readonly" value="{% if reg.data['muetze'] %}Ja{% else %}Nein{% endif %}" />
+      <input id="muetze" name="muetze" type="text" class="form-control" readonly="readonly" value="{% if reg.data['muetze'] %}Mütze{% endif %} {% if reg.data['krug'] %}Bierkrug{% endif %}" />
     </div>
   </div>
   <div class="form-group row">
@@ -124,6 +142,18 @@
     <label class="col-sm-3 control-label" for="anreise">Anreise</label>
     <div class="col-sm-9">
       <input id="anreise" name="anreise" type="text" class="form-control" readonly="readonly" value="{{ ANREISE_TYPES[reg.data['anreise']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="abreise">Abreise</label>
+    <div class="col-sm-9">
+      <input id="abreise" name="abreise" type="text" class="form-control" readonly="readonly" value="{{ ABREISE_TIMES[reg.data['abreise_zeit']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="unterkunft">Eigene Unterkunft möglich</label>
+    <div class="col-sm-9">
+      <input id="unterkunft" name="unterkunft" type="text" class="form-control" readonly="readonly" value="{{ reg.data['eigene_unterkunft'] }}" />
     </div>
   </div>
   <div class="form-group row">

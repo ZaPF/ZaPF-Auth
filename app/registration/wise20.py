@@ -102,6 +102,16 @@ ABREISE_TIMES = {
     'movormittag': 'Montag Vormittag'
 }
 
+ANREDEN = {
+    'ka': 'Keine Angabe',
+    'er': 'Er/Ihm',
+    'sie': 'Sie/Ihr',
+    'es': 'Es/Ihm',
+    'siemehrzahl': 'Sie (Mehrzahl)/Ihnen',
+    'vorname': 'Mit meinem Vornamen/Spitznamen',
+    'anderes': 'Sprich mich darauf an'
+}
+
 class Winter20ExkursionenOverwriteForm(FlaskForm):
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
@@ -462,7 +472,9 @@ def registration_wise20_details_registration(reg_id):
         ESSEN_TYPES = ESSEN_TYPES,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         HOODIE_TYPES = HOODIE_TYPES,
-        ANREISE_TYPES = ANREISE_TYPES
+        ANREISE_TYPES = ANREISE_TYPES,
+        ABREISE_TIMES = ABREISE_TIMES,
+        ANREDEN = ANREDEN
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/stimmkarten/latex')
