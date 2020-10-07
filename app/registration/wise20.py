@@ -465,6 +465,8 @@ def registration_wise20_details_registration(reg_id):
             return redirect(url_for('registration.registration_wise20_details_registration', reg_id = reg_id))
     if 'exkursion_overwrite' in reg.data:
         form.exkursion_overwrite.data = reg.data['exkursion_overwrite']
+    if reg.is_guaranteed:
+        current_app.logger.debug(reg.user.groups)
     return render_template('admin/wise20/details.html',
         reg = reg,
         form = form,
