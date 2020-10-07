@@ -394,9 +394,14 @@ def registration_wise20_report_sonstiges():
     result['student']['ja'] = []
     result['student']['nein'] = []
     result['minderjaehrig'] = []
+    result['stream'] = {}
+    result['stream']['options'] = {'ja': "Ja", 'nein': "Nein", 'japasswort': "Ja, aber nur Passwortgeschützt"}
+    for option in result['stream']['options'].keys():
+        result['stream'][option] = 0
     for reg in registrations:
         result['unterkunft']['ja'].append(reg) if reg.data['eigene_unterkunft'] else result['unterkunft']['nein'].append(reg)
         result['student']['ja'].append(reg) if reg.data['immatrikuliert'] == 'ja' else result['student']['nein'].append(reg)
+        result['stream'][reg.data['stream']] += 1
         if reg.data['minderjaehrig']: result['minderjaehrig'].append(reg)
     return render_template('admin/wise20/sonstiges.html',
         result = result,

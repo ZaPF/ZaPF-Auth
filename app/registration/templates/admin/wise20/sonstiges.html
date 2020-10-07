@@ -11,6 +11,9 @@
       <a href="#sec-imma">Immatrikulierte</a>
     </li>
     <li>
+      <a href="#sec-stream">Auswertung der Stream-Umfrage</a>
+    </li>
+    <li>
       <a href="#sec-minderjaehrig">Minderjährige</a>
     </li>
   </ul>
@@ -132,6 +135,15 @@
     </div>
   </div>
   {% endfor %}
+  </div>
+
+  <h2 id="sec-stream">
+    Auswertung der Stream-Umfrage
+  </h2>
+  <div class="panel panel-default">
+    {{ result['stream']['options'][0] }} <span class="label label-sucess">{{ result['stream']['ja'] }}</span>
+    {{ result['stream']['options'][2] }} <span class="label label-warning">{{ result['stream']['japasswort'] }}</span>
+    {{ result['stream']['options'][1] }} <span class="label label-danger">{{ result['stream']['nein'] }}</span>
   </div>
 
   <h2 id="sec-minderjaehrig">
