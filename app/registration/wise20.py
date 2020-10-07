@@ -481,6 +481,7 @@ def registration_wise20_details_registration(reg_id):
 
 @registration_blueprint.route('/admin/registration/report/wise20/stimmkarten/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_stimmkarten_latex():
     unis = Uni.query.all()
     result = []
@@ -488,7 +489,9 @@ def registration_wise20_export_stimmkarten_latex():
         uni_regs = [reg for reg in Registration.query.filter_by(uni_id = uni.id) if reg.is_zapf_attendee]
         if len(uni_regs) > 0:
             result.append("\\stimmkarte{{{0}}}".format(uni.name))
-    return Response("\n".join(result), mimetype="application/x-latex")
+    response = Response("\n".join(result), mimetype="application/x-latex")
+    response.headers['Content-Disposition'] = 'attachment; filename="stimmkarten.tex"'
+    return response
 
 @registration_blueprint.route('/admin/registration/report/wise20/idkarten/latex')
 @groups_sufficient('admin', 'orga')
