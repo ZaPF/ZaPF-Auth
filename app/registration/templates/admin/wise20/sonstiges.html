@@ -198,9 +198,9 @@
     Auswertung der Stream-Umfrage
   </h2>
   <div class="panel panel-default">
-    {{ result['stream']['options'][0] }} <span class="label label-sucess">{{ result['stream']['ja'] }}</span>
-    {{ result['stream']['options'][2] }} <span class="label label-warning">{{ result['stream']['japasswort'] }}</span>
-    {{ result['stream']['options'][1] }} <span class="label label-danger">{{ result['stream']['nein'] }}</span>
+    {{ result['stream']['options']['ja'] }} <span class="label label-success">{{ result['stream']['ja'] }}</span>
+    {{ result['stream']['options']['japasswort'] }} <span class="label label-warning">{{ result['stream']['japasswort'] }}</span>
+    {{ result['stream']['options']['nein'] }} <span class="label label-danger">{{ result['stream']['nein'] }}</span>
   </div>
 
   <h2 id="sec-minderjaehrig">
