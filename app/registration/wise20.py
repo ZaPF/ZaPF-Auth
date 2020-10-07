@@ -116,6 +116,10 @@ class Winter20ExkursionenOverwriteForm(FlaskForm):
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
 
+def attachment(response, filename):
+    response.headers['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
+    return response
+
 def wise20_calculate_exkursionen(registrations):
     def get_sort_key(reg):
         return reg.id
@@ -489,9 +493,7 @@ def registration_wise20_export_stimmkarten_latex():
         uni_regs = [reg for reg in Registration.query.filter_by(uni_id = uni.id) if reg.is_zapf_attendee]
         if len(uni_regs) > 0:
             result.append("\\stimmkarte{{{0}}}".format(uni.name))
-    response = Response("\n".join(result), mimetype="application/x-latex")
-    response.headers['Content-Disposition'] = 'attachment; filename="stimmkarten.tex"'
-    return response
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'stimmkarten.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/idkarten/latex')
 @groups_sufficient('admin', 'orga')
@@ -499,7 +501,7 @@ def registration_wise20_export_stimmkarten_latex():
 def registration_wise20_export_idkarten_latex():
     result = ["\\idcard{{{}}}{{{}}}{{{}}}".format(reg.id, reg.user.full_name, reg.uni.name)
                 for reg in Registration.query.order_by(Registration.uni_id) if reg.is_zapf_attendee]
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'idkarten.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/tagungsausweise/latex')
 @groups_sufficient('admin', 'orga')
@@ -527,7 +529,7 @@ def registration_wise20_export_tagungsausweise_latex():
             )))
     result = sorted(result, key = get_sort_key)
     result = [data[1] for data in result]
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'tagungsausweise.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/strichlisten/latex')
 @groups_sufficient('admin', 'orga')
@@ -545,7 +547,7 @@ def registration_wise20_export_strichlisten_latex():
             result.append("}")
             i = 0
     result.append("}")
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'strichlisten.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/bmbflisten/latex')
 @groups_sufficient('admin', 'orga')
@@ -567,7 +569,7 @@ def registration_wise20_export_bmbflisten_latex():
             result.append("}")
             i = 0
     result.append("}")
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'bmbflisten.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/taschentassenlisten/latex')
 @groups_sufficient('admin', 'orga')
@@ -586,7 +588,7 @@ def registration_wise20_export_taschentassenlisten_latex():
             i = 0
     if i != 0:
         result.append("}")
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'taschentassenlisten.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/ausweisidbeitraglisten/latex')
 @groups_sufficient('admin', 'orga')
@@ -605,7 +607,7 @@ def registration_wise20_export_ausweisidbeitraglisten_latex():
             i = 0
     if i != 0:
         result.append("}")
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'ausweisidbeitraglisten.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/t-shirt/latex')
 @groups_sufficient('admin', 'orga')
@@ -624,7 +626,7 @@ def registration_wise20_export_t_shirt_latex():
             i = 0
     if i != 0:
         result.append("}")
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'shirts.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/wichteln/csv')
 @groups_sufficient('admin', 'orga')
@@ -635,7 +637,7 @@ def registrations_wise20_export_wichteln_csv():
     writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
     writer.writerows([[reg.user.full_name, reg.uni.name, reg.data['spitzname']]
                       for reg in registrations if reg.is_zapf_attendee])
-    return Response(result.getvalue(), mimetype='text/csv')
+    return attachment(Response(result.getvalue(), mimetype='text/csv'), 'wichteln.csv')
 
 @registration_blueprint.route('/admin/registration/report/wise20/exkursionen/latex')
 @groups_sufficient('admin', 'orga')
@@ -650,7 +652,7 @@ def registration_wise20_export_exkursionen_latex():
             buffer.append("{} & {} \\\\ \\hline".format(reg[0].user.full_name, reg[0].uni.name))
         buffer.append("}")
         result.append("\n".join(buffer))
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'exkursionen.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/unis/latex')
 @groups_sufficient('admin', 'orga')
@@ -662,7 +664,7 @@ def registration_wise20_export_unis_latex():
         uni_regs = [reg for reg in Registration.query.filter_by(uni_id = uni.id) if reg.is_zapf_attendee]
         if len(uni_regs) > 0:
             result.append("\\item{{{0}}}".format(uni.name))
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'unis.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/unis-teilnehmer/latex')
 @groups_sufficient('admin', 'orga')
@@ -674,7 +676,7 @@ def registration_wise20_export_unis_teilnehmer_latex():
         uni_regs = [reg for reg in Registration.query.filter_by(uni_id = uni.id) if reg.is_zapf_attendee]
         if len(uni_regs) > 0:
             result.append("\\item{{{0} - {1}}}".format(uni.name, len(uni_regs)))
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'unis-tn.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/bestaetigungen/latex')
 @groups_sufficient('admin', 'orga')
@@ -684,7 +686,7 @@ def registration_wise20_export_bestaetigungen_latex():
     result = []
     for reg in registrations:
         result.append("\\bestaetigung{{{}}}{{{}}}".format(reg.user.full_name, reg.uni.name))
-    return Response("\n".join(result), mimetype="application/x-latex")
+    return attachment(Response("\n".join(result), mimetype="application/x-latex"), 'bestaetigungen.tex')
 
 @registration_blueprint.route('/admin/registration/report/wise20/id_name/csv')
 @groups_sufficient('admin', 'orga')
@@ -695,4 +697,4 @@ def registrations_wise20_export_id_name_csv():
     writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
     writer.writerows([[reg.id, "{} ({})".format(reg.user.full_name, reg.uni.name)]
                       for reg in registrations if reg.is_zapf_attendee])
-    return Response(result.getvalue(), mimetype='text/csv')
+    return attachment(Response(result.getvalue(), mimetype='text/csv'), 'id_name.csv')

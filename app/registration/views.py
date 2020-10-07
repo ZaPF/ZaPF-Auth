@@ -168,6 +168,7 @@ def registrations_export_json():
 
 @registration_blueprint.route('/admin/registration/export/csv')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_export_csv():
     registrations = Registration.query.order_by(Registration.uni_id).all()
     result = io.StringIO()
@@ -176,10 +177,11 @@ def registrations_export_csv():
                        reg.user.surname, reg.uni.name, reg.is_guaranteed,
                        reg.confirmed, reg.priority, reg.is_zapf_attendee, reg.blob]
                       for reg in registrations])
-    return Response(result.getvalue(), mimetype='text/csv')
+    return attachment(Response(result.getvalue(), mimetype='text/csv'), 'registrations.csv')
 
 @registration_blueprint.route('/admin/registration/export/openslides/csv')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_export_openslides_csv():
     registrations = Registration.query.all()
     result = io.StringIO()
@@ -187,32 +189,36 @@ def registrations_export_openslides_csv():
     writer.writerows([[None, reg.user.firstName, reg.user.surname, reg.uni.name,
                        reg.id, 'Teilnehmikon', None, None, 1, None, None]
                       for reg in registrations if reg.is_zapf_attendee])
-    return Response(result.getvalue(), mimetype='text/csv')
+    return attachment(Response(result.getvalue(), mimetype='text/csv'), 'openslides.csv')
 
 @registration_blueprint.route('/admin/registration/export/teilnehmer/csv')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_export_teilnehmer_csv():
     registrations = Registration.query.order_by(Registration.uni_id)
     result = io.StringIO()
     writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
     writer.writerows([[reg.user.full_name, reg.uni.name]
                       for reg in registrations if reg.is_zapf_attendee])
-    return Response(result.getvalue(), mimetype='text/csv')
+    return attachment(Response(result.getvalue(), mimetype='text/csv'), 'attendees.csv')
 
 @registration_blueprint.route('/admin/registration/export/mails/attendees')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_export_mails_attendees():
     result =  [reg.user.mail for reg in Registration.query.all() if reg.is_zapf_attendee]
-    return Response("\n".join(result), mimetype='text/plain')
+    return attachment(Response("\n".join(result), mimetype='text/plain'), 'attendee-mails.txt')
 
 @registration_blueprint.route('/admin/registration/export/mails/registrations')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_export_mails_all():
     result =  [reg.user.mail for reg in Registration.query.all()]
-    return Response("\n".join(result), mimetype='text/plain')
+    return attachment(Response("\n".join(result), mimetype='text/plain'), 'registration-mails.txt')
 
 @registration_blueprint.route('/admin/registration/export/attendee/csv')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_export_attendee_csv():
     registrations = [reg for reg in Registration.query.order_by(Registration.uni_id).all() if reg.is_zapf_attendee]
     result = io.StringIO()
@@ -221,7 +227,7 @@ def registrations_export_attendee_csv():
                        reg.user.surname, reg.uni.name, reg.is_guaranteed,
                        reg.confirmed, reg.priority, reg.is_zapf_attendee]
                       for reg in registrations])
-    return Response(result.getvalue(), mimetype='text/csv')
+    return attachment(Response(result.getvalue(), mimetype='text/csv'), 'attendees.csv')
 
 @registration_blueprint.route('/admin/mascots')
 @groups_sufficient('admin', 'orga')
@@ -255,25 +261,27 @@ def del_mascot(masc_id):
 
 @registration_blueprint.route('/admin/mascots/export/json')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def mascot_export_json():
     mascots = Registration.query.all()
-    return jsonify(mascots = [
+    return attachment(jsonify(mascots = [
         {
          'name': masc.username,
          'uni_name': masc.uni.name,
         }
         for masc in mascots
-    ])
+    ]), 'mascots.json')
 
 @registration_blueprint.route('/admin/mascots/export/csv')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def mascots_export_csv():
     mascots = Mascot.query.order_by(Registration.uni_id).all()
     result = io.StringIO()
     writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
     writer.writerows([[masc.name,reg.uni.name]
                       for masc in mascots])
-    return Response(result.getvalue(), mimetype='text/csv')
+    return attachment(Response(result.getvalue(), mimetype='text/csv'), 'mascots.csv')
 
 
 
