@@ -357,18 +357,25 @@ def registration_wise20_report_rahmenprogramm():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_musikwunsch = []
-    result_freitag = []
+    result_inbound = {}
+    result_outbound = {}
     for reg in registrations:
         musikwunsch = reg.data['musikwunsch']
         abreise = reg.data['abreise_zeit']
+        anreise = reg.data['anreise_verkehr']
         if musikwunsch:
             result_musikwunsch.append(reg)
-        if abreise == 'fr':
-            result_freitag.append(reg)
+        if anreise in ANREISE_TYPES.keys():
+            result_inbound[abreise].append(reg)
+        if abreise in ABREISE_TIMES.keys():
+            result_outbound[abreise].append(reg)
     return render_template('admin/wise20/rahmenprogramm.html',
         result_musikwunsch = result_musikwunsch,
-        result_freitag = result_freitag,
-        datetime_string = datetime_string
+        result_inbound = result_inbound,
+        result_outbound = result_outbound,
+        datetime_string = datetime_string,
+        ANREISE_TYPES = ANREISE_TYPES,
+        ABREISE_TIMES = ABREISE_TIMES
     )
 
 @registration_blueprint.route('/admin/registration/report/wise20/sonstiges')

@@ -17,13 +17,14 @@
   </h1>
 
   <div class="panel-group">
+  {% for key, label in ANREISE_TYPES %}
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" href="#collapse-freitag">
-          Ich plane, bereits am Freitag abzureisen
+          Anreise mit {{ label }}
         </a>
-        <span class="badge" style="float: right">{{ result_freitag | length }}</span>
+        <span class="badge" style="float: right">{{ result_inbound | length }}</span>
       </h4>
     </div>
     <div id="collapse-freitag" class="panel-collapse collapse">
@@ -34,7 +35,7 @@
           <th>Name</th>
           <th>Aktionen</th>
         </tr>
-        {% for reg in result_freitag %}
+        {% for reg in result_inbound[key] %}
         <tr>
           <td>
           {% if reg.uni %}
@@ -61,6 +62,56 @@
       </div>
     </div>
   </div>
+  {% endfor %}
+  </div>
+
+  <div class="panel-group">
+    {% for key, label in ABREISE_TIMES %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-freitag">
+            Abreise {{ label }}
+          </a>
+          <span class="badge" style="float: right">{{ result_outbound | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-freitag" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Uni</th>
+            <th>Name</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result_outbound[key] %}
+          <tr>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 
   <div class="panel-group">
