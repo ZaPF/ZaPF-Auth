@@ -380,6 +380,25 @@ def registration_wise20_report_rahmenprogramm():
         ABREISE_TIMES = ABREISE_TIMES
     )
 
+@registration_blueprint.route('/admin/registration/report/wise20/roles')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_wise20_report_rollen():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    result = {}
+    result['trustee'] = []
+    result['minuteman'] = []
+    result['helper'] = []
+    for reg in registrations:
+        if reg.data['vertrauensperson']: result['trustee'].append(reg) 
+        if reg.data['protokoll']: result['minuteman'].append(reg)
+        if reg.data['langzeithelfikon']: result['helper'].append(reg) 
+    return render_template('admin/wise20/roles.html',
+        result = result,
+        datetime_string = datetime_string
+    )
+
 @registration_blueprint.route('/admin/registration/report/wise20/sonstiges')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
