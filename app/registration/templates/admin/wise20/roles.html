@@ -179,7 +179,7 @@
           {% elif key == 'mentors' %} ZaPFika, die Mentoren sein möchten
           {% else %} ZäPFchen, die keine Mentoren möchten {% endif %}
         </a>
-        <span class="badge" style="float: right">{{ result['key'] | length }}</span>
+        <span class="badge" style="float: right">{{ result[key] | length }}</span>
       </h4>
     </div>
     <div id="collapse-{{ key }}" class="panel-collapse collapse">
@@ -190,7 +190,7 @@
           <th>Name</th>
           <th>Aktionen</th>
         </tr>
-        {% for reg in result['key'] %}
+        {% for reg in result[key] %}
         <tr>
           <td>
           {% if reg.uni %}
