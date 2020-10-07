@@ -495,6 +495,7 @@ def registration_wise20_export_stimmkarten_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/idkarten/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_idkarten_latex():
     result = ["\\idcard{{{}}}{{{}}}{{{}}}".format(reg.id, reg.user.full_name, reg.uni.name)
                 for reg in Registration.query.order_by(Registration.uni_id) if reg.is_zapf_attendee]
@@ -502,6 +503,7 @@ def registration_wise20_export_idkarten_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/tagungsausweise/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_tagungsausweise_latex():
     def get_sort_key(entry):
         return entry[0]
@@ -529,6 +531,7 @@ def registration_wise20_export_tagungsausweise_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/strichlisten/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_strichlisten_latex():
     registrations = [reg for reg in Registration.query.order_by(Registration.uni_id) if reg.is_zapf_attendee]
     i = 0
@@ -546,6 +549,7 @@ def registration_wise20_export_strichlisten_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/bmbflisten/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_bmbflisten_latex():
     registrations = [reg for reg in Registration.query.order_by(Registration.uni_id) if reg.is_zapf_attendee]
     i = 0
@@ -567,6 +571,7 @@ def registration_wise20_export_bmbflisten_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/taschentassenlisten/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_taschentassenlisten_latex():
     registrations = [reg for reg in Registration.query.order_by(Registration.uni_id) if reg.is_zapf_attendee]
     i = 0
@@ -585,6 +590,7 @@ def registration_wise20_export_taschentassenlisten_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/ausweisidbeitraglisten/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_ausweisidbeitraglisten_latex():
     registrations = [reg for reg in Registration.query.order_by(Registration.uni_id) if reg.is_zapf_attendee]
     i = 0
@@ -603,6 +609,7 @@ def registration_wise20_export_ausweisidbeitraglisten_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/t-shirt/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_t_shirt_latex():
     registrations = [reg for reg in Registration.query.order_by(Registration.uni_id) if reg.is_zapf_attendee]
     i = 0
@@ -621,6 +628,7 @@ def registration_wise20_export_t_shirt_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/wichteln/csv')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_wise20_export_wichteln_csv():
     registrations = Registration.query.all()
     result = io.StringIO()
@@ -631,6 +639,7 @@ def registrations_wise20_export_wichteln_csv():
 
 @registration_blueprint.route('/admin/registration/report/wise20/exkursionen/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_exkursionen_latex():
     registrations = [reg for reg in Registration.query.all() if reg.is_zapf_attendee]
     result_exkursionen = wise20_calculate_exkursionen(registrations)
@@ -645,6 +654,7 @@ def registration_wise20_export_exkursionen_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/unis/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_unis_latex():
     unis = Uni.query.all()
     result = []
@@ -656,6 +666,7 @@ def registration_wise20_export_unis_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/unis-teilnehmer/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_unis_teilnehmer_latex():
     unis = Uni.query.all()
     result = []
@@ -667,6 +678,7 @@ def registration_wise20_export_unis_teilnehmer_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/bestaetigungen/latex')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registration_wise20_export_bestaetigungen_latex():
     registrations = [reg for reg in Registration.query.order_by(Registration.uni_id) if reg.is_zapf_attendee]
     result = []
@@ -676,6 +688,7 @@ def registration_wise20_export_bestaetigungen_latex():
 
 @registration_blueprint.route('/admin/registration/report/wise20/id_name/csv')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_wise20_export_id_name_csv():
     registrations = Registration.query.all()
     result = io.StringIO()

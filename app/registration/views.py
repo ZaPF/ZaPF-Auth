@@ -7,6 +7,7 @@ from wtforms import StringField, SubmitField
 from wtforms.fields.html5 import IntegerField
 from app.user import groups_sufficient
 from app.views import confirm
+from app.cache import cache
 from flask_babel import gettext
 import io
 import csv
@@ -18,6 +19,10 @@ class UniForm(FlaskForm):
     token = StringField(gettext('Token'))
     slots = IntegerField(gettext('Slots'), default=3)
     submit = SubmitField()
+
+def attachment(response, filename):
+    response.headers['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
+    return response
 
 @registration_blueprint.route('/admin/uni')
 @groups_sufficient('admin', 'orga')
@@ -142,9 +147,10 @@ def delete_registration(reg_id):
 
 @registration_blueprint.route('/admin/registration/export/json')
 @groups_sufficient('admin', 'orga')
+@cache.cached()
 def registrations_export_json():
     registrations = Registration.query.all()
-    return jsonify(registrations = [
+    return attachment(jsonify(registrations = [
         {
          'username': reg.username,
          'mail': reg.user.mail,
@@ -158,7 +164,7 @@ def registrations_export_json():
          'blob': reg.blob
         }
         for reg in registrations
-    ])
+    ]), 'registrations.json')
 
 @registration_blueprint.route('/admin/registration/export/csv')
 @groups_sufficient('admin', 'orga')
@@ -193,10 +199,16 @@ def registrations_export_teilnehmer_csv():
                       for reg in registrations if reg.is_zapf_attendee])
     return Response(result.getvalue(), mimetype='text/csv')
 
-@registration_blueprint.route('/admin/registration/export/mails/txt')
+@registration_blueprint.route('/admin/registration/export/mails/attendees')
 @groups_sufficient('admin', 'orga')
-def registrations_export_mails_txt():
+def registrations_export_mails_attendees():
     result =  [reg.user.mail for reg in Registration.query.all() if reg.is_zapf_attendee]
+    return Response("\n".join(result), mimetype='text/plain')
+
+@registration_blueprint.route('/admin/registration/export/mails/registrations')
+@groups_sufficient('admin', 'orga')
+def registrations_export_mails_all():
+    result =  [reg.user.mail for reg in Registration.query.all()]
     return Response("\n".join(result), mimetype='text/plain')
 
 @registration_blueprint.route('/admin/registration/export/attendee/csv')
