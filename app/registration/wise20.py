@@ -383,7 +383,7 @@ def registration_wise20_report_rahmenprogramm():
 @registration_blueprint.route('/admin/registration/report/wise20/roles')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise20_report_rollen():
+def registration_wise20_report_roles():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
