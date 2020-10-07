@@ -396,7 +396,6 @@ def registration_wise20_report_roles():
         if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
         if reg.data['zaepfchen'] == 'jamentor': result['mentee'].append(reg) 
         if reg.data['mentor']: result['mentor'].append(reg) 
-    current_app.logger.debug(result)
     return render_template('admin/wise20/roles.html',
         result = result,
         datetime_string = datetime_string
