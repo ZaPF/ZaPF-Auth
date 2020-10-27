@@ -43,7 +43,9 @@ class Config:
     MAIL_DEFAULT_SENDER = 'auth@example.com'
     MAIL_NEXT_ZAPF_ORGA = 'orga@example.com'
 
-    RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
+    CACHE_TYPE = "simple"
+
+    RECAPTCHA_DATA_ATTRS = {"theme": "dark"}
     import ldap3
     PASSWORD_HASHING_FUNC = ldap3.HASHED_SALTED_SHA384
 
