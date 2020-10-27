@@ -47,18 +47,6 @@ def login_required(f):
     def wrapped(*args, **kwargs):
         if not current_user or current_user.is_anonymous:
             return redirect(url_for("user.login"))
-        if not current_user.confirm_mail or not current_user.confirm_mail["confirmed"]:
-            if current_user.confirm_mail and current_user.confirm_mail["token"]:
-                flash("Your mail is not confirmed yet.", "warning")
-                return redirect(url_for("user.confirm_mail_resend"))
-            else:
-                current_user.confirm_mail_start()
-                flash(
-                    "Your mail is not confirmed yet. A confirmation mail has been sent now",
-                    "warning",
-                )
-            logout_user()
-            return redirect(url_for("user.login"))
         return f(*args, **kwargs)
 
     return wrapped

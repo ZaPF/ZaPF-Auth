@@ -4,7 +4,7 @@ from app import create_app, check_sanity
 from flask_migrate import Migrate, MigrateCommand
 from app.db import db
 
-app = create_app()
+app = create_app("development")
 manager = Manager(app)
 migrate = Migrate(app, db)
 

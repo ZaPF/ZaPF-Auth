@@ -10,6 +10,7 @@ from wtforms.fields.html5 import EmailField
 import time
 from app.views import is_safe_url, get_redirect_target
 from . import login_required
+from .helpers import UserCreationRequest, UserEmailChangeRequest, PasswordResetRequest
 
 
 class UsernameInUseValidator(object):
@@ -98,10 +99,6 @@ class PasswordResetFinishForm(FlaskForm):
     submit = SubmitField("Set new password")
 
 
-class ResendConfirmMailForm(FlaskForm):
-    submit = SubmitField("Resend confirmation mail")
-
-
 @user_blueprint.route("/")
 @login_required
 def home():
@@ -131,17 +128,17 @@ def login():
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
-        user = User.create(
+        UserCreationRequest(
             username=form.username.data,
             password=form.password.data,
             givenName=form.givenName.data,
             surname=form.surname.data,
             mail=form.mail.data,
         )
-        user.confirm_mail_start()
-        current_app.logger.info("creating user: {}".format(user))
-        flash("Your user account has been created.", "info")
-        flash("Your E-Mail has to be confirmed before you can login!", "warning")
+        flash(
+            "Your E-Mail has to be confirmed before your user account is created!",
+            "warning",
+        )
         return form.redirect()
 
     return render_template("/signup.html", form=form)
@@ -180,7 +177,8 @@ def reset_password_start():
             if len(users) > 0:
                 user = users[0]
         if user:
-            user.reset_password_start()
+            PasswordResetRequest(username=user.username)
+
         flash(
             "If your username or mail is valid, you should recive a mail with instructions soon!",
             "info",
@@ -189,66 +187,30 @@ def reset_password_start():
     return render_template("reset_password_start.html", form=form)
 
 
-@user_blueprint.route(
-    "/user/reset_password/<string:username>/<string:token>", methods=["GET", "POST"]
-)
-def reset_password_finish(username, token):
-    user = User.get(username)
-
-    if not user:
+@user_blueprint.route("/user/reset_password/<string:token>", methods=["GET", "POST"])
+def reset_password_finish(token):
+    valid_request = PasswordResetRequest.get(token)
+    print(valid_request)
+    if not valid_request:
+        flash("Invalid token!")
         return redirect(url_for("user.login"))
-    if (
-        not user.reset_password
-        or user.reset_password[0] != token
-        or user.reset_password[1] < int(time.time())
-    ):
-        flash("Your password reset token is invalid or expired.", "error")
-        return redirect(url_for("user.home"))
 
     form = PasswordResetFinishForm()
 
     if form.validate_on_submit():
-        user.password = form.password.data
-        user.reset_password = None
-        user.save()
-        flash("New password has been set.", "info")
-        return redirect(url_for("user.login"))
+        return valid_request.confirm(form.password.data)
 
     return render_template("reset_password_finish.html", form=form)
 
 
-@user_blueprint.route("/user/confirm_mail", methods=["GET", "POST"])
-@flask_login.login_required
-def confirm_mail_resend():
-    form = ResendConfirmMailForm()
-    if form.validate_on_submit():
-        current_user.confirm_mail_start()
-        logout_user()
-        return redirect(url_for("user.login"))
-    return render_template("resend_confirm_mail.html", form=form)
-
-
-@user_blueprint.route(
-    "/user/confirm_mail/<string:username>/<string:token>", methods=["GET", "POST"]
-)
-def confirm_mail_finish(username, token):
-    user = User.get(username)
-
-    if not user:
-        return redirect(url_for("user.login"))
-    if (
-        not user.confirm_mail
-        or user.confirm_mail["token"] != token
-        or user.confirm_mail["valid_till"] < int(time.time())
-    ):
-        flash("Your mail confirmation token is invalid or expired.", "error")
+@user_blueprint.route("/user/confirm_mail/<string:token>", methods=["GET", "POST"])
+def confirm_mail_finish(token):
+    confirmation_request = current_app.cache.get(
+        "user/confirm_mail/{token}".format(token=token)
+    )
+    print(confirmation_request)
+    if not confirmation_request:
+        flash("Invalid token!")
         return redirect(url_for("user.login"))
 
-    user.confirm_mail["confirmed"] = True
-    user.confirm_mail["token"] = None
-    user.confirm_mail["valid_till"] = None
-    user.save()
-
-    flash("E-Mail confirmed", "success")
-
-    return redirect("/")
+    return confirmation_request.confirm()

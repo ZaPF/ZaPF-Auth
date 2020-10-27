@@ -8,6 +8,7 @@ from app.views import confirm, is_safe_url
 from . import groups_required, user_blueprint, login_required
 from .models import User
 from .views import MailInUseValidator
+from .helpers import UserEmailChangeRequest
 
 
 class UserEditForm(FlaskForm):
@@ -100,9 +101,10 @@ def edit_user(username, back_url=None):
             )
 
         if not current_user.is_admin and old_mail != form.mail.data:
-            user.confirm_mail_start()
+            UserEmailChangeRequest(user.username, form.mail.data)
             flash(
-                "E-Mail changed, new confirmation required. Check your mails", "warning"
+                "A confirmation email will be sent to your updated email address.",
+                "warning",
             )
 
         flash("User information changed", "success")
