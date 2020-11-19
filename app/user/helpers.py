@@ -4,7 +4,7 @@ from flask_mail import Message
 
 def send_password_reset_mail(user):
     msg = Message(
-        "ZaPF-Auth-System: Passwort zurücksetzen",
+        f"{current_app.config['BRANDING']}: Passwort zurücksetzen",
         recipients=[user.mail],
         sender=current_app.config["MAIL_DEFAULT_SENDER"],
     )
@@ -24,8 +24,8 @@ du kannst dein Passwort auf folgender Website zurücksetzen:
 Der Link ist für 1 Tag gültig.
 
 Viele Grüße
-Dein ZaPF-Auth-System""".format(
-        user, url
+Dein {2}}""".format(
+        user, url, current_app.config["BRANDING"]
     )
 
     current_app.mail.send(msg)
@@ -33,7 +33,7 @@ Dein ZaPF-Auth-System""".format(
 
 def send_confirm_mail(user):
     msg = Message(
-        "ZaPF-Auth-System: E-Mail bestätigen",
+        f"{current_app.config['BRANDING']}: E-Mail bestätigen",
         recipients=[user.mail],
         sender=current_app.config["MAIL_DEFAULT_SENDER"],
     )
@@ -53,8 +53,8 @@ um deine E-Mail zu bestätigen, gehe bitte auf folgende Website:
 Der Link ist für 1 Tag gültig.
 
 Viele Grüße
-Dein ZaPF-Auth-System""".format(
-        user, url
+Dein {2}}""".format(
+        user, url, current_app.config["BRANDING"]
     )
 
     current_app.mail.send(msg)

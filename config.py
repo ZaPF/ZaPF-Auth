@@ -6,6 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     FLASK_COVERAGE = 0
     MOCKSERVER = False
+    BRANDING = "Auth"
     LDAP_HOST = "localhost"
     LDAP_PORT = 8369
     LDAP_BASE_DN = "dc=my-domain,dc=com"
@@ -34,8 +35,7 @@ class Config:
     ]
 
     MAIL_USE_TLS = True
-    MAIL_DEFAULT_SENDER = "topf@zapf.in"
-    MAIL_NEXT_ZAPF_ORGA = "topf@zapf.in"
+    MAIL_DEFAULT_SENDER = "mail@example.com"
 
     CACHE_TYPE = "simple"
 
@@ -50,11 +50,20 @@ class Config:
 
 
 class DevelopmentConfig(Config):
+    print(" * Using development config!")
+
     SECRET_KEY = "secrets"
     DEBUG = True
     RECAPTCHA_PUBLIC_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
     RECAPTCHA_PRIVATE_KEY = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
     RECAPTCHA_USE_SSL = False
+
+    LDAP_BASE_DN = "dc=example,dc=com"
+    LDAP_BIND_USER_DN = "uid=auth,dc=example,dc=com"
+    LDAP_BIND_USER_PASSWORD = "test"
+    import ldap3
+
+    PASSWORD_HASHING_FUNC = ldap3.HASHED_SALTED_SHA
     # MOCKSERVER = True
 
 
