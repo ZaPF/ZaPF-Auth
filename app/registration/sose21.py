@@ -266,12 +266,11 @@ def registration_sose21_report_roles():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
-    result_keys = ['trustee', 'minuteman', 'helper', 'mentee', 'mentor', 'notmentee']
+    result_keys = ['trustee', 'minuteman', 'mentee', 'mentor', 'notmentee']
     for key in result_keys: result[key] = []
     for reg in registrations:
         if reg.data['vertrauensperson']: result['trustee'].append(reg) 
-        if reg.data['protokoll']: result['minuteman'].append(reg)
-        if reg.data['langzeithelfikon']: result['helper'].append(reg) 
+        if reg.data['protokoll']: result['minuteman'].append(reg) 
         if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
         if reg.data['zaepfchen'] == 'jamentor': result['mentee'].append(reg) 
         if reg.data['mentor']: result['mentor'].append(reg) 
