@@ -27,9 +27,7 @@
   </h2>
 
   <form method="POST">
-  {{ form.hidden_tag() }}
   <div class="form-horizontal">
-  {{ show_form_errors(form) }}
   <div class="form-group row">
     {% if reg.data['zaepfchen'] in ['ja', 'jamentor'] %}<span class="label label-default">ZäPFchen</span>{% endif %} 
     {% if reg.data['mentor'] %}<span class="label label-warning">Möchte Mentor sein</span>{% endif %} 
@@ -87,12 +85,6 @@
     </div>
   </div>
   <div class="form-group row">
-    {{ form.exkursion_overwrite.label(class='col-sm-3 control-label') }}
-    <div class="col-sm-9">
-      {{ form.exkursion_overwrite(class='form-control') }}
-    </div>
-  </div>
-  <div class="form-group row">
     <label class="col-sm-3 control-label" for="anreise">Anreise</label>
     <div class="col-sm-9">
       <input id="anreise" name="anreise" type="text" class="form-control" readonly="readonly" value="{{ ANREISE_TYPES[reg.data['anreise_verkehr']] }}" />
@@ -114,11 +106,6 @@
     <label class="col-sm-3 control-label" for="kommentar">Kommentar</label>
     <div class="col-sm-9">
       <input id="kommentar" name="kommentar" type="text" class="form-control" readonly="readonly" value="{{ reg.data['kommentar'] }}" />
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-offset-3 col-sm-9">
-      {{ form.submit(class='btn btn-lg btn-default') }}
     </div>
   </div>
   </div>

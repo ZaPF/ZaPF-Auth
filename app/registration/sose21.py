@@ -290,29 +290,10 @@ def registration_sose21_report_sonstiges():
 @groups_sufficient('admin', 'orga')
 def registration_sose21_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
-    form = Winter20ExkursionenOverwriteForm()
-    if form.validate_on_submit():
-        data = reg.data
-        if 'exkursion_overwrite' in reg.data:
-            old_overwrite = data['exkursion_overwrite']
-        else:
-            old_overwrite = 'nooverwrite'
-        data['exkursion_overwrite'] = form.exkursion_overwrite.data
-        reg.data = data
-        db.session.add(reg)
-        db.session.commit()
-        if old_overwrite != form.exkursion_overwrite.data:
-            cache.delete("view/{0}".format(url_for('registration.registration_sose21_report_exkursionen')))
-            return redirect(url_for('registration.registration_sose21_report_exkursionen'))
-        else:
-            return redirect(url_for('registration.registration_sose21_details_registration', reg_id = reg_id))
-    if 'exkursion_overwrite' in reg.data:
-        form.exkursion_overwrite.data = reg.data['exkursion_overwrite']
     if reg.is_guaranteed:
         current_app.logger.debug(reg.user.groups)
     return render_template('admin/sose21/details.html',
         reg = reg,
-        form = form,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         HOODIE_TYPES = HOODIE_TYPES,
         ANREISE_TYPES = ANREISE_TYPES,
