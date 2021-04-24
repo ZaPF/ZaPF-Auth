@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
   <span class="label label-danger">{{ registrations }} Anmeldungen</span> <span class="label label-warning">{{ confirmed }} Bestätigt</span> <span class="label label-success">{{ attendees }} Teilnehmika</span> <span class="label label-primary">{{ students }} Immatrikulierte</span> <span class="label label-info">{{ gremika }} Gremika</span> <span class="label label-default">Stand {{ datetime_string }}</span>
-  <a class="btn-primary btn pull-right" href="{{url_for('registration.registration_wise20_report_clear', target='all')}}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Alle Berichte aktualisieren</a>
+  <a class="btn-primary btn pull-right" href="{{url_for('registration.registration_sose21_report_clear', target='all')}}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Alle Berichte aktualisieren</a>
       
   <h1>Verfügbare Auswertungen</h1>
   <div class="panel-group">
@@ -20,43 +20,43 @@
       <div id="collapse-human-readable" class="panel-collapse collapse in">
         <ul>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_report_exkursionen') }}">
+            <a href="{{ url_for('registration.registration_sose21_report_exkursionen') }}">
               Exkursionen
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_report_essen') }}">
+            <a href="{{ url_for('registration.registration_sose21_report_essen') }}">
               Essen
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_report_rahmenprogramm') }}">
+            <a href="{{ url_for('registration.registration_sose21_report_rahmenprogramm') }}">
               Rahmenprogramm
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_report_roles') }}">
+            <a href="{{ url_for('registration.registration_sose21_report_roles') }}">
               Vertrauenspersonen, Protokollantika, Langzeithelfika
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_report_merch') }}">
+            <a href="{{ url_for('registration.registration_sose21_report_merch') }}">
               T-Shirts, Hoodies und anderes Merch
             </a>
           </li>
           
           <li>
-            <a href="{{ url_for('registration.registration_wise20_report_tshirts') }}">
+            <a href="{{ url_for('registration.registration_sose21_report_tshirts') }}">
               T-Shirts
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_report_hoodie') }}">
+            <a href="{{ url_for('registration.registration_sose21_report_hoodie') }}">
               Hoodies
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_report_sonstiges') }}">
+            <a href="{{ url_for('registration.registration_sose21_report_sonstiges') }}">
               Schlafen und Sonsiges
             </a>
           </li>
@@ -91,10 +91,10 @@
             E-Mail-Adressen: <a href="{{ url_for('registration.registrations_export_mails_attendees') }}">Teilnehmika</a>, <a href="{{ url_for('registration.registrations_export_mails_all') }}">Alle Registrierten</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registrations_wise20_export_id_name_csv') }}">ID + Name</a>
+            <a href="{{ url_for('registration.registrations_sose21_export_id_name_csv') }}">ID + Name</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registrations_wise20_export_wichteln_csv') }}">Wichteln (csv)</a>
+            <a href="{{ url_for('registration.registrations_sose21_export_wichteln_csv') }}">Wichteln (csv)</a>
           </li>
         </ul>
       </div>
@@ -110,40 +110,40 @@
       <div id="collapse-latex" class="panel-collapse collapse">
         <ul>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_stimmkarten_latex') }}">Stimmkarten</a>
+            <a href="{{ url_for('registration.registration_sose21_export_stimmkarten_latex') }}">Stimmkarten</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_idkarten_latex') }}">ID-Karten</a>
+            <a href="{{ url_for('registration.registration_sose21_export_idkarten_latex') }}">ID-Karten</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_tagungsausweise_latex') }}">Tagungsausweise</a>
+            <a href="{{ url_for('registration.registration_sose21_export_tagungsausweise_latex') }}">Tagungsausweise</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_strichlisten_latex') }}">Strichlisten</a>
+            <a href="{{ url_for('registration.registration_sose21_export_strichlisten_latex') }}">Strichlisten</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_bmbflisten_latex') }}">BMBF-Listen</a>
+            <a href="{{ url_for('registration.registration_sose21_export_bmbflisten_latex') }}">BMBF-Listen</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_taschentassenlisten_latex') }}">Taschentassen-Listen</a>
+            <a href="{{ url_for('registration.registration_sose21_export_taschentassenlisten_latex') }}">Taschentassen-Listen</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_ausweisidbeitraglisten_latex') }}">Ausweis-ID-Beitrag-Listen</a>
+            <a href="{{ url_for('registration.registration_sose21_export_ausweisidbeitraglisten_latex') }}">Ausweis-ID-Beitrag-Listen</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_t_shirt_latex') }}">Tshirt</a>
+            <a href="{{ url_for('registration.registration_sose21_export_t_shirt_latex') }}">Tshirt</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_exkursionen_latex') }}">Exkursionen</a>
+            <a href="{{ url_for('registration.registration_sose21_export_exkursionen_latex') }}">Exkursionen</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_unis_latex') }}">Unis</a>
+            <a href="{{ url_for('registration.registration_sose21_export_unis_latex') }}">Unis</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_unis_teilnehmer_latex') }}">Unis + Teilnehmer</a>
+            <a href="{{ url_for('registration.registration_sose21_export_unis_teilnehmer_latex') }}">Unis + Teilnehmer</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_wise20_export_bestaetigungen_latex') }}">Bestätigungen</a>
+            <a href="{{ url_for('registration.registration_sose21_export_bestaetigungen_latex') }}">Bestätigungen</a>
           </li>
 
         </ul>

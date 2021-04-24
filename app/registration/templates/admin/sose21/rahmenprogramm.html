@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe20: Rahmenprogramm{% endblock %}
+{% block title %}SoSe21: Rahmenprogramm{% endblock %}
 
 {% block content %}
 <div class="container">
-  <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_reports') }}">
+  <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_reports') }}">
     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
   </a>  
   <span class="label label-default">Stand {{ datetime_string }}</span>
-  <a class="btn btn-primary pull-right" href="{{ url_for('registration.registration_wise20_report_clear', target = request.url_rule.endpoint ) }}">
+  <a class="btn btn-primary pull-right" href="{{ url_for('registration.registration_sose21_report_clear', target = request.url_rule.endpoint ) }}">
     <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Diesen Bericht aktualisieren
   </a>
 
@@ -45,13 +45,13 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
@@ -94,13 +94,13 @@
             {% endif %}
             </td>
             <td>
-              <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+              <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
                 {{ reg.user.full_name }}
               </a>
             </td>
             <td>
               <div class="btn-group" role="group">
-                <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
                   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
                 </a>
               </div>
@@ -143,7 +143,7 @@
           {% endif %}
           </td>
           <td>
-            <a href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+            <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
           </td>
@@ -152,7 +152,7 @@
           </td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-default" href="{{ url_for('registration.registration_wise20_details_registration', reg_id=reg.id) }}">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
               </a>
             </div>
