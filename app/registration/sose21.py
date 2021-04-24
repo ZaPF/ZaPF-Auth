@@ -66,6 +66,16 @@ ANREISE_TYPES = {
   'badeente': 'Badeente',
 }
 
+SCHWIMMEN_TYPES = {
+    'keins': 'keins',
+    'bleiente': 'Bleiente',
+    'seepferd': 'Seepferdchen',
+    'bronze': 'Bronze',
+    'silber': 'Silber',
+    'gold': 'Gold',
+    'rett': 'Rettungsschwimmer*in',
+}
+
 def attachment(response, filename):
     response.headers['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
     return response
@@ -297,6 +307,7 @@ def registration_sose21_details_registration(reg_id):
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         HOODIE_TYPES = HOODIE_TYPES,
         ANREISE_TYPES = ANREISE_TYPES,
+        SCHWIMMEN_TYPES = SCHWIMMEN_TYPES,
     )
 
 @registration_blueprint.route('/admin/registration/report/sose21/stimmkarten/latex')
