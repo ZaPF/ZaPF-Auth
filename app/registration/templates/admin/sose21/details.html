@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}SoSe21: Registierung von "{{ reg.user.full_name }}"{% endblock %}
+
+{% macro show_form_errors(form, container = True) %}
+{% if form.errors -%} {# don't output anything if there are no errors #}
+{% if container -%}
+  <div class="row">
+    <div class="col-sm-12">
+{% endif -%}
+      <div class="alert alert-danger" role="alert">
+        <p><strong>Errors when validating form data:</strong></p>
+        {{ wtf.form_errors(form) }}
+      </div>
+{% if container %}
+    </div>
+  </div>
+{% endif -%}
+{% endif -%}
+{% endmacro -%}
+
+{% block content %}
+<div class="container">
+  <h2>
+    Winter20: Details der Registrierung von "{{ reg.user.full_name }}"
+  </h2>
+
+  <form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="form-horizontal">
+  {{ show_form_errors(form) }}
+  <div class="form-group row">
+    {% if reg.data['zaepfchen'] in ['ja', 'jamentor'] %}<span class="label label-default">ZäPFchen</span>{% endif %} 
+    {% if reg.data['mentor'] %}<span class="label label-warning">Möchte Mentor sein</span>{% endif %} 
+    {% if reg.data['zaepfchen'] == 'jamentor' %}<span class="label label-warning">Möchte Mentor haben</span>{% endif %} 
+    {% if reg.data['vertrauensperson'] %}<span class="label label-primary">Vertrauensperson-Anwärtikon</span>{% endif %} 
+    {% if reg.data['protokoll'] %}<span class="label label-primary">Protokollantikon-Anwärtikon</span>{% endif %} 
+    {% if reg.is_guaranteed %}<span class="label label-info">Gremikon</span>{% endif %}
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="vorname">Vorname</label>
+    <div class="col-sm-9">
+      <input id="vorname" name="vorname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.firstName }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="nachname">Nachname</label>
+    <div class="col-sm-9">
+      <input id="nachname" name="nachname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.surname }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="spitzname">Spitzname</label>
+    <div class="col-sm-9">
+      <input id="spitzname" name="spitzname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.spitzname }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="mail">E-Mail</label>
+    <div class="col-sm-9">
+      <input id="mail" name="mail" type="text" class="form-control" readonly="readonly" value="{{ reg.user.mail }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="uni">Uni</label>
+    <div class="col-sm-9">
+      <input id="uni" name="uni" type="text" class="form-control" readonly="readonly" value="{{ reg.uni.name }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="tshirt">T-Shirt-Größe</label>
+    <div class="col-sm-9">
+      <input id="tshirt" name="tshirt" type="text" class="form-control" readonly="readonly" value="{{ reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1 }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="hoodie">Hoodie-Größe</label>
+    <div class="col-sm-9">
+      <input id="hoodie" name="hoodie" type="text" class="form-control" readonly="readonly" value="{{ HOODIE_TYPES[reg.data['hoodie']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="muetze">Weiteres Merch</label>
+    <div class="col-sm-9">
+      <input id="muetze" name="muetze" type="text" class="form-control" readonly="readonly" value="{% if reg.data['handtuch'] %}Handtuch {% endif %}{% if reg.data['tasse'] %}Tasse {% endif %}{% if reg.data['usb'] %}USB-Stick {% endif %}{% if reg.data['frisbee'] %}Frisbee {% endif %}{% if reg.data['aufnaeher'] %}Aufnäher {% endif %}{% if reg.data['schal'] %}Schal {% endif %}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.exkursion_overwrite.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.exkursion_overwrite(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="anreise">Anreise</label>
+    <div class="col-sm-9">
+      <input id="anreise" name="anreise" type="text" class="form-control" readonly="readonly" value="{{ ANREISE_TYPES[reg.data['anreise_verkehr']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="musikwunsch">Musikwunsch</label>
+    <div class="col-sm-9">
+      <input id="musikwunsch" name="musikwunsch" type="text" class="form-control" readonly="readonly" value="{{ reg.data['musikwunsch'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="schwimmen">Schwimmabzeichen</label>
+    <div class="col-sm-9">
+      <input id="schwimmen" name="schwimmen" type="text" class="form-control" readonly="readonly" value="{{ SCHWIMMEN_TYPES[reg.data['schwimmabzeichen']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="kommentar">Kommentar</label>
+    <div class="col-sm-9">
+      <input id="kommentar" name="kommentar" type="text" class="form-control" readonly="readonly" value="{{ reg.data['kommentar'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-offset-3 col-sm-9">
+      {{ form.submit(class='btn btn-lg btn-default') }}
+    </div>
+  </div>
+  </div>
+  </form>
+</div>
+{% endblock %}
