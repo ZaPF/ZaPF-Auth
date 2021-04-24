@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe20: Auswertungen{% endblock %}
+{% block title %}SoSe21: Auswertungen{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -20,23 +20,13 @@
       <div id="collapse-human-readable" class="panel-collapse collapse in">
         <ul>
           <li>
-            <a href="{{ url_for('registration.registration_sose21_report_exkursionen') }}">
-              Exkursionen
-            </a>
-          </li>
-          <li>
-            <a href="{{ url_for('registration.registration_sose21_report_essen') }}">
-              Essen
-            </a>
-          </li>
-          <li>
             <a href="{{ url_for('registration.registration_sose21_report_rahmenprogramm') }}">
               Rahmenprogramm
             </a>
           </li>
           <li>
             <a href="{{ url_for('registration.registration_sose21_report_roles') }}">
-              Vertrauenspersonen, Protokollantika, Langzeithelfika
+              Vertrauenspersonen, Protokollantika
             </a>
           </li>
           <li>
