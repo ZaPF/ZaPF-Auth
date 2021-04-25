@@ -186,6 +186,7 @@ def registration_sose21_report_merch():
         'usbs': [],
         'frisbees': [],
         'patches': [],
+        'patches_total': 0,
         'scarves': [],
     }
     result_unis = {}
@@ -200,7 +201,6 @@ def registration_sose21_report_merch():
             'usbs': 0,
             'frisbees': 0,
             'patches': 0,
-            'patches_total': 0,
             'scarves': 0,
         }
     for name, label in TSHIRTS_TYPES.items():
