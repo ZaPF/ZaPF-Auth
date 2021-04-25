@@ -298,12 +298,17 @@ def registration_sose21_report_sonstiges():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
     result['comment'] = []
+    result['swimming'] = {}
+    for key, label in SCHWIMMEN_TYPES.items():
+        result['swimming'][key] = []
     
     for reg in registrations:
         if reg.data['kommentar']: result['comment'].append(reg)
+        if reg.data[schwimmabzeichen]: result['swimming'][reg.data[schwimmabzeichen]].append(reg)
     return render_template('admin/sose21/sonstiges.html',
         result = result,
-        datetime_string = datetime_string
+        datetime_string = datetime_string,
+        SCHWIMMEN_TYPES = SCHWIMMEN_TYPES,
     )
 
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_sose21', methods=['GET', 'POST'])
