@@ -304,7 +304,7 @@ def registration_sose21_report_sonstiges():
     
     for reg in registrations:
         if reg.data['kommentar']: result['comment'].append(reg)
-        if reg.data[schwimmabzeichen]: result['swimming'][reg.data[schwimmabzeichen]].append(reg)
+        if reg.data['schwimmabzeichen']: result['swimming'][reg.data['schwimmabzeichen']].append(reg)
     return render_template('admin/sose21/sonstiges.html',
         result = result,
         datetime_string = datetime_string,
