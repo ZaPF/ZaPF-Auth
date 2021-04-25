@@ -64,12 +64,28 @@
             </li>
           {% endfor %}
           <li>
-              Mützen
-              <span class="badge">{{ result['hats'] | length}}</span>
+              Handtücher
+              <span class="badge">{{ result['towels'] | length}}</span>
           </li>
           <li>
-              Bierkrüge
-              <span class="badge">{{ result['beermugs'] | length}}</span>
+              Tassen
+              <span class="badge">{{ result['mugs'] | length}}</span>
+          </li>
+          <li>
+              USB-Sticks
+              <span class="badge">{{ result['usbs'] | length}}</span>
+          </li>
+          <li>
+              Frisbees
+              <span class="badge">{{ result['frisbees'] | length}}</span>
+          </li>
+          <li>
+              Aufnäher
+              <span class="badge">{{ result['patches'] | length}}</span>
+          </li>
+          <li>
+              Schals
+              <span class="badge">{{ result['scarves'] | length}}</span>
           </li>
         </ul>
       </div>
@@ -108,14 +124,29 @@
               </li>
             {% endfor %}
             <li>
-                Mützen
-                <span class="badge">{{ data['hats'] }}</span>
+                Handtücher
+                <span class="badge">{{ data['towels']}}</span>
             </li>
             <li>
-                Bierkrüge
-                <span class="badge">{{ data['beermugs'] }}</span>
+                Tassen
+                <span class="badge">{{ data['mugs']}}</span>
             </li>
-
+            <li>
+                USB-Sticks
+                <span class="badge">{{ data['usbs']}}</span>
+            </li>
+            <li>
+                Frisbees
+                <span class="badge">{{ data['frisbees']}}</span>
+            </li>
+            <li>
+                Aufnäher
+                <span class="badge">{{ data['patches']}}</span>
+            </li>
+            <li>
+                Schals
+                <span class="badge">{{ data['scarves']}}</span>
+            </li>
           </ul>
         </div>
         <div class="table-responsive">
@@ -124,8 +155,12 @@
             <th>Name</th>
             <th>T-Shirts</th>
             <th>Sweater</th>
-            <th>Mütze</th>
-            <th>Bierkrug</th>
+            <th>Handtücher</th>
+            <th>Tassen</th>
+            <th>USB-Sticks</th>
+            <th>Frisbees</th>
+            <th>Aufnäher</th>
+            <th>Schals</th>
             <th>Aktionen</th>
           </tr>
           {% for reg in data['registrations'] %}
@@ -141,8 +176,12 @@
             <td>
               {{ HOODIE_TYPES[reg.data['hoodie']] }}
             </td>
-            <td>{% if reg.data['muetze'] %}Ja{% else %}Nein{% endif %}</td>
-            <td>{% if reg.data['krug'] %}Ja{% else %}Nein{% endif %}</td>
+            <td>{% if reg.data['handtuch'] %}Ja{% else %}Nein{% endif %}</td>
+            <td>{% if reg.data['tasse'] %}Ja{% else %}Nein{% endif %}</td>
+            <td>{% if reg.data['usb'] %}Ja{% else %}Nein{% endif %}</td>
+            <td>{% if reg.data['frisbee'] %}Ja{% else %}Nein{% endif %}</td>
+            <td>{% if reg.data['aufnaeher'] %}Ja{% else %}Nein{% endif %}</td>
+            <td>{% if reg.data['schal'] %}Ja{% else %}Nein{% endif %}</td>
             <td>
               <div class="btn-group" role="group">
                 <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
@@ -214,7 +253,7 @@
   </div>
 
   <h3 id="sec-hoodies" name="sec-hoodies">
-    Sweater-Auswertung nach Größe
+    Hoodie-Auswertung nach Größe
   </h3>
   <div class="panel-group">
     {% for type, data in result['hoodies'].items() if type != 'keins' and data['amount'] > 0 %}
@@ -271,16 +310,17 @@
   Weiteres-Merch-Auswertung
   </h3>
   <div class="panel-group">
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-muetze">
-            Mützen
+          <a data-toggle="collapse" href="#collapse-towels">
+            Handtücher
           </a>
-          <span class="badge" style="float: right">{{ result['hats'] | length }}</span>
+          <span class="badge" style="float: right">{{ result['towels'] | length }}</span>
         </h4>
       </div>
-      <div id="collapse-muetze" class="panel-collapse collapse">
+      <div id="collapse-towels" class="panel-collapse collapse">
         <div class="table-responsive">
         <table class='table table-striped'>
           <tr>
@@ -288,7 +328,7 @@
             <th>Uni</th>
             <th>Aktionen</th>
           </tr>
-          {% for reg in result['hats'] %}
+          {% for reg in result['towels'] %}
           <tr>
             <td>
               <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
@@ -315,16 +355,17 @@
         </div>
       </div>
     </div>
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-krug">
-            Bierkrüge
+          <a data-toggle="collapse" href="#collapse-mugs">
+            Tassen
           </a>
-          <span class="badge" style="float: right">{{ result['beermugs'] | length }}</span>
+          <span class="badge" style="float: right">{{ result['mugs'] | length }}</span>
         </h4>
       </div>
-      <div id="collapse-krug" class="panel-collapse collapse">
+      <div id="collapse-mugs" class="panel-collapse collapse">
         <div class="table-responsive">
         <table class='table table-striped'>
           <tr>
@@ -332,7 +373,187 @@
             <th>Uni</th>
             <th>Aktionen</th>
           </tr>
-          {% for reg in result['beermugs'] %}
+          {% for reg in result['mugs'] %}
+          <tr>
+            <td>
+              <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-usbs">
+            USB-Sticks
+          </a>
+          <span class="badge" style="float: right">{{ result['usbs'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-usbs" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Name</th>
+            <th>Uni</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result['usbs'] %}
+          <tr>
+            <td>
+              <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-frisbees">
+            Frisbees
+          </a>
+          <span class="badge" style="float: right">{{ result['frisbees'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-frisbees" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Name</th>
+            <th>Uni</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result['frisbees'] %}
+          <tr>
+            <td>
+              <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-patches">
+            Aufnäher
+          </a>
+          <span class="badge" style="float: right">{{ result['patches'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-patches" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Name</th>
+            <th>Uni</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result['patches'] %}
+          <tr>
+            <td>
+              <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-scarves">
+            Schals
+          </a>
+          <span class="badge" style="float: right">{{ result['scarves'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-scarves" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Name</th>
+            <th>Uni</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result['scarves'] %}
           <tr>
             <td>
               <a href="{{ url_for('registration.registration_sose21_details_registration', reg_id=reg.id) }}">

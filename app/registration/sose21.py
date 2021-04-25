@@ -149,7 +149,6 @@ def registration_sose21_report_hoodie():
     unis = Uni.query.order_by(Uni.id)
     result = {}
     result_unis = {}
-    result_muetze = []
     for uni in unis:
         result_unis[uni.id] = {
             'name': uni.name,
@@ -162,15 +161,12 @@ def registration_sose21_report_hoodie():
         hoodie_size = reg.data['hoodie']
         if not result[hoodie_size]:
             return None
-        if reg.data['muetze']:
-            result_muetze.append(reg)
         result[hoodie_size]['registrations'].append(reg)
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['types'][hoodie_size] += 1
     return render_template('admin/sose21/hoodie.html',
         result = result,
         result_unis = result_unis,
-        result_muetze = result_muetze,
         HOODIE_TYPES = HOODIE_TYPES,
         datetime_string = datetime_string
     )
@@ -185,8 +181,12 @@ def registration_sose21_report_merch():
     result = {
         'shirts': {},
         'hoodies': {},
-        'hats': [],
-        'beermugs': []
+        'towels': [],
+        'mugs': [],
+        'usbs': [],
+        'frisbees': [],
+        'patches': [],
+        'scarves': [],
     }
     result_unis = {}
     for uni in unis:
@@ -195,8 +195,12 @@ def registration_sose21_report_merch():
             'registrations': [],
             'shirts': {name: 0 for name, label in TSHIRTS_TYPES.items()},
             'hoodies': {name: 0 for name, label in HOODIE_TYPES.items()},
-            'hats': 0,
-            'beermugs': 0
+            'towels': 0,
+            'mugs': 0,
+            'usbs': 0,
+            'frisbees': 0,
+            'patches': 0,
+            'scarves': 0,
         }
     for name, label in TSHIRTS_TYPES.items():
         result['shirts'][name] = {'label': label, 'amount': 0, 'requests': []}
@@ -208,18 +212,30 @@ def registration_sose21_report_merch():
         hoodie_size = reg.data['hoodie']
         if not result['shirts'][tshirt_size] or not result['hoodies'][hoodie_size]:
             return None
-        if reg.data['muetze']:
-            result['hats'].append(reg)
-            result_unis[reg.uni.id]['hats'] += 1
-        if reg.data['krug']:
-            result['beermugs'].append(reg)
-            result_unis[reg.uni.id]['beermugs'] += 1
+        if reg.data['handtuch']:
+            result['towels'].append(reg)
+            result_unis[reg.uni.id]['towels'] += 1
+        if reg.data['tasse']:
+            result['mugs'].append(reg)
+            result_unis[reg.uni.id]['mugs'] += 1
+        if reg.data['usb']:
+            result['usbs'].append(reg)
+            result_unis[reg.uni.id]['usbs'] += 1
+        if reg.data['frisbee']:
+            result['frisbees'].append(reg)
+            result_unis[reg.uni.id]['frisbees'] += 1
+        if reg.data['aufnaeher']:
+            result['patches'].append(reg)
+            result_unis[reg.uni.id]['patches'] += 1
+        if reg.data['schal']:
+            result['scarves'].append(reg)
+            result_unis[reg.uni.id]['scarves'] += 1
         result['shirts'][tshirt_size]['amount'] += tshirt_amount
         result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount})
         result['hoodies'][hoodie_size]['amount'] += 1
         result['hoodies'][hoodie_size]['requests'].append({'registration': reg, 'amount': 1})
         result_unis[reg.uni.id]['registrations'].append(reg)
-        result_unis[reg.uni.id]['shirts'][tshirt_size] += 1
+        result_unis[reg.uni.id]['shirts'][tshirt_size] += tshirt_amount
         result_unis[reg.uni.id]['hoodies'][hoodie_size] += 1
     return render_template('admin/sose21/merch.html',
         result = result,
