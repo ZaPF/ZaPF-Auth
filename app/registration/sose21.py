@@ -283,7 +283,7 @@ def registration_sose21_report_roles():
         if reg.data['vertrauensperson'] == 'ja': result['trustee'].append(reg) 
         if reg.data['protokoll'] == 'ja': result['minuteman'].append(reg) 
         if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
-        if reg.data['zaepfchen'] == 'jamentor': result['mentee'].append(reg) 
+        if reg.data['zaepfchen'] == 'jaund': result['mentee'].append(reg) 
         if reg.data['mentor']: result['mentor'].append(reg) 
     return render_template('admin/sose21/roles.html',
         result = result,

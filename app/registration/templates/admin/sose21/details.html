@@ -29,9 +29,9 @@
   <form method="POST">
   <div class="form-horizontal">
   <div class="form-group row">
-    {% if reg.data['zaepfchen'] in ['ja', 'jamentor'] %}<span class="label label-default">ZäPFchen</span>{% endif %} 
+    {% if reg.data['zaepfchen'] in ['ja', 'jaund'] %}<span class="label label-default">ZäPFchen</span>{% endif %} 
     {% if reg.data['mentor'] %}<span class="label label-warning">Möchte Mentor sein</span>{% endif %} 
-    {% if reg.data['zaepfchen'] == 'jamentor' %}<span class="label label-warning">Möchte Mentor haben</span>{% endif %} 
+    {% if reg.data['zaepfchen'] == 'jaund' %}<span class="label label-warning">Möchte Mentor haben</span>{% endif %} 
     {% if reg.data['vertrauensperson'] == 'ja' %}<span class="label label-primary">Vertrauensperson-Anwärtikon</span>{% endif %} 
     {% if reg.data['protokoll'] == 'ja' %}<span class="label label-primary">Protokollantikon-Anwärtikon</span>{% endif %} 
     {% if reg.is_guaranteed %}<span class="label label-info">Gremikon</span>{% endif %}
