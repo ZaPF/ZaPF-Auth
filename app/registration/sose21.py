@@ -237,26 +237,19 @@ def registration_sose21_report_rahmenprogramm():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_musikwunsch = []
     result_inbound = {}
-    result_outbound = {}
     for key in ANREISE_TYPES: result_inbound[key] = []
-    for key in ABREISE_TIMES: result_outbound[key] = []
     for reg in registrations:
         musikwunsch = reg.data['musikwunsch']
-        abreise = reg.data['abreise_zeit']
         anreise = reg.data['anreise_verkehr']
         if musikwunsch:
             result_musikwunsch.append(reg)
         if anreise in ANREISE_TYPES.keys():
             result_inbound[anreise].append(reg)
-        if abreise in ABREISE_TIMES.keys():
-            result_outbound[abreise].append(reg)
     return render_template('admin/sose21/rahmenprogramm.html',
         result_musikwunsch = result_musikwunsch,
         result_inbound = result_inbound,
-        result_outbound = result_outbound,
         datetime_string = datetime_string,
         ANREISE_TYPES = ANREISE_TYPES,
-        ABREISE_TIMES = ABREISE_TIMES
     )
 
 @registration_blueprint.route('/admin/registration/report/sose21/roles')
