@@ -81,7 +81,7 @@
           </li>
           <li>
               Aufnäher
-              <span class="badge">{{ result['patches'] | length}}</span>
+              <span class="badge">{{ result['patches_total'] }}</span>
           </li>
           <li>
               Schals
@@ -180,7 +180,7 @@
             <td>{% if reg.data['tasse'] %}Ja{% else %}Nein{% endif %}</td>
             <td>{% if reg.data['usb'] %}Ja{% else %}Nein{% endif %}</td>
             <td>{% if reg.data['frisbee'] %}Ja{% else %}Nein{% endif %}</td>
-            <td>{% if reg.data['aufnaeher'] %}Ja{% else %}Nein{% endif %}</td>
+            <td>{% if reg.data['aufnaeher'] %}{{reg.data['aufnaeher']}}{% else %}Nein{% endif %}</td>
             <td>{% if reg.data['schal'] %}Ja{% else %}Nein{% endif %}</td>
             <td>
               <div class="btn-group" role="group">
@@ -497,7 +497,7 @@
           <a data-toggle="collapse" href="#collapse-patches">
             Aufnäher
           </a>
-          <span class="badge" style="float: right">{{ result['patches'] | length }}</span>
+          <span class="badge" style="float: right">{{ result['patches_total'] }}</span>
         </h4>
       </div>
       <div id="collapse-patches" class="panel-collapse collapse">
@@ -506,6 +506,7 @@
           <tr>
             <th>Name</th>
             <th>Uni</th>
+            <th>Anzahl</th>
             <th>Aktionen</th>
           </tr>
           {% for reg in result['patches'] %}
@@ -521,6 +522,9 @@
                 {{ reg.uni.name }}
               </a>
             {% endif %}
+            </td>
+            <td>
+              {{ reg.data['aufnaeher'] }}
             </td>
             <td>
               <div class="btn-group" role="group">

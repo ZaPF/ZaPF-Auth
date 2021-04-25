@@ -200,6 +200,7 @@ def registration_sose21_report_merch():
             'usbs': 0,
             'frisbees': 0,
             'patches': 0,
+            'patches_total': 0,
             'scarves': 0,
         }
     for name, label in TSHIRTS_TYPES.items():
@@ -226,7 +227,8 @@ def registration_sose21_report_merch():
             result_unis[reg.uni.id]['frisbees'] += 1
         if reg.data['aufnaeher']:
             result['patches'].append(reg)
-            result_unis[reg.uni.id]['patches'] += 1
+            result['patches_total'] += reg.data['aufnaeher']
+            result_unis[reg.uni.id]['patches'] += reg.data['aufnaeher']
         if reg.data['schal']:
             result['scarves'].append(reg)
             result_unis[reg.uni.id]['scarves'] += 1
