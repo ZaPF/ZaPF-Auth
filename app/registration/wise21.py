@@ -180,7 +180,7 @@ def registration_wise21_report_merch(place = None):
                 continue
             elif place != reg.data['standort']:
                 continue
-            
+
         tshirt_size = reg.data['tshirt']
         tshirt_amount = reg.data['nrtshirt']
         if tshirt_amount == None:
@@ -201,7 +201,8 @@ def registration_wise21_report_merch(place = None):
         result = result,
         result_unis = result_unis,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
-        datetime_string = datetime_string
+        datetime_string = datetime_string,
+        place = place,
     )
 
 @registration_blueprint.route('/admin/registration/report/wise21/anreise')
