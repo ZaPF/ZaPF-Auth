@@ -349,7 +349,7 @@ def registration_wise21_details_registration(reg_id):
         reg.data = data
 
         if reg.priority != form.priority.data:
-            reg.priority(form.priority.data)
+            reg.priority = form.priority.data
 
         db.session.add(reg)
         db.session.commit()
