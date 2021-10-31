@@ -12,6 +12,14 @@
     <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Diesen Bericht aktualisieren
   </a>
   
+  <h3>Filtern nach Standort</h3>
+  <ul>
+    <li><a href="{{ url_for('registration.registration_wise21_report_essen') }}">Alle Standorte</a></li>
+    <li><a href="{{ url_for('registration.registration_wise21_report_essen', place = 'goe') }}">Göttingen 1/2</a></li>
+    <li><a href="{{ url_for('registration.registration_wise21_report_essen', place = 'mue') }}">München</a></li>
+    <li><a href="{{ url_for('registration.registration_wise21_report_essen', place = 'koe') }}">Köln</a></li>
+  </ul>
+
   <h1>
   Essen-Auswertung für ZaPF Winter20
   </h1>
@@ -130,6 +138,58 @@
   </table>
   </div>  
   {% endif %}
+
+  <h2 id="sec-heissgetraenke">
+    Auswertung der Heißgetränke:
+  </h2>
+  <div class="panel-group">
+  {% for type, data in result['heissgetraenk'].items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-heissgetraenk-{{ type }}">
+          Heisgetränk: {{ type }}
+        </a>
+        <span class="badge" style="float: right">{{ data | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-heissgetraenk-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
 
   <h2 id="sec-alkohol">
     Auswertung des Alkoholkonsums:

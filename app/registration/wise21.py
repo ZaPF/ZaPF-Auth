@@ -195,21 +195,32 @@ def registration_wise21_report_merch(place = None):
     )
 
 @registration_blueprint.route('/admin/registration/report/wise21/essen')
+@registration_blueprint.route('/admin/registration/report/wise21/essen/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_essen():
+def registration_wise21_report_essen(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
     result['essen'] = {}
     result['allergien'] = []
     result['alkohol'] = []
+    result['heissgetraenk'] = {
+        'kaffee': [],
+        'tee': [],
+        'unparteiisch': [],
+    }
     for name, label in ESSEN_TYPES.items():
         result['essen'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
+        if reg.data['modus'] == "online":
+                continue
+        if place is not None and place != reg.data['standort']:
+                continue
         essen_type = reg.data['essen']
         allergien = reg.data['allergien']
         alkohol = reg.data['alkohol']
+        heissgetraenk = reg.data['heissgetraenk']
         essensformen = reg.data['essensformen']
         if (not result['essen'][essen_type]):
             return None
@@ -218,6 +229,7 @@ def registration_wise21_report_essen():
             result['allergien'].append(reg)
         if alkohol:
             result['alkohol'].append(reg)
+        result['heissgetraenk'][heissgetraenk].append(reg)
     return render_template('admin/wise21/essen.html',
         result = result,
         datetime_string = datetime_string
