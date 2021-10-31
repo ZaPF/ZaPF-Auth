@@ -57,19 +57,19 @@
   <div class="form-group row">
     <label class="col-sm-3 control-label" for="pronomen">Pronomen</label>
     <div class="col-sm-9">
-      <input id="pronomen" name="pronomen" type="text" class="form-control" readonly="readonly" value="{{ reg.data['anrede'} }} {{ reg.data['anrede2'} }}" />
+      <input id="pronomen" name="pronomen" type="text" class="form-control" readonly="readonly" value="{{ reg.data['anrede'] }} {{ reg.data['anrede2'] }}" />
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-3 control-label" for="alter">Alter</label>
     <div class="col-sm-9">
-      <input id="alter" name="alter" type="text" class="form-control" readonly="readonly" value="{{ reg.data['alter'} }}" />
+      <input id="alter" name="alter" type="text" class="form-control" readonly="readonly" value="{{ reg.data['alter'] }}" />
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-3 control-label" for="fotos">Fotos ok?</label>
     <div class="col-sm-9">
-      <input id="fotos" name="fotos" type="text" class="form-control" readonly="readonly" value="{{ reg.data['foto'} }}" />
+      <input id="fotos" name="fotos" type="text" class="form-control" readonly="readonly" value="{{ reg.data['foto'] }}" />
     </div>
   </div>
   <div class="form-group row">
@@ -81,13 +81,13 @@
   <div class="form-group row">
     <label class="col-sm-3 control-label" for="imma">Immatrikulationsbescheinigung</label>
     <div class="col-sm-9">
-      <input id="imma" name="imma" type="text" class="form-control" readonly="readonly" value="{{ IMMA_TYPES[reg.data['immatrikulationsbescheinigung'}] }}" />
+      <input id="imma" name="imma" type="text" class="form-control" readonly="readonly" value="{{ IMMA_TYPES[reg.data['immatrikulationsbescheinigung']] }}" />
     </div>
   </div>
   <div class="form-group row">
     <label class="col-sm-3 control-label" for="place">Wunschstandort</label>
     <div class="col-sm-9">
-      <input id="place" name="place" type="text" class="form-control" readonly="readonly" value="{% if reg.data['modus'] == 'online' %}online{% else %}{{ reg.data['standort'} }} {% if reg.data['praesenzplatz'] %} (niedrige Prio) {% endif %}{% endif %}" />
+      <input id="place" name="place" type="text" class="form-control" readonly="readonly" value="{% if reg.data['modus'] == 'online' %}online{% else %}{{ reg.data['standort'] }} {% if reg.data['praesenzplatz'] %} (niedrige Prio) {% endif %}{% endif %}" />
     </div>
   </div>
   <div class="form-group row">
@@ -153,7 +153,7 @@
   <div class="form-group row">
     <label class="col-sm-3 control-label" for="tshirt">T-Shirt-Größe</label>
     <div class="col-sm-9">
-      <input id="tshirt" name="tshirt" type="text" class="form-control" readonly="readonly" value="{{ reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1 }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}" />
+      <input id="tshirt" name="tshirt" type="text" class="form-control" readonly="readonly" value="{% if reg.data['nrtshirt'] %}{{ reg.data['nrtshirt'] }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}{% endif %}" />
     </div>
   </div>
   <div class="form-group row">
