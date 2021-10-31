@@ -328,6 +328,7 @@ def registration_wise21_details_registration(reg_id):
         if 'orig_standort' not in data:
             data['orig_standort'] = data['standort']
         data['standort'] = form.standort.data
+        data['spritzname'] = form.spitzname.data
         reg.data = data
         db.session.add(reg)
         db.session.commit()
