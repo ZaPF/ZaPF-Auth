@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}SoSe21: Auswertungen{% endblock %}
+{% block title %}WiSe21: Auswertungen{% endblock %}
 
 {% block content %}
 <div class="container">
   <span class="label label-danger">{{ registrations }} Anmeldungen</span> <span class="label label-warning">{{ confirmed }} Bestätigt</span> <span class="label label-success">{{ attendees }} Teilnehmika</span> <span class="label label-info">{{ gremika }} Gremika</span> <span class="label label-default">Stand {{ datetime_string }}</span>
-  <a class="btn-primary btn pull-right" href="{{url_for('registration.registration_sose21_report_clear', target='all')}}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Alle Berichte aktualisieren</a>
+  <a class="btn-primary btn pull-right" href="{{url_for('registration.registration_wise21_report_clear', target='all')}}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Alle Berichte aktualisieren</a>
       
   <h1>Verfügbare Auswertungen</h1>
   <div class="panel-group">
@@ -25,13 +25,13 @@
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_sose21_report_roles') }}">
+            <a href="{{ url_for('registration.registration_wise21_report_roles') }}">
               Vertrauenspersonen, Protokollantika, Mentoring
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_sose21_report_merch') }}">
-              T-Shirts, Hoodies und anderes Merch
+            <a href="{{ url_for('registration.registration_wise21_report_merch') }}">
+              T-Shirts und anderes Merch
             </a>
           </li>
           
@@ -41,8 +41,8 @@
             </a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registration_sose21_report_sonstiges') }}">
-              Kommentare, Schwimmabzeichen
+            <a href="{{ url_for('registration.registration_wise21_report_sonstiges') }}">
+              Kommentare, Musikwünsche
             </a>
           </li>
         </ul>
