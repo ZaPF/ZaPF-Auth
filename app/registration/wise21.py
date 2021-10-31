@@ -194,6 +194,30 @@ def registration_wise21_report_merch(place = None):
         place = place,
     )
 
+@registration_blueprint.route('/admin/registration/report/wise21/standort')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_wise21_report_standort():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
+    result = {
+        'goe': [],
+        'koe': [],
+        'mue': [],
+        'egal': [],
+    }
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+            continue
+
+        for name, registrations in result.items():
+            result[name].append(reg)
+        
+    return render_template('admin/wise21/standort.html',
+        result = result,
+        datetime_string = datetime_string,
+    )
+
 @registration_blueprint.route('/admin/registration/report/wise21/essen')
 @registration_blueprint.route('/admin/registration/report/wise21/essen/<place>')
 @groups_sufficient('admin', 'orga')
