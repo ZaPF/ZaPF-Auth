@@ -176,6 +176,8 @@ def registration_wise21_report_merch():
     for reg in registrations:
         tshirt_size = reg.data['tshirt']
         tshirt_amount = reg.data['nrtshirt']
+        if tshirt_amount == None:
+            tshirt_amount = 0
         if not result['shirts'][tshirt_size]:
             return None
         if reg.data['nottasse']:
