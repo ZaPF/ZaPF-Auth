@@ -153,7 +153,7 @@ def registration_wise21_report_tshirts():
 @registration_blueprint.route('/admin/registration/report/wise21/merch')
 @registration_blueprint.route('/admin/registration/report/wise21/merch/<place>')
 @groups_sufficient('admin', 'orga')
-@cache.cached()
+# @cache.cached()
 def registration_wise21_report_merch(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
