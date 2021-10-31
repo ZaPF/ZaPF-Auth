@@ -246,9 +246,10 @@ def registration_wise21_report_rahmenprogramm():
     )
 
 @registration_blueprint.route('/admin/registration/report/wise21/roles')
+@registration_blueprint.route('/admin/registration/report/wise21/roles/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_roles():
+def registration_wise21_report_roles(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -258,16 +259,17 @@ def registration_wise21_report_roles():
         result[place] = {}
         for key in result_keys: result[place][key] = []
     for reg in registrations:
-        if reg.data['modus'] == "online":
-            place = 'online'
-        else:
-            place = reg.data['standort']
+        if place is not None:
+            if place == 'online' and reg.data['modus'] != "online":
+                continue
+            if place != 'online' and place != reg.data['standort']:
+                continue
 
-        if reg.data['vertrauensperson'] == 'ja': result[place]['trustee'].append(reg) 
-        if reg.data['protokoll'] == 'ja': result[place]['minuteman'].append(reg) 
-        if reg.data['zaepfchen'] == 'ja': result[place]['notmentee'].append(reg) 
-        if reg.data['zaepfchen'] == 'jaund': result[place]['mentee'].append(reg) 
-        if reg.data['mentor']: result[place]['mentor'].append(reg) 
+        if reg.data['vertrauensperson'] == 'ja': result['trustee'].append(reg) 
+        if reg.data['protokoll'] == 'ja': result['minuteman'].append(reg) 
+        if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
+        if reg.data['zaepfchen'] == 'jaund': result['mentee'].append(reg) 
+        if reg.data['mentor']: result['mentor'].append(reg) 
     return render_template('admin/wise21/roles.html',
         result = result,
         datetime_string = datetime_string
