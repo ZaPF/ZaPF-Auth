@@ -139,37 +139,6 @@ def registration_wise21_reports():
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/t-shirts')
-@groups_sufficient('admin', 'orga')
-@cache.cached()
-def registration_wise21_report_tshirts():
-    datetime_string = get_datetime_string() 
-    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    unis = Uni.query.order_by(Uni.id)
-    result = {}
-    result_unis = {}
-    for uni in unis:
-        result_unis[uni.id] = {
-            'name': uni.name,
-            'registrations': [],
-            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()}
-        }
-    for name, label in TSHIRTS_TYPES.items():
-        result[name] = {'label': label, 'registrations': []}
-    for reg in registrations:
-        tshirt_size = reg.data['tshirt']
-        if not result[tshirt_size]:
-            return None
-        result[tshirt_size]['registrations'].append(reg)
-        result_unis[reg.uni.id]['registrations'].append(reg)
-        result_unis[reg.uni.id]['types'][tshirt_size] += 1
-    return render_template('admin/wise21/t-shirts.html',
-        result = result,
-        result_unis = result_unis,
-        TSHIRTS_TYPES = TSHIRTS_TYPES,
-        datetime_string = datetime_string
-    )
-
 @registration_blueprint.route('/admin/registration/report/wise21/merch')
 @registration_blueprint.route('/admin/registration/report/wise21/merch/<place>')
 @groups_sufficient('admin', 'orga')
@@ -223,6 +192,35 @@ def registration_wise21_report_merch(place = None):
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         datetime_string = datetime_string,
         place = place,
+    )
+
+@registration_blueprint.route('/admin/registration/report/wise21/essen')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_wise21_report_essen():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    result = {}
+    result['essen'] = {}
+    result['allergien'] = []
+    result['alkohol'] = []
+    for name, label in ESSEN_TYPES.items():
+        result['essen'][name] = {'label': label, 'registrations': []}
+    for reg in registrations:
+        essen_type = reg.data['essen']
+        allergien = reg.data['allergien']
+        alkohol = reg.data['alkohol']
+        essensformen = reg.data['essensformen']
+        if (not result['essen'][essen_type]):
+            return None
+        result['essen'][essen_type]['registrations'].append(reg)
+        if allergien or essensformen:
+            result['allergien'].append(reg)
+        if alkohol:
+            result['alkohol'].append(reg)
+    return render_template('admin/wise20/essen.html',
+        result = result,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/report/wise21/anreise')
