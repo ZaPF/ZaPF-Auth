@@ -312,14 +312,32 @@ def registration_wise21_report_sonstiges():
         datetime_string = datetime_string,
     )
 
+class DetailsOverwriteForm(FlaskForm):
+    spitzname = StringField('Spitzname')
+    standort = SelectField('Standort festlegen', choices=[("goe", "Göttingen"), ("koe", "Köln"), ("mue", "München (Garchingen)"), ("egal", "Egal"),])
+    submit = SubmitField()
+
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_wise21', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
 def registration_wise21_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
+    form = DetailsOverwriteForm()
+
+    if form.validate_on_submit():
+        data = reg.data
+        if 'orig_standort' not in data:
+            data['orig_standort'] = data['standort']
+        data['standort'] = form.standort.data
+        reg.data = data
+        db.session.add(reg)
+        db.session.commit()
+        return redirect(url_for('registration.registration_wise21_details_registration', reg_id = reg_id))
+        
     if reg.is_guaranteed:
         current_app.logger.debug(reg.user.groups)
     return render_template('admin/wise21/details.html',
         reg = reg,
+        form = form,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,

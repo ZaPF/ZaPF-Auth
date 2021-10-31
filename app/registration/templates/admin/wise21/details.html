@@ -23,11 +23,13 @@
 {% block content %}
 <div class="container">
   <h2>
-    Sommer21: Details der Registrierung von "{{ reg.user.full_name }}"
+    Winter21: Details der Registrierung von "{{ reg.user.full_name }}"
   </h2>
 
   <form method="POST">
+    {{ form.hidden_tag() }}
   <div class="form-horizontal">
+    {{ show_form_errors(form) }}
   <div class="form-group row">
     {% if reg.data['zaepfchen'] in ['ja', 'jaund'] %}<span class="label label-default">ZäPFchen</span>{% endif %} 
     {% if reg.data['mentor'] %}<span class="label label-warning">Möchte Mentor sein</span>{% endif %} 
@@ -49,9 +51,9 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="spitzname">Spitzname</label>
+    {{ form.spitzname.label(class='col-sm-3 control-label') }}
     <div class="col-sm-9">
-      <input id="spitzname" name="spitzname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.spitzname }}" />
+      {{ form.spitzname(class='form-control') }}
     </div>
   </div>
   <div class="form-group row">
@@ -82,6 +84,12 @@
     <label class="col-sm-3 control-label" for="imma">Immatrikulationsbescheinigung</label>
     <div class="col-sm-9">
       <input id="imma" name="imma" type="text" class="form-control" readonly="readonly" value="{{ IMMA_TYPES[reg.data['immatrikulationsbescheinigung']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.standort.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.standort(class='form-control') }}
     </div>
   </div>
   <div class="form-group row">
@@ -184,6 +192,11 @@
     <label class="col-sm-3 control-label" for="kommentar">Kommentar</label>
     <div class="col-sm-9">
       <input id="kommentar" name="kommentar" type="text" class="form-control" readonly="readonly" value="{{ reg.data['kommentar'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-offset-3 col-sm-9">
+      {{ form.submit(class='btn btn-lg btn-default') }}
     </div>
   </div>
   </div>
