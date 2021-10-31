@@ -210,8 +210,7 @@ def registration_wise21_report_standort():
         if reg.data['modus'] == "online":
             continue
 
-        for name, registrations in result.items():
-            result[name].append(reg)
+        result[reg.data['standort']].append(reg)
         
     return render_template('admin/wise21/standort.html',
         result = result,
