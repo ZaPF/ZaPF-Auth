@@ -253,11 +253,8 @@ def registration_wise21_report_roles(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
-    result_places = ['online', 'goe', 'koe', 'mue', 'egal']
     result_keys = ['trustee', 'minuteman', 'mentee', 'mentor', 'notmentee']
-    for place in result_places: 
-        result[place] = {}
-        for key in result_keys: result[place][key] = []
+    for key in result_keys: result[key] = []
     for reg in registrations:
         if place is not None:
             if place == 'online' and reg.data['modus'] != "online":
