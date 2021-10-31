@@ -218,7 +218,7 @@ def registration_wise21_report_essen():
             result['allergien'].append(reg)
         if alkohol:
             result['alkohol'].append(reg)
-    return render_template('admin/wise20/essen.html',
+    return render_template('admin/wise21/essen.html',
         result = result,
         datetime_string = datetime_string
     )
