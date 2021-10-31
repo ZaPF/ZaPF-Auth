@@ -51,7 +51,7 @@
               </a>
             </td>
             <td> {{ reg.data['barrierefreiheit'] }} </td>
-            <td> {{ {% if reg.data['nurmitpartner'] %}nur mit{% endif %} reg.data['partner'] }} </td>
+            <td> {% if reg.data['nurmitpartner'] %}nur mit{% endif %} {{ reg.data['partner'] }} </td>
             <td> {{ reg.data['notbinarytoiletten'] }} </td>
             <td> {{ reg.data['notbinaryduschen'] }} </td>
             <td> {{ reg.data['notgruppenduschen'] }} {{ reg.data['nurohnegruppenduschen'] }}</td>
