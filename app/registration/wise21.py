@@ -324,6 +324,7 @@ def registration_wise21_details_registration(reg_id):
     form = DetailsOverwriteForm()
 
     if form.validate_on_submit():
+        current_app.logger.debug("Submit " + reg_id)
         data = reg.data
         if 'orig_standort' not in data:
             data['orig_standort'] = data['standort']
