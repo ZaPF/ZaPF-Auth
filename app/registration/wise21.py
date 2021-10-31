@@ -324,7 +324,6 @@ def registration_wise21_details_registration(reg_id):
     form = DetailsOverwriteForm()
 
     if form.validate_on_submit():
-        current_app.logger.debug("Submit " + reg_id)
         data = reg.data
         if 'orig_standort' not in data:
             data['orig_standort'] = data['standort']
@@ -335,8 +334,8 @@ def registration_wise21_details_registration(reg_id):
         db.session.commit()
         return redirect(url_for('registration.registration_wise21_details_registration', reg_id = reg_id))
         
-    if reg.is_guaranteed:
-        current_app.logger.debug(reg.user.groups)
+    form.spitzname.data = reg.data['spitzname']
+    form.standort.data = reg.data['standort']
     return render_template('admin/wise21/details.html',
         reg = reg,
         form = form,
