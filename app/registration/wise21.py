@@ -1,6 +1,6 @@
 from flask import render_template, jsonify, Response, redirect, url_for, current_app
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField
+from wtforms import StringField, SelectField, SubmitField, IntegerField
 from . import registration_blueprint
 from .models import Registration, Uni
 from app.user import groups_sufficient
@@ -326,6 +326,7 @@ class DetailsOverwriteForm(FlaskForm):
             ("egal", "Egal"),
         ]
     )
+    priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
     submit = SubmitField()
 
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_wise21', methods=['GET', 'POST'])
@@ -346,6 +347,10 @@ def registration_wise21_details_registration(reg_id):
         data['modus'] = form.modus.data
         data['spitzname'] = form.spitzname.data
         reg.data = data
+
+        if reg.priority != form.priority.data:
+            reg.priority(form.priority.data)
+
         db.session.add(reg)
         db.session.commit()
         return redirect(url_for('registration.registration_wise21_details_registration', reg_id = reg_id))
@@ -353,6 +358,7 @@ def registration_wise21_details_registration(reg_id):
     form.spitzname.data = reg.data['spitzname']
     form.standort.data = reg.data['standort']
     form.modus.data = reg.data['modus']
+    form.priority.data = reg.priority()
     return render_template('admin/wise21/details.html',
         reg = reg,
         form = form,
