@@ -208,7 +208,7 @@ def registration_wise21_report_merch(place = None):
 @registration_blueprint.route('/admin/registration/report/wise21/anreise')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_rahmenprogramm():
+def registration_wise21_report_anreise():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
