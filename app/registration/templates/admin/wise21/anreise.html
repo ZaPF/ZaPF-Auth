@@ -18,22 +18,24 @@
 
   {% for place in places %}
 
-    <h3>
+    <h2>
       {{ place }}
-    </h3>
+    </h2>
 
+    <!-- Anreise-Modi -->
+    <h3>Anreise-Modi</h3>
     <div class="panel-group">
     {% for key, label in ANREISE_TYPES.items() %}
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" href="#collapse{{ place }}-{{ key }}">
+            <a data-toggle="collapse" href="#collapse-{{ place }}-modus-{{ key }}">
               Anreise mit {{ label }}
             </a>
             <span class="badge" style="float: right">{{ result[place]['inbound'][key] | length }}</span>
           </h4>
         </div>
-        <div id="collapse-{{ place }}-{{ key }}" class="panel-collapse collapse">
+        <div id="collapse-{{ place }}-modus-{{ key }}" class="panel-collapse collapse">
           <div class="table-responsive">
           <table class='table table-striped'>
             <tr>
@@ -70,7 +72,109 @@
       </div>
     {% endfor %}
     </div>
-    <!-- TODO ANREISE_ZEIT, ABREISE_ZEIT -->
+    
+    <!-- Anreise-Zeiten -->
+    <h3>Anreise-Zeiten</h3>
+    <div class="panel-group">
+      {% for key, label in ANREISE_ZEIT_TYPES.items() %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-{{ place }}-inbound-{{ key }}">
+                Anreise mit {{ label }}
+              </a>
+              <span class="badge" style="float: right">{{ result[place]['inbound_time'][key] | length }}</span>
+            </h4>
+          </div>
+          <div id="collapse-{{ place }}-inbound-{{ key }}" class="panel-collapse collapse">
+            <div class="table-responsive">
+            <table class='table table-striped'>
+              <tr>
+                <th>Uni</th>
+                <th>Name</th>
+                <th>Aktionen</th>
+              </tr>
+              {% for reg in result[place]['inbound_time'][key] %}
+              <tr>
+                <td>
+                {% if reg.uni %}
+                  <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                    {{ reg.uni.name }}
+                  </a>
+                {% endif %}
+                </td>
+                <td>
+                  <a href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+                    {{ reg.user.full_name }}
+                  </a>
+                </td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <a class="btn btn-default" href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Abreise-Zeiten -->
+    <h3>Abreise-Zeiten</h3>
+    <div class="panel-group">
+      {% for key, label in ABREISE_ZEIT_TYPES.items() %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-{{ place }}-outbound-{{ key }}">
+                Anreise mit {{ label }}
+              </a>
+              <span class="badge" style="float: right">{{ result[place]['outbound_time'][key] | length }}</span>
+            </h4>
+          </div>
+          <div id="collapse-{{ place }}-outbound-{{ key }}" class="panel-collapse collapse">
+            <div class="table-responsive">
+            <table class='table table-striped'>
+              <tr>
+                <th>Uni</th>
+                <th>Name</th>
+                <th>Aktionen</th>
+              </tr>
+              {% for reg in result[place]['outbound_time'][key] %}
+              <tr>
+                <td>
+                {% if reg.uni %}
+                  <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                    {{ reg.uni.name }}
+                  </a>
+                {% endif %}
+                </td>
+                <td>
+                  <a href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+                    {{ reg.user.full_name }}
+                  </a>
+                </td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <a class="btn btn-default" href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
   {% endfor %}
 
 </div>
