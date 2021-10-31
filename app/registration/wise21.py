@@ -358,7 +358,7 @@ def registration_wise21_details_registration(reg_id):
     form.spitzname.data = reg.data['spitzname']
     form.standort.data = reg.data['standort']
     form.modus.data = reg.data['modus']
-    form.priority.data = reg.priority()
+    form.priority.data = reg.priority
     return render_template('admin/wise21/details.html',
         reg = reg,
         form = form,
