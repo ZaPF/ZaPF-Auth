@@ -151,9 +151,10 @@ def registration_wise21_report_tshirts():
     )
 
 @registration_blueprint.route('/admin/registration/report/wise21/merch')
+@registration_blueprint.route('/admin/registration/report/wise21/merch/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_merch():
+def registration_wise21_report_merch(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
@@ -174,6 +175,12 @@ def registration_wise21_report_merch():
     for name, label in TSHIRTS_TYPES.items():
         result['shirts'][name] = {'label': label, 'amount': 0, 'requests': []}
     for reg in registrations:
+        if place is not None:
+            if place is 'online' and reg.data['modus'] != "online":
+                continue
+            elif place != reg.data['standort']:
+                continue
+            
         tshirt_size = reg.data['tshirt']
         tshirt_amount = reg.data['nrtshirt']
         if tshirt_amount == None:
