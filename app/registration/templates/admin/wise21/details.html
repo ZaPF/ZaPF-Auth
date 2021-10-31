@@ -93,6 +93,12 @@
     </div>
   </div>
   <div class="form-group row">
+    {{ form.modus.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.modus(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
     <label class="col-sm-3 control-label" for="place">Wunschstandort</label>
     <div class="col-sm-9">
       <input id="place" name="place" type="text" class="form-control" readonly="readonly" value="{% if reg.data['modus'] == 'online' %}online{% else %}{{ reg.data['standort'] }} {% if reg.data['praesenzplatz'] %} (niedrige Prio) {% endif %}{% endif %}" />

@@ -56,6 +56,9 @@
           <a class="btn-danger btn" href="{{url_for('registration.delete_registration', reg_id=registration.id)}}">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
           </a>
+          <a class="btn btn-default" href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+          </a>
         </div>
       </td>
     </tr>

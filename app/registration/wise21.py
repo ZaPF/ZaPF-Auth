@@ -314,7 +314,18 @@ def registration_wise21_report_sonstiges():
 
 class DetailsOverwriteForm(FlaskForm):
     spitzname = StringField('Spitzname')
-    standort = SelectField('Standort festlegen', choices=[("goe", "Göttingen"), ("koe", "Köln"), ("mue", "München (Garchingen)"), ("egal", "Egal"),])
+    modus = SelectField('Modus', choices=[
+            ("online", "Online-Teilnahme"),
+            ("present", "Präsenzteilnahme"),
+        ],
+    )
+    standort = SelectField('Standort festlegen', choices=[
+            ("goe", "Göttingen"), 
+            ("koe", "Köln"), 
+            ("mue", "München (Garchingen)"), 
+            ("egal", "Egal"),
+        ]
+    )
     submit = SubmitField()
 
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_wise21', methods=['GET', 'POST'])
@@ -327,7 +338,12 @@ def registration_wise21_details_registration(reg_id):
         data = reg.data
         if 'orig_standort' not in data:
             data['orig_standort'] = data['standort']
+        if 'orig_modus' not in data:
+            data['orig_modus'] = data['modus']
+        if 'orig_spitzname' not in data:
+            data['orig_spitzname'] = data['spitzname']
         data['standort'] = form.standort.data
+        data['modus'] = form.modus.data
         data['spitzname'] = form.spitzname.data
         reg.data = data
         db.session.add(reg)
@@ -336,6 +352,7 @@ def registration_wise21_details_registration(reg_id):
         
     form.spitzname.data = reg.data['spitzname']
     form.standort.data = reg.data['standort']
+    form.modus.data = reg.data['modus']
     return render_template('admin/wise21/details.html',
         reg = reg,
         form = form,
