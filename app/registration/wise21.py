@@ -178,7 +178,7 @@ def registration_wise21_report_merch(place = None):
         if place is not None:
             if place is 'online' and reg.data['modus'] != "online":
                 continue
-            elif place != reg.data['standort']:
+            if place is not 'online' and place != reg.data['standort']:
                 continue
 
         tshirt_size = reg.data['tshirt']
