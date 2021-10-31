@@ -86,6 +86,26 @@ ABREISE_ZEIT_TYPES = {
   'ende': 'Nach dem Plenum',
 }
 
+ESSEN_TYPES = {
+  'omnivor': 'Omnivor',
+  'vegetarisch': 'Vegetarisch',
+  'vegan': 'Vegan',
+}
+
+ESSEN_AMOUNT_TYPES = {
+  'weniger': 'Weniger!',
+  'eins': 'Eins',
+  'zwei': 'Zwei',
+  'drei': 'Drei',
+  'mehr': 'Mehr!',
+}
+
+IMMA_TYPES = {
+    'ja': 'Immatrikuliert',
+    'nein': 'Fehler',
+    'n.i.': 'Nicht Immatrikuliert',
+}
+
 def attachment(response, filename):
     response.headers['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
     return response
@@ -304,6 +324,9 @@ def registration_wise21_details_registration(reg_id):
         ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
+        ESSEN_TYPES = ESSEN_TYPES,
+        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
+        IMMA_TYPES = IMMA_TYPES,
     )
 
 @registration_blueprint.route('/admin/registration/report/sose21/stimmkarten/latex')
