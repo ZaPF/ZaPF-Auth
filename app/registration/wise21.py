@@ -224,10 +224,10 @@ def registration_wise21_report_praesentonline():
     datetime_string = get_datetime_string()
     registrations = [reg for reg in Registration.query.order_by(Registration.id)]
     result = {
- #       'goe': [],
- #       'koe': [],
- #       'mue': [],
- #       'egal': [],
+        'goe': [],
+        'koe': [],
+        'mue': [],
+        'egal': [],
     }
     for reg in registrations:
 
