@@ -226,7 +226,8 @@ def registrations_export_attendee_csv():
     writer.writerows([[reg.username, reg.user.mail, reg.user.firstName,
                        reg.user.surname, reg.uni.name, reg.is_guaranteed,
                        reg.confirmed, reg.priority, reg.is_zapf_attendee,
-                       (reg.data['standort'] if reg.data['modus'] != 'online' else 'online')
+                       (reg.data['standort'] if reg.data['modus'] != 'online' else 'online'),
+                       reg.data['spitzname']
                        ]
                       for reg in registrations])
     return attachment(Response(result.getvalue(), mimetype='text/csv'), 'attendees.csv')
