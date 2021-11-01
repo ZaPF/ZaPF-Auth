@@ -217,6 +217,26 @@ def registration_wise21_report_standort():
         datetime_string = datetime_string,
     )
 
+@registration_blueprint.route('/admin/registration/report/wise21/praesentonline')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_wise21_report_praesentonline():
+    datetime_string = get_datetime_string()
+    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
+    result = {
+        'goe': [],
+        'koe': [],
+        'mue': [],
+        'egal': [],
+    }
+    for reg in registrations:
+
+        result[reg.data['standort']].append(reg)
+    return render_template('admin/wise21/praesentonline.html',
+        result = result,
+        datetime_string = datetime_string,
+    )
+
 @registration_blueprint.route('/admin/registration/report/wise21/essen')
 @registration_blueprint.route('/admin/registration/report/wise21/essen/<place>')
 @groups_sufficient('admin', 'orga')
