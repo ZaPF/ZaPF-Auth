@@ -225,7 +225,7 @@ def registrations_export_attendee_csv():
     writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
     writer.writerows([[reg.username, reg.user.mail, reg.user.firstName,
                        reg.user.surname, reg.uni.name, reg.is_guaranteed,
-                       reg.confirmed, reg.priority, reg.is_zapf_attendee]
+                       reg.confirmed, reg.priority, reg.is_zapf_attendee, reg.standort]
                       for reg in registrations])
     return attachment(Response(result.getvalue(), mimetype='text/csv'), 'attendees.csv')
 
