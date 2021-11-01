@@ -268,7 +268,7 @@ def registration_wise21_report_essen(place = None):
         result['essen'][essen_type]['registrations'].append(reg)
         if allergien or essensformen:
             result['allergien'].append(reg)
-        if alkohol:
+        if alkohol == 'ja':
             result['alkohol'].append(reg)
         result['heissgetraenk'][heissgetraenk].append(reg)
     return render_template('admin/wise21/essen.html',
