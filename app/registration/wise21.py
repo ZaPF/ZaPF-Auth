@@ -224,14 +224,12 @@ def registration_wise21_report_praesentonline():
     datetime_string = get_datetime_string()
     registrations = [reg for reg in Registration.query.order_by(Registration.id)]
     result = {
-        'goe': [],
-        'koe': [],
-        'mue': [],
-        'egal': [],
+        'online': [],
+        'present': [],
     }
     for reg in registrations:
 
-        result[reg.data['standort']].append(reg)
+        result[reg.data['modus']].append(reg)
     return render_template('admin/wise21/praesentonline.html',
         result = result,
         datetime_string = datetime_string,
