@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}WiSe21: Auswertung Impfstatus{% endblock %}
+{% block title %}WiSe21: Impfstatus{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -13,7 +13,7 @@
   </a>
   
   <h1>
-    Auswertung Impfstatus für ZaPF Winter21
+    Impfstatus für ZaPF Winter21
   </h1>
 
   <div class="panel-group">
@@ -33,7 +33,14 @@
           <tr>
             <th>Name</th>
             <th>Barrierefreiheit</th>
-            <th>Impfstatus</th>
+            <th>Partner</th>
+            <th>Nicht-binäre Toiletten</th>
+            <th>Nicht-binäre Duschen</th>
+            <th>Keine Gruppenduschen</th>
+            <th>Doppelbett</th>
+            <th>Kleiner 1,7 m</th>
+            <th>Private/Keine Unterkunft</th>
+            <th>Priorisierung</th>
             <th>Aktionen</th>
           </tr>
           {% for reg in data %}
@@ -44,7 +51,14 @@
               </a>
             </td>
             <td> {{ reg.data['barrierefreiheit'] }} </td>
-            <td> {{{ reg.data['impfstatus'] }} {% if reg.data['impfzertifikat'] %} (mit Nachweis){% endif %} {% if reg.data['coronatest'] %} (mit Test){% endif %}} </td>
+            <td> {% if reg.data['nurmitpartner'] %}nur mit{% endif %} {{ reg.data['partner'] }} </td>
+            <td> {{ reg.data['notbinarytoiletten'] }} </td>
+            <td> {{ reg.data['notbinaryduschen'] }} </td>
+            <td> {{ reg.data['notgruppenduschen'] }} {{ reg.data['nurohnegruppenduschen'] }}</td>
+            <td> {% if reg.data['doppelbettbeliebig'] %}beliebig{% elif reg.data['doppelbettbestimmt'] %}bestimmt{% else %}nein{% endif %} </td>
+            <td> {{ reg.data['klein'] }} </td>
+            <td> {% if reg.data['privatunterbringung'] != 'keine' %}Private Unterkunft in {{ reg.data['privatunterbringung'] }}{% elif reg.data['tagesgast'] != 'keine' %}Tagesgast in {{ reg.data['tagesgast'] }}{% endif %} </td>
+            <td> {% if reg.data['präsenzplatz'] %} Niedrig {% else %} Normal {% endif %}</td>
             <td>
               <div class="btn-group" role="group">
                 <a class="btn btn-default" href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
