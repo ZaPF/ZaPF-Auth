@@ -217,6 +217,28 @@ def registration_wise21_report_standort():
         datetime_string = datetime_string,
     )
 
+@registration_blueprint.route('/admin/registration/report/wise21/impfstatus')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_wise21_report_impfstatus():
+    datetime_string = get_datetime_string()
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    result = {
+        'goe': [],
+        'koe': [],
+        'mue': [],
+        'egal': [],
+    }
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+            continue
+
+        result[reg.data['impfstatus']].append(reg)
+    return render_template('admin/wise21/impfstatus.html',
+        result = result,
+        datetime_string = datetime_string,
+    )
+
 @registration_blueprint.route('/admin/registration/report/wise21/praesentonline')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
