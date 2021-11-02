@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}WiSe21: Auswertung Impfstatus{% endblock %}
+
+{% block content %}
+<div class="container">
+  <a class="btn btn-default" href="{{ url_for('registration.registration_wise21_reports') }}">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
+  </a>  
+  <span class="label label-default">Stand {{ datetime_string }}</span>
+  <a class="btn btn-primary pull-right" href="{{ url_for('registration.registration_wise21_report_clear', target = request.url_rule.endpoint ) }}">
+    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Diesen Bericht aktualisieren
+  </a>
+  
+  <h1>
+    Auswertung Impfstatus für ZaPF Winter21
+  </h1>
+
+  <div class="panel-group">
+    {% for name, data in result.items() %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-place-{{ name }}">
+            {{ name }}
+          </a>
+          <span class="badge" style="float: right">{{ data | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-place-{{ name }}" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Name</th>
+            <th>Barrierefreiheit</th>
+            <th>Impfstatus</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in data %}
+          <tr>
+            <td>
+              <a href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td> {{ reg.data['barrierefreiheit'] }} </td>
+            <td> {{{ reg.data['impfstatus'] }} {% if reg.data['impfzertifikat'] %} (mit Nachweis){% endif %} {% if reg.data['coronatest'] %} (mit Test){% endif %}} </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
