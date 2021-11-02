@@ -233,7 +233,7 @@ def registration_wise21_report_impfstatus():
         if reg.data['modus'] == "online":
             continue
 
-        result[reg.data['impfstatus']].append(reg)
+        result[reg.data['standort']].append(reg)
     return render_template('admin/wise21/impfstatus.html',
         result = result,
         datetime_string = datetime_string,
