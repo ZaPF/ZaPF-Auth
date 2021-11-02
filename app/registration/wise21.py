@@ -221,7 +221,7 @@ def registration_wise21_report_standort():
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_wise21_report_impfstatus():
-    datetime_string = get_datetime_string()
+    datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id)]
     result = {
         'goe': [],
@@ -234,6 +234,7 @@ def registration_wise21_report_impfstatus():
             continue
 
         result[reg.data['standort']].append(reg)
+        
     return render_template('admin/wise21/impfstatus.html',
         result = result,
         datetime_string = datetime_string,
