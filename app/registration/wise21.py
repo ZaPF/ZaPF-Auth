@@ -222,7 +222,7 @@ def registration_wise21_report_standort():
 @cache.cached()
 def registration_wise21_report_impfstatus():
     datetime_string = get_datetime_string()
-    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
     result = {
         'goe': [],
         'koe': [],
