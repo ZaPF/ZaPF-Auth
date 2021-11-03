@@ -104,6 +104,7 @@
       <th>Name</th>
       <th>Allergien</th>
       <th>Essensformen</th>
+      <th>Brötchen</th>
       <th>Aktionen</th>
     </tr>
     {% for reg in result['allergien'] %}
@@ -125,6 +126,9 @@
       </td>
       <td>
         {{ reg.data['essensformen'] }}
+      </td>
+      <td>
+        {{ reg.data['broetchen'] }}
       </td>
       <td>
         <div class="btn-group" role="group">
