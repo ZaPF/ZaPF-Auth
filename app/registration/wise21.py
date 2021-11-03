@@ -296,6 +296,7 @@ def registration_wise21_report_essen(place = None):
         result['heissgetraenk'][heissgetraenk].append(reg)
     return render_template('admin/wise21/essen.html',
         result = result,
+        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
         datetime_string = datetime_string
     )
 
