@@ -227,6 +227,7 @@ def registrations_export_attendee_csv():
                        reg.user.surname, reg.uni.name, reg.is_guaranteed,
                        reg.confirmed, reg.priority, reg.is_zapf_attendee,
                        (reg.data['standort'] if reg.data['modus'] != 'online' else 'online'),
+                       reg.data['essensmenge'],
                        reg.data['spitzname']
                        ]
                       for reg in registrations])
