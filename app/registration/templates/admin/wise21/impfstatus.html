@@ -36,6 +36,7 @@
             <th>Zertifikat</th>
             <th>Test</th>
             <th>Brötchen</th>
+            <th>Eduroam</th>
             <th>Aktionen</th>
           </tr>
           {% for reg in data %}
@@ -48,6 +49,7 @@
             <td> {{ reg.data['impfstatus'] }} </td>
             <td> {{ reg.data['impfzertifikat'] }} </td>
             <td> {{ reg.data['coronatest'] }} </td>
+            <td>{{reg.data['eduroam']}}</td>
             <td> {{ reg.data['essensmenge'] }} </td>
             <td>
               <div class="btn-group" role="group">
