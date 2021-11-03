@@ -269,7 +269,6 @@ def registration_wise21_report_essen(place = None):
     result['essen'] = {}
     result['allergien'] = []
     result['alkohol'] = []
-    result['broetchen'] = []
     result['heissgetraenk'] = {
         'kaffee': [],
         'tee': [],
@@ -285,7 +284,6 @@ def registration_wise21_report_essen(place = None):
         essen_type = reg.data['essen']
         allergien = reg.data['allergien']
         alkohol = reg.data['alkohol']
-        broetchen = reg.data['broetchen']
         heissgetraenk = reg.data['heissgetraenk']
         essensformen = reg.data['essensformen']
         if (not result['essen'][essen_type]):
@@ -296,7 +294,6 @@ def registration_wise21_report_essen(place = None):
         if alkohol == 'ja':
             result['alkohol'].append(reg)
         result['heissgetraenk'][heissgetraenk].append(reg)
-        result['broetchen'][broetchen].append(reg)
     return render_template('admin/wise21/essen.html',
         result = result,
         datetime_string = datetime_string
