@@ -48,7 +48,7 @@
             <td> {{ reg.data['impfstatus'] }} </td>
             <td> {{ reg.data['impfzertifikat'] }} </td>
             <td> {{ reg.data['coronatest'] }} </td>
-            <td> {{ ESSEN_AMOUNT_TYPES[reg.data['essensmenge']] }} </td>
+            <td> {{ reg.data['essensmenge'] }} </td>
             <td>
               <div class="btn-group" role="group">
                 <a class="btn btn-default" href="{{ url_for('registration.registration_wise21_details_registration', reg_id=reg.id) }}">
