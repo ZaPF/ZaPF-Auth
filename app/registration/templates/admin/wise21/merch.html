@@ -171,7 +171,7 @@
             <th>Uni</th>
             <th>Aktionen</th>
           </tr>
-          {% for req in data['requests'] %}
+          {% for req in data['requests'] if req['amount'] > 0 %}
           <tr>
             <td>{{ req['amount'] }}</td>
             <td>
