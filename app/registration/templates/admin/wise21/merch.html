@@ -128,7 +128,7 @@
               </a>
             </td>
             <td>
-              {{ reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1 }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
+              {{ reg.data['nrtshirt'] if reg.data['nrtshirt'] else 0 }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
             </td>
             <td>{% if reg.data['nottasse'] %}Nein{% else %}Ja{% endif %}</td>
             <td>{% if reg.data['nottasche'] %}Nein{% else %}Ja{% endif %}</td>
