@@ -9,8 +9,8 @@ flask-caching>=1.9
 flask-ldap3-login>=0.9.16
 flask-login>=0.4.1
 flask_bootstrap>=3.3.7
-flask_oauthlib>=0.9.5
 ipython>=7.3.0
 ldap3>=2.5.2
 requests-oauthlib==1.1.0
 email_validator>=1.1.1
+authlib>=1.15.2

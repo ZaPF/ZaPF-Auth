@@ -9,6 +9,8 @@ services:
     expose:
       - "389"
       - "689"
+    ports:
+      - "389:389"
     volumes:
       - type: bind
         source: ./docker/bootstrap_openldap/schema

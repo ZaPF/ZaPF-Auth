@@ -1,17 +1,27 @@
 from app.orm import LDAPOrm
 from app.user.models import User, AnonymousUser
+import time
 
 
-class Grant(object):
+class AuthorizationCode(object):
     user_id = None
     client_id = None
     code = None
+    code_challenge = None
+    code_challenge_method = None
     redirect_uri = None
+    response_type = None
     expires = None
-    _scopes = []
+    scope = None
+    nonce = None
+    auth_time = None
+    scope = None
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
+
+        if self.auth_time is None:
+            self.auth_time = time.time()
 
     def delete(self):
         return self
@@ -20,9 +30,20 @@ class Grant(object):
     def user(self):
         return User.get(self.user_id) or AnonymousUser()
 
-    @property
-    def scopes(self):
-        return self._scopes
+    def is_expired(self):
+        return self.auth_time + 300 < time.time()
+
+    def get_redirect_uri(self):
+        return self.redirect_uri
+
+    def get_scope(self):
+        return self.scope
+
+    def get_auth_time(self):
+        return self.auth_time
+
+    def get_nonce(self):
+        return self.nonce
 
 
 class Token(object):
@@ -31,8 +52,9 @@ class Token(object):
     token_type = "bearer"
     access_token = None
     refresh_token = None
-    expires = None
-    _scopes = []
+    expires_in = None
+    created_at = None
+    scope = None
 
     def delete(self):
         return self
@@ -40,13 +62,21 @@ class Token(object):
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
+    def get_expires_at(self):
+        return self.created_at + self.expires_in
+
+    def get_client_id(self):
+        return self.client_id
+
+    def get_expires_in(self):
+        return self.expires_in
+
+    def get_scope(self):
+        return self.scope
+
     @property
     def user(self):
         return User.get(self.user_id) or AnonymousUser()
-
-    @property
-    def scopes(self):
-        return self._scopes
 
 
 class Client(LDAPOrm):
