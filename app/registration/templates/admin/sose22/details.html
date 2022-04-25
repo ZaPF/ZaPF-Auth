@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}WiSe21: Registierung von "{{ reg.user.full_name }}"{% endblock %}
+
+{% macro show_form_errors(form, container = True) %}
+{% if form.errors -%} {# don't output anything if there are no errors #}
+{% if container -%}
+  <div class="row">
+    <div class="col-sm-12">
+{% endif -%}
+      <div class="alert alert-danger" role="alert">
+        <p><strong>Errors when validating form data:</strong></p>
+        {{ wtf.form_errors(form) }}
+      </div>
+{% if container %}
+    </div>
+  </div>
+{% endif -%}
+{% endif -%}
+{% endmacro -%}
+
+{% block content %}
+<div class="container">
+  <h2>
+    Winter21: Details der Registrierung von "{{ reg.user.full_name }}"
+  </h2>
+
+  <form method="POST">
+    {{ form.hidden_tag() }}
+  <div class="form-horizontal">
+    {{ show_form_errors(form) }}
+  <div class="form-group row">
+    {% if reg.data['zaepfchen'] in ['ja', 'jaund'] %}<span class="label label-default">ZäPFchen</span>{% endif %} 
+    {% if reg.data['mentor'] %}<span class="label label-warning">Möchte Mentor sein</span>{% endif %} 
+    {% if reg.data['zaepfchen'] == 'jaund' %}<span class="label label-warning">Möchte Mentor haben</span>{% endif %} 
+    {% if reg.data['vertrauensperson'] == 'ja' %}<span class="label label-primary">Vertrauensperson-Anwärtikon</span>{% endif %} 
+    {% if reg.data['protokoll'] == 'ja' %}<span class="label label-primary">Protokollantikon-Anwärtikon</span>{% endif %} 
+    {% if reg.is_guaranteed %}<span class="label label-info">Gremikon</span>{% endif %}
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="vorname">Vorname</label>
+    <div class="col-sm-9">
+      <input id="vorname" name="vorname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.firstName }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="nachname">Nachname</label>
+    <div class="col-sm-9">
+      <input id="nachname" name="nachname" type="text" class="form-control" readonly="readonly" value="{{ reg.user.surname }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.spitzname.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.spitzname(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="pronomen">Pronomen</label>
+    <div class="col-sm-9">
+      <input id="pronomen" name="pronomen" type="text" class="form-control" readonly="readonly" value="{{ reg.data['anrede'] }} {{ reg.data['anrede2'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="alter">Alter</label>
+    <div class="col-sm-9">
+      <input id="alter" name="alter" type="text" class="form-control" readonly="readonly" value="{{ reg.data['alter'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="fotos">Fotos ok?</label>
+    <div class="col-sm-9">
+      <input id="fotos" name="fotos" type="text" class="form-control" readonly="readonly" value="{{ reg.data['foto'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="mail">E-Mail</label>
+    <div class="col-sm-9">
+      <input id="mail" name="mail" type="text" class="form-control" readonly="readonly" value="{{ reg.user.mail }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="imma">Immatrikulationsbescheinigung</label>
+    <div class="col-sm-9">
+      <input id="imma" name="imma" type="text" class="form-control" readonly="readonly" value="{{ IMMA_TYPES[reg.data['immatrikulationsbescheinigung']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.standort.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.standort(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.modus.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.modus(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.priority.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.priority(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="place">Wunschstandort</label>
+    <div class="col-sm-9">
+      <input id="place" name="place" type="text" class="form-control" readonly="readonly" value="{% if reg.data['modus'] == 'online' %}online{% else %}{{ reg.data['standort'] }} {% if reg.data['praesenzplatz'] %} (niedrige Prio) {% endif %}{% endif %}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="barrierefreiheit">Barrierefreiheit erforderlich</label>
+    <div class="col-sm-9">
+      <input id="barrierefreiheit" name="barrierefreiheit" type="text" class="form-control" readonly="readonly" value="{{ reg.data['barrierefreiheit'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="eduroam">Eduroam</label>
+    <div class="col-sm-9">
+      <input id="eduroam" name="eduroam" type="text" class="form-control" readonly="readonly" value="{{ reg.data['eduroam'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="vaccination">Impfstatus</label>
+    <div class="col-sm-9">
+      <input id="vaccination" name="vaccination" type="text" class="form-control" readonly="readonly" value="{{ reg.data['impfstatus'] }} {% if reg.data['impfzertifikat'] %} (mit Nachweis){% endif %} {% if reg.data['coronatest'] %} (mit Test){% endif %}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="uni">Uni</label>
+    <div class="col-sm-9">
+      <input id="uni" name="uni" type="text" class="form-control" readonly="readonly" value="{{ reg.uni.name }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="essen">Essenstyp</label>
+    <div class="col-sm-9">
+      <input id="essen" name="essen" type="text" class="form-control" readonly="readonly" value="{{ ESSEN_TYPES[reg.data['essen']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="essen">Brötchen</label>
+    <div class="col-sm-9">
+      <input id="essen" name="essen" type="text" class="form-control" readonly="readonly" value="{{ ESSEN_AMOUNT_TYPES[reg.data['essensmenge']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="allergien">Allergien</label>
+    <div class="col-sm-9">
+      <input id="allergien" name="allergien" type="text" class="form-control" readonly="readonly" value="{{ reg.data['allergien'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="essensformen">Sonstige Essensformen z.B. koscher</label>
+    <div class="col-sm-9">
+      <input id="essensformen" name="essensformen" type="text" class="form-control" readonly="readonly" value="{{ reg.data['essensformen'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="heiss">Heißgetränk</label>
+    <div class="col-sm-9">
+      <input id="heiss" name="heiss" type="text" class="form-control" readonly="readonly" value="{{ reg.data['heissgetraenk'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="alkohol">Alkohol</label>
+    <div class="col-sm-9">
+      <input id="alkohol" name="alkohol" type="text" class="form-control" readonly="readonly" value="{{ reg.data['alkohol'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="tshirt">T-Shirt-Größe</label>
+    <div class="col-sm-9">
+      <input id="tshirt" name="tshirt" type="text" class="form-control" readonly="readonly" value="{% if reg.data['nrtshirt'] %}{{ reg.data['nrtshirt'] }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}{% endif %}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="merch">Weiteres Merch</label>
+    <div class="col-sm-9">
+      <input id="merch" name="merch" type="text" class="form-control" readonly="readonly" value="{% if reg.data['nottasse'] %}Keine Tasse {% endif %}{% if reg.data['nottasche'] %}Keine Tasche {% endif %}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="anreise">Anreise</label>
+    <div class="col-sm-9">
+      <input id="anreise" name="anreise" type="text" class="form-control" readonly="readonly" value="{{ ANREISE_ZEIT_TYPES[reg.data['anreise_zeit']] }} mit {{ ANREISE_TYPES[reg.data['anreise_witz']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="abreise">Abreise</label>
+    <div class="col-sm-9">
+      <input id="abreise" name="abreise" type="text" class="form-control" readonly="readonly" value="{{ ABREISE_ZEIT_TYPES[reg.data['abreise_zeit']] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="musikwunsch">Musikwunsch</label>
+    <div class="col-sm-9">
+      <input id="musikwunsch" name="musikwunsch" type="text" class="form-control" readonly="readonly" value="{{ reg.data['musikwunsch'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="kommentar">Kommentar</label>
+    <div class="col-sm-9">
+      <input id="kommentar" name="kommentar" type="text" class="form-control" readonly="readonly" value="{{ reg.data['kommentar'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-offset-3 col-sm-9">
+      {{ form.submit(class='btn btn-lg btn-default') }}
+    </div>
+  </div>
+  </div>
+  </form>
+</div>
+{% endblock %}
