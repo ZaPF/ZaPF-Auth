@@ -114,24 +114,24 @@ def get_datetime_string():
     return datetime.now(tz=pytz.timezone('Europe/Berlin')).strftime('%d.%m.%Y %H:%M:%S %Z')
 
 @registration_blueprint.route('/admin/registration/report/clear/<target>')
-def registration_wise21_report_clear(target):
+def registration_sose22_report_clear(target):
     if target == 'all':
         cache.clear()
-        return redirect(url_for('registration.registration_wise21_reports'))
+        return redirect(url_for('registration.registration_sose22_reports'))
     else:
         cache.delete("view/{0}".format(url_for(target)))
         return redirect(url_for(target))
 
-@registration_blueprint.route('/admin/registration/report/wise21')
+@registration_blueprint.route('/admin/registration/report/sose22')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_reports():
+def registration_sose22_reports():
     datetime_string = get_datetime_string() 
     registrations = Registration.query.all()
     confirmed = [reg for reg in registrations if reg.confirmed]
     attendees = [reg for reg in registrations if reg.is_zapf_attendee]
     gremika = [reg for reg in attendees if reg.is_guaranteed]
-    return render_template('admin/wise21/reports.html',
+    return render_template('admin/sose22/reports.html',
         registrations=len(registrations),
         attendees=len(attendees),
         confirmed=len(confirmed),
@@ -139,11 +139,11 @@ def registration_wise21_reports():
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/merch')
-@registration_blueprint.route('/admin/registration/report/wise21/merch/<place>')
+@registration_blueprint.route('/admin/registration/report/sose22/merch')
+@registration_blueprint.route('/admin/registration/report/sose22/merch/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_merch(place = None):
+def registration_sose22_report_merch(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
@@ -186,7 +186,7 @@ def registration_wise21_report_merch(place = None):
         result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount})
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['shirts'][tshirt_size] += tshirt_amount
-    return render_template('admin/wise21/merch.html',
+    return render_template('admin/sose22/merch.html',
         result = result,
         result_unis = result_unis,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
@@ -194,10 +194,10 @@ def registration_wise21_report_merch(place = None):
         place = place,
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/standort')
+@registration_blueprint.route('/admin/registration/report/sose22/standort')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_standort():
+def registration_sose22_report_standort():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id)]
     result = {
@@ -212,15 +212,15 @@ def registration_wise21_report_standort():
 
         result[reg.data['standort']].append(reg)
         
-    return render_template('admin/wise21/standort.html',
+    return render_template('admin/sose22/standort.html',
         result = result,
         datetime_string = datetime_string,
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/impfstatus')
+@registration_blueprint.route('/admin/registration/report/sose22/impfstatus')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_impfstatus():
+def registration_sose22_report_impfstatus():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id)]
     result = {
@@ -235,15 +235,15 @@ def registration_wise21_report_impfstatus():
 
         result[reg.data['standort']].append(reg)
         
-    return render_template('admin/wise21/impfstatus.html',
+    return render_template('admin/sose22/impfstatus.html',
         result = result,
         datetime_string = datetime_string,
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/praesentonline')
+@registration_blueprint.route('/admin/registration/report/sose22/praesentonline')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_praesentonline():
+def registration_sose22_report_praesentonline():
     datetime_string = get_datetime_string()
     registrations = [reg for reg in Registration.query.order_by(Registration.id)]
     result = {
@@ -253,16 +253,16 @@ def registration_wise21_report_praesentonline():
     for reg in registrations:
 
         result[reg.data['modus']].append(reg)
-    return render_template('admin/wise21/praesentonline.html',
+    return render_template('admin/sose22/praesentonline.html',
         result = result,
         datetime_string = datetime_string,
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/essen')
-@registration_blueprint.route('/admin/registration/report/wise21/essen/<place>')
+@registration_blueprint.route('/admin/registration/report/sose22/essen')
+@registration_blueprint.route('/admin/registration/report/sose22/essen/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_essen(place = None):
+def registration_sose22_report_essen(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -294,16 +294,16 @@ def registration_wise21_report_essen(place = None):
         if alkohol == 'ja':
             result['alkohol'].append(reg)
         result['heissgetraenk'][heissgetraenk].append(reg)
-    return render_template('admin/wise21/essen.html',
+    return render_template('admin/sose22/essen.html',
         result = result,
         ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/anreise')
+@registration_blueprint.route('/admin/registration/report/sose22/anreise')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_anreise():
+def registration_sose22_report_anreise():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -331,7 +331,7 @@ def registration_wise21_report_anreise():
             result[place]['inbound_time'][anreise_zeit].append(reg)
         if abreise_zeit in ABREISE_ZEIT_TYPES.keys():
             result[place]['outbound_time'][abreise_zeit].append(reg)
-    return render_template('admin/wise21/anreise.html',
+    return render_template('admin/sose22/anreise.html',
         result = result,
         datetime_string = datetime_string,
         places = result_places,
@@ -340,11 +340,11 @@ def registration_wise21_report_anreise():
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/roles')
-@registration_blueprint.route('/admin/registration/report/wise21/roles/<place>')
+@registration_blueprint.route('/admin/registration/report/sose22/roles')
+@registration_blueprint.route('/admin/registration/report/sose22/roles/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_roles(place = None):
+def registration_sose22_report_roles(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -362,15 +362,15 @@ def registration_wise21_report_roles(place = None):
         if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
         if reg.data['zaepfchen'] == 'jaund': result['mentee'].append(reg) 
         if reg.data['mentor']: result['mentor'].append(reg) 
-    return render_template('admin/wise21/roles.html',
+    return render_template('admin/sose22/roles.html',
         result = result,
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/wise21/sonstiges')
+@registration_blueprint.route('/admin/registration/report/sose22/sonstiges')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_wise21_report_sonstiges():
+def registration_sose22_report_sonstiges():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -382,7 +382,7 @@ def registration_wise21_report_sonstiges():
         if reg.data['musikwunsch']: result['music'].append(reg)
         
         
-    return render_template('admin/wise21/sonstiges.html',
+    return render_template('admin/sose22/sonstiges.html',
         result = result,
         datetime_string = datetime_string,
     )
@@ -404,9 +404,9 @@ class DetailsOverwriteForm(FlaskForm):
     priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
     submit = SubmitField()
 
-@registration_blueprint.route('/admin/registration/<int:reg_id>/details_wise21', methods=['GET', 'POST'])
+@registration_blueprint.route('/admin/registration/<int:reg_id>/details_sose22', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
-def registration_wise21_details_registration(reg_id):
+def registration_sose22_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
     form = DetailsOverwriteForm()
 
@@ -428,13 +428,13 @@ def registration_wise21_details_registration(reg_id):
 
         db.session.add(reg)
         db.session.commit()
-        return redirect(url_for('registration.registration_wise21_details_registration', reg_id = reg_id))
+        return redirect(url_for('registration.registration_sose22_details_registration', reg_id = reg_id))
         
     form.spitzname.data = reg.data['spitzname']
     form.standort.data = reg.data['standort']
     form.modus.data = reg.data['modus']
     form.priority.data = reg.priority
-    return render_template('admin/wise21/details.html',
+    return render_template('admin/sose22/details.html',
         reg = reg,
         form = form,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
