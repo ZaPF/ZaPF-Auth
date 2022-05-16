@@ -540,7 +540,7 @@ def registration_sose21_export_tagungsausweise_latex():
     def get_sort_key(entry):
         return entry[0]
     registrations = [reg for reg in Registration.query.all() if reg.is_zapf_attendee]
-    result_exkursionen = sose21_calculate_exkursionen(registrations)
+#    result_exkursionen = sose21_calculate_exkursionen(registrations)
     result = []
     result_alumni = []
     for name, data in result_exkursionen.items():
