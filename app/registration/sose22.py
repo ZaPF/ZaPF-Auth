@@ -195,7 +195,7 @@ def registration_sose22_report_test():
     for reg in registrations:
         if reg.data['modus'] == "online":
                 continue
-        heissgetraenk = reg.data['impfstatus']
+        impfstatus = reg.data['impfstatus']
         result['impfstatus'][impfstatus].append(reg)
 
     return render_template('admin/sose22/test.html',
