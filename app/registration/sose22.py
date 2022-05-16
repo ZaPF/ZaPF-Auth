@@ -183,17 +183,20 @@ def registration_sose22_report_test():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
-    result['heissgetraenk'] = {
-        'kaffee': [],
-        'tee': [],
-        'unparteiisch': [],
+    result['impfstatus'] = {
+        'keinfach': [],
+        'geimpft': [],
+        'geboostert': [],        
+        'genesen': [],
+        'genimpft': [],
+        'impfebereiung': [],
+        'kA': [],
     }
     for reg in registrations:
         if reg.data['modus'] == "online":
                 continue
-        heissgetraenk = reg.data['heissgetraenk']
-        essensformen = reg.data['essensformen']
-        result['heissgetraenk'][heissgetraenk].append(reg)
+        heissgetraenk = reg.data['impfstatus']
+        result['impfstatus'][impfstatus].append(reg)
 
     return render_template('admin/sose22/test.html',
         result = result,
