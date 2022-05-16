@@ -200,7 +200,6 @@ def registration_sose22_report_merch():
         result = result,
         result_unis = result_unis,
         datetime_string = datetime_string,
-        place = place,
     )
 
 @registration_blueprint.route('/admin/registration/report/sose22/standort')
