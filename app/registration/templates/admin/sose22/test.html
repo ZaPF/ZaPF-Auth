@@ -20,17 +20,17 @@
     Auswertung der Anreise
   </h2>
   <div class="panel-group">
-  {% for type, data in result['anreise'].items() %}
+  {% for type, data in result['anreise_zeit'].items() %}
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" href="#collapse-anreise-{{ type }}">
+        <a data-toggle="collapse" href="#collapse-anreise_zeit-{{ type }}">
           Anreise: {{ data['label'] }}
         </a>
         <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
       </h4>
     </div>
-    <div id="collapse-anreise-{{ type }}" class="panel-collapse collapse">
+    <div id="collapse-anreise_zeit-{{ type }}" class="panel-collapse collapse">
       <div class="table-responsive">
       <table class='table table-striped'>
         <tr>
