@@ -32,7 +32,7 @@
             <a data-toggle="collapse" href="#collapse-{{ place }}-modus-{{ key }}">
               Anreise mit {{ label }}
             </a>
-            <span class="badge" style="float: right">{{ result[place]['inbound'][key] | length }}</span>
+            <span class="badge" style="float: right">{{ result['inbound'][key] | length }}</span>
           </h4>
         </div>
         <div id="collapse-{{ place }}-modus-{{ key }}" class="panel-collapse collapse">
@@ -43,7 +43,7 @@
               <th>Name</th>
               <th>Aktionen</th>
             </tr>
-            {% for reg in result[place]['inbound'][key] %}
+            {% for reg in result['inbound'][key] %}
             <tr>
               <td>
               {% if reg.uni %}
@@ -83,7 +83,7 @@
               <a data-toggle="collapse" href="#collapse-{{ place }}-inbound-{{ key }}">
                 Anreise um {{ label }}
               </a>
-              <span class="badge" style="float: right">{{ result[place]['inbound_time'][key] | length }}</span>
+              <span class="badge" style="float: right">{{ result['inbound_time'][key] | length }}</span>
             </h4>
           </div>
           <div id="collapse-{{ place }}-inbound-{{ key }}" class="panel-collapse collapse">
@@ -94,7 +94,7 @@
                 <th>Name</th>
                 <th>Aktionen</th>
               </tr>
-              {% for reg in result[place]['inbound_time'][key] %}
+              {% for reg in result['inbound_time'][key] %}
               <tr>
                 <td>
                 {% if reg.uni %}
@@ -134,7 +134,7 @@
               <a data-toggle="collapse" href="#collapse-{{ place }}-outbound-{{ key }}">
                 Abreise um {{ label }}
               </a>
-              <span class="badge" style="float: right">{{ result[place]['outbound_time'][key] | length }}</span>
+              <span class="badge" style="float: right">{{ result['outbound_time'][key] | length }}</span>
             </h4>
           </div>
           <div id="collapse-{{ place }}-outbound-{{ key }}" class="panel-collapse collapse">
@@ -145,7 +145,7 @@
                 <th>Name</th>
                 <th>Aktionen</th>
               </tr>
-              {% for reg in result[place]['outbound_time'][key] %}
+              {% for reg in result['outbound_time'][key] %}
               <tr>
                 <td>
                 {% if reg.uni %}
