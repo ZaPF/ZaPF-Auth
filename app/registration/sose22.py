@@ -220,7 +220,7 @@ def registration_sose22_report_reise():
         anreise_witz_type = reg.data['anreise_witz']
         if (not result['anreise_witz'][anreise_witz_type]):
             return None
-        result['abreise_witz'][anreise_witz_type]['registrations'].append(reg)
+        result['anreise_witz'][anreise_witz_type]['registrations'].append(reg)
     return render_template('admin/sose22/reise.html',
         result = result,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
