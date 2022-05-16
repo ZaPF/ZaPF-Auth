@@ -170,38 +170,6 @@ def registration_sose22_report_tshirts():
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/sose22/merch')
-@groups_sufficient('admin', 'orga')
-@cache.cached()
-def registration_sose22_report_merch():
-    datetime_string = get_datetime_string() 
-    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    unis = Uni.query.order_by(Uni.id)
-    result = {
-        'mugs': [],
-        'nobags': [],
-    }
-    result_unis = {}
-    for uni in unis:
-        result_unis[uni.id] = {
-            'name': uni.name,
-            'registrations': [],
-            'mugs': 0,
-            'nobags': 0,
-        }
-    for reg in registrations:
-        if reg.data['tasse']:
-            result['mugs'].append(reg)
-            result_unis[reg.uni.id]['mugs'] += 1
-        if reg.data['nottasche']:
-            result['nobags'].append(reg)
-            result_unis[reg.uni.id]['nobags'] += 1
-    return render_template('admin/sose22/merch.html',
-        result = result,
-        result_unis = result_unis,
-        datetime_string = datetime_string,
-    )
-
 @registration_blueprint.route('/admin/registration/report/sose22/standort')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
