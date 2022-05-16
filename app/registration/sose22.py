@@ -1,6 +1,6 @@
 from flask import render_template, jsonify, Response, redirect, url_for, current_app
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField
+from wtforms import StringField, SelectField, SubmitField, IntegerField
 from . import registration_blueprint
 from .models import Registration, Uni
 from app.user import groups_sufficient
@@ -61,28 +61,28 @@ ANREISE_TYPES = {
   'auto': 'Auto',
 #  'flug': 'Flugzeug',
   'zeitmaschine': 'Zeitmaschine',
-  'flohpulver': 'Flohpulver',
+  'boot': 'Boot',
   'fahrrad': 'Fahrrad',
   'badeente': 'Badeente',
 }
 
 ANREISE_ZEIT_TYPES = {
-  'frueher': 'Vor FR 12h',
-  'fr1214': 'FR 12-14h',
-  'fr1416': 'FR 14-16h',
-  'fr1618': 'FR 16-18h',
-  'fr1829': 'Fr 18-20h',
-  'ende': 'Nach FR 20h',
+  'frueher': 'Vor Do 14h',
+  'do1416': 'Do 14-16h',
+  'do1618': 'Do 16-18h',
+  'do1820': 'Do 18-20h',
+  'do2022': 'Do 20-22h',
+  'ende': 'Nach Do 22h',
 }
 
 ABREISE_ZEIT_TYPES = {
-  'vordi': 'Vor Di',
-  'di810': 'Di 8-10h',
-  'di1012': 'Di 10-12h',
-  'di1214': 'Di 12-14h',
-  'di1416': 'Di 14-16h',
-  'di1618': 'Di 16-18h',
-  'di1820': 'Di 18-20h',
+  'vorso': 'Vor So',
+  'so810': 'So 8-10h',
+  'so1012': 'So 10-12h',
+  'so1214': 'So 12-14h',
+  'so1416': 'So 14-16h',
+  'so1618': 'So 16-18h',
+  'so1820': 'So 18-20h',
   'ende': 'Nach dem Plenum',
 }
 
@@ -131,7 +131,6 @@ def registration_sose22_reports():
     confirmed = [reg for reg in registrations if reg.confirmed]
     attendees = [reg for reg in registrations if reg.is_zapf_attendee]
     gremika = [reg for reg in attendees if reg.is_guaranteed]
-
     return render_template('admin/sose22/reports.html',
         registrations=len(registrations),
         attendees=len(attendees),
@@ -140,54 +139,18 @@ def registration_sose22_reports():
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/sose21/t-shirts')
+@registration_blueprint.route('/admin/registration/report/sose22/merch')
+@registration_blueprint.route('/admin/registration/report/sose22/merch/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose22_report_tshirts():
-    datetime_string = get_datetime_string() 
-    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    unis = Uni.query.order_by(Uni.id)
-    result = {}
-    result_unis = {}
-    for uni in unis:
-        result_unis[uni.id] = {
-            'name': uni.name,
-            'registrations': [],
-            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()}
-        }
-    for name, label in TSHIRTS_TYPES.items():
-        result[name] = {'label': label, 'registrations': []}
-    for reg in registrations:
-        tshirt_size = reg.data['tshirt']
-        if not result[tshirt_size]:
-            return None
-        result[tshirt_size]['registrations'].append(reg)
-        result_unis[reg.uni.id]['registrations'].append(reg)
-        result_unis[reg.uni.id]['types'][tshirt_size] += 1
-    return render_template('admin/sose21/t-shirts.html',
-        result = result,
-        result_unis = result_unis,
-        TSHIRTS_TYPES = TSHIRTS_TYPES,
-        datetime_string = datetime_string
-    )
-
-@registration_blueprint.route('/admin/registration/report/sose21/merch')
-@groups_sufficient('admin', 'orga')
-@cache.cached()
-def registration_sose22_report_merch():
+def registration_sose22_report_merch(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
     result = {
         'shirts': {},
-        'hoodies': {},
-        'towels': [],
-        'mugs': [],
-        'usbs': [],
-        'frisbees': [],
-        'patches': [],
-        'patches_total': 0,
-        'scarves': [],
+        'nomugs': [],
+        'nobags': [],
     }
     result_unis = {}
     for uni in unis:
@@ -195,95 +158,216 @@ def registration_sose22_report_merch():
             'name': uni.name,
             'registrations': [],
             'shirts': {name: 0 for name, label in TSHIRTS_TYPES.items()},
-            'towels': 0,
-            'mugs': 0,
-            'usbs': 0,
-            'frisbees': 0,
-            'patches': 0,
-            'scarves': 0,
+            'nomugs': 0,
+            'nobags': 0,
         }
     for name, label in TSHIRTS_TYPES.items():
         result['shirts'][name] = {'label': label, 'amount': 0, 'requests': []}
     for reg in registrations:
+        if place is not None:
+            if place == 'online' and reg.data['modus'] != "online":
+                continue
+            if place != 'online' and place != reg.data['standort']:
+                continue
+
         tshirt_size = reg.data['tshirt']
-        tshirt_amount = reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1
-        if reg.data['handtuch']:
-            result['towels'].append(reg)
-            result_unis[reg.uni.id]['towels'] += 1
-        if reg.data['tasse']:
-            result['mugs'].append(reg)
-            result_unis[reg.uni.id]['mugs'] += 1
-        if reg.data['usb']:
-            result['usbs'].append(reg)
-            result_unis[reg.uni.id]['usbs'] += 1
-        if reg.data['frisbee']:
-            result['frisbees'].append(reg)
-            result_unis[reg.uni.id]['frisbees'] += 1
-        if reg.data['aufnaeher']:
-            result['patches'].append(reg)
-            result['patches_total'] += reg.data['aufnaeher']
-            result_unis[reg.uni.id]['patches'] += reg.data['aufnaeher']
-        if reg.data['schal']:
-            result['scarves'].append(reg)
-            result_unis[reg.uni.id]['scarves'] += 1
+        tshirt_amount = reg.data['nrtshirt']
+        if tshirt_amount == None:
+            tshirt_amount = 0
+        if not result['shirts'][tshirt_size]:
+            return None
+        if reg.data['nottasse']:
+            result['nomugs'].append(reg)
+            result_unis[reg.uni.id]['nomugs'] += 1
+        if reg.data['nottasche']:
+            result['nobags'].append(reg)
+            result_unis[reg.uni.id]['nobags'] += 1
         result['shirts'][tshirt_size]['amount'] += tshirt_amount
         result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount})
-        result['hoodies'][hoodie_size]['amount'] += 1
-        result['hoodies'][hoodie_size]['requests'].append({'registration': reg, 'amount': 1})
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['shirts'][tshirt_size] += tshirt_amount
-        result_unis[reg.uni.id]['hoodies'][hoodie_size] += 1
-    return render_template('admin/sose21/merch.html',
+    return render_template('admin/sose22/merch.html',
         result = result,
         result_unis = result_unis,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
+        datetime_string = datetime_string,
+        place = place,
+    )
+
+@registration_blueprint.route('/admin/registration/report/sose22/standort')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_standort():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
+    result = {
+        'goe': [],
+        'koe': [],
+        'mue': [],
+        'egal': [],
+    }
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+            continue
+
+        result[reg.data['standort']].append(reg)
+        
+    return render_template('admin/sose22/standort.html',
+        result = result,
+        datetime_string = datetime_string,
+    )
+
+@registration_blueprint.route('/admin/registration/report/sose22/impfstatus')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_impfstatus():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
+    result = {
+        'goe': [],
+        'koe': [],
+        'mue': [],
+        'egal': [],
+    }
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+            continue
+
+        result[reg.data['standort']].append(reg)
+        
+    return render_template('admin/sose22/impfstatus.html',
+        result = result,
+        datetime_string = datetime_string,
+    )
+
+@registration_blueprint.route('/admin/registration/report/sose22/praesentonline')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_praesentonline():
+    datetime_string = get_datetime_string()
+    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
+    result = {
+        'online': [],
+        'present': [],
+    }
+    for reg in registrations:
+
+        result[reg.data['modus']].append(reg)
+    return render_template('admin/sose22/praesentonline.html',
+        result = result,
+        datetime_string = datetime_string,
+    )
+
+@registration_blueprint.route('/admin/registration/report/sose22/essen')
+@registration_blueprint.route('/admin/registration/report/sose22/essen/<place>')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_essen(place = None):
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    result = {}
+    result['essen'] = {}
+    result['allergien'] = []
+    result['alkohol'] = []
+    result['heissgetraenk'] = {
+        'kaffee': [],
+        'tee': [],
+        'unparteiisch': [],
+    }
+    for name, label in ESSEN_TYPES.items():
+        result['essen'][name] = {'label': label, 'registrations': []}
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+                continue
+        if place is not None and place != reg.data['standort']:
+                continue
+        essen_type = reg.data['essen']
+        allergien = reg.data['allergien']
+        alkohol = reg.data['alkohol']
+        heissgetraenk = reg.data['heissgetraenk']
+        essensformen = reg.data['essensformen']
+        if (not result['essen'][essen_type]):
+            return None
+        result['essen'][essen_type]['registrations'].append(reg)
+        if allergien or essensformen:
+            result['allergien'].append(reg)
+        if alkohol == 'ja':
+            result['alkohol'].append(reg)
+        result['heissgetraenk'][heissgetraenk].append(reg)
+    return render_template('admin/sose22/essen.html',
+        result = result,
+        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/sose21/rahmenprogramm')
+@registration_blueprint.route('/admin/registration/report/sose22/anreise')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose22_report_rahmenprogramm():
+def registration_sose22_report_anreise():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    result_musikwunsch = []
-    result_inbound = {}
-    for key in ANREISE_TYPES: result_inbound[key] = []
+    result = {}
+    result_places = ['goe', 'koe', 'mue', 'egal']
+    result_keys = ['inbound', 'inbound_time', 'outbound_time']
+    for place in result_places: 
+        result[place] = {}
+        for key in result_keys: result[place][key] = {}
+        
+        for key in ANREISE_TYPES: result[place]['inbound'][key] = []
+        for key in ANREISE_ZEIT_TYPES: result[place]['inbound_time'][key] = []
+        for key in ABREISE_ZEIT_TYPES: result[place]['outbound_time'][key] = []
+
     for reg in registrations:
-        musikwunsch = reg.data['musikwunsch']
-        anreise = reg.data['anreise_verkehr']
-        if musikwunsch:
-            result_musikwunsch.append(reg)
+        if reg.data['modus'] == "online":
+            continue
+        else:
+            place = reg.data['standort']
+        anreise = reg.data['anreise_witz']
+        anreise_zeit = reg.data['anreise_zeit']
+        abreise_zeit = reg.data['abreise_zeit']
         if anreise in ANREISE_TYPES.keys():
-            result_inbound[anreise].append(reg)
-    return render_template('admin/sose21/rahmenprogramm.html',
-        result_musikwunsch = result_musikwunsch,
-        result_inbound = result_inbound,
+            result[place]['inbound'][anreise].append(reg)
+        if anreise_zeit in ANREISE_ZEIT_TYPES.keys():
+            result[place]['inbound_time'][anreise_zeit].append(reg)
+        if abreise_zeit in ABREISE_ZEIT_TYPES.keys():
+            result[place]['outbound_time'][abreise_zeit].append(reg)
+    return render_template('admin/sose22/anreise.html',
+        result = result,
         datetime_string = datetime_string,
+        places = result_places,
         ANREISE_TYPES = ANREISE_TYPES,
+        ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
+        ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
     )
 
-@registration_blueprint.route('/admin/registration/report/sose21/roles')
+@registration_blueprint.route('/admin/registration/report/sose22/roles')
+@registration_blueprint.route('/admin/registration/report/sose22/roles/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose22_report_roles():
+def registration_sose22_report_roles(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
     result_keys = ['trustee', 'minuteman', 'mentee', 'mentor', 'notmentee']
     for key in result_keys: result[key] = []
     for reg in registrations:
+        if place is not None:
+            if place == 'online' and reg.data['modus'] != "online":
+                continue
+            if place != 'online' and place != reg.data['standort']:
+                continue
+
         if reg.data['vertrauensperson'] == 'ja': result['trustee'].append(reg) 
         if reg.data['protokoll'] == 'ja': result['minuteman'].append(reg) 
         if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
         if reg.data['zaepfchen'] == 'jaund': result['mentee'].append(reg) 
         if reg.data['mentor']: result['mentor'].append(reg) 
-    return render_template('admin/sose21/roles.html',
+    return render_template('admin/sose22/roles.html',
         result = result,
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/sose21/sonstiges')
+@registration_blueprint.route('/admin/registration/report/sose22/sonstiges')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_sose22_report_sonstiges():
@@ -291,28 +375,70 @@ def registration_sose22_report_sonstiges():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
     result['comment'] = []
-    result['swimming'] = {}
-    for key, label in SCHWIMMEN_TYPES.items():
-        result['swimming'][key] = []
-    
+    result['music'] = []
+        
     for reg in registrations:
         if reg.data['kommentar']: result['comment'].append(reg)
-        if reg.data['schwimmabzeichen']: result['swimming'][reg.data['schwimmabzeichen']].append(reg)
-    return render_template('admin/sose21/sonstiges.html',
+        if reg.data['musikwunsch']: result['music'].append(reg)
+        
+        
+    return render_template('admin/sose22/sonstiges.html',
         result = result,
         datetime_string = datetime_string,
-        SCHWIMMEN_TYPES = SCHWIMMEN_TYPES,
     )
+
+class DetailsOverwriteForm(FlaskForm):
+    spitzname = StringField('Spitzname')
+    modus = SelectField('Modus', choices=[
+            ("online", "Online-Teilnahme"),
+            ("present", "Präsenzteilnahme"),
+        ],
+    )
+    standort = SelectField('Standort festlegen', choices=[
+            ("goe", "Göttingen"), 
+            ("koe", "Köln"), 
+            ("mue", "München (Garchingen)"), 
+            ("egal", "Egal"),
+        ]
+    )
+    priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
+    submit = SubmitField()
 
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_sose22', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
 def registration_sose22_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
-    if reg.is_guaranteed:
-        current_app.logger.debug(reg.user.groups)
+    form = DetailsOverwriteForm()
+
+    if form.validate_on_submit():
+        data = reg.data
+        if 'orig_standort' not in data:
+            data['orig_standort'] = data['standort']
+        if 'orig_modus' not in data:
+            data['orig_modus'] = data['modus']
+        if 'orig_spitzname' not in data:
+            data['orig_spitzname'] = data['spitzname']
+        data['standort'] = form.standort.data
+        data['modus'] = form.modus.data
+        data['spitzname'] = form.spitzname.data
+        reg.data = data
+
+        if reg.priority != form.priority.data:
+            reg.priority = form.priority.data
+
+        db.session.add(reg)
+        db.session.commit()
+        return redirect(url_for('registration.registration_sose22_details_registration', reg_id = reg_id))
+        
+    form.spitzname.data = reg.data['spitzname']
+    form.standort.data = reg.data['standort']
+    form.modus.data = reg.data['modus']
+    form.priority.data = reg.priority
     return render_template('admin/sose22/details.html',
         reg = reg,
+        form = form,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
+        ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
         ESSEN_TYPES = ESSEN_TYPES,
@@ -323,7 +449,7 @@ def registration_sose22_details_registration(reg_id):
 @registration_blueprint.route('/admin/registration/report/sose21/stimmkarten/latex')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose22_export_stimmkarten_latex():
+def registration_sose21_export_stimmkarten_latex():
     unis = Uni.query.all()
     result = []
     for uni in unis:
