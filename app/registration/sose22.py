@@ -114,10 +114,10 @@ def get_datetime_string():
     return datetime.now(tz=pytz.timezone('Europe/Berlin')).strftime('%d.%m.%Y %H:%M:%S %Z')
 
 @registration_blueprint.route('/admin/registration/report/clear/<target>')
-def registration_sose21_report_clear(target):
+def registration_sose22_report_clear(target):
     if target == 'all':
         cache.clear()
-        return redirect(url_for('registration.registration_sose21_reports'))
+        return redirect(url_for('registration.registration_sose22_reports'))
     else:
         cache.delete("view/{0}".format(url_for(target)))
         return redirect(url_for(target))
@@ -347,7 +347,7 @@ def registration_sose22_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
     if reg.is_guaranteed:
         current_app.logger.debug(reg.user.groups)
-    return render_template('admin/sose23/details.html',
+    return render_template('admin/sose22/details.html',
         reg = reg,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
