@@ -366,11 +366,11 @@ def registration_sose22_report_unterkunft():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
-    result['barrierefreiheit'] = []
+    result['comment'] = []
     result['music'] = []
         
     for reg in registrations:
-        if reg.data['barrierefreiheit']: result['barrierefreiheit'].append(reg)
+        if reg.data['kommentar']: result['comment'].append(reg)
         if reg.data['musikwunsch']: result['music'].append(reg)
         
         
