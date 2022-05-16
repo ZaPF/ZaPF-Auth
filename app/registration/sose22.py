@@ -193,6 +193,7 @@ def registration_sose22_report_reise():
     result = {}
     result['anreise_zeit'] = {}
     result['abreise_zeit'] = {}
+    result['anreise_witz'] = {}
     for name, label in ANREISE_ZEIT_TYPES.items():
         result['anreise_zeit'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
@@ -207,14 +208,24 @@ def registration_sose22_report_reise():
     for reg in registrations:
         if reg.data['modus'] == "online":
                 continue
-        anreise_type = reg.data['abreise_zeit']
+        abreise_type = reg.data['abreise_zeit']
         if (not result['abreise_zeit'][anreise_type]):
             return None
         result['abreise_zeit'][anreise_type]['registrations'].append(reg)
+    for name, label in ABREISE_TYPES.items():
+        result['anreise_witz'][name] = {'label': label, 'registrations': []}
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+                continue
+        anreise_witz_type = reg.data['anreise_witz']
+        if (not result['anreise_witz'][anreise_witz_type]):
+            return None
+        result['abreise_witz'][anreise_witz_type]['registrations'].append(reg)
     return render_template('admin/sose22/reise.html',
         result = result,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
+        ANREISE_TYPES = ANREISE_TYPES,
         datetime_string = datetime_string
     )
 
