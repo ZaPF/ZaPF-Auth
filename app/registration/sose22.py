@@ -143,7 +143,7 @@ def registration_sose22_reports():
 @registration_blueprint.route('/admin/registration/report/sose21/t-shirts')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose21_report_tshirts():
+def registration_sose22_report_tshirts():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
@@ -174,7 +174,7 @@ def registration_sose21_report_tshirts():
 @registration_blueprint.route('/admin/registration/report/sose21/merch')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose21_report_merch():
+def registration_sose22_report_merch():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     unis = Uni.query.order_by(Uni.id)
@@ -243,7 +243,7 @@ def registration_sose21_report_merch():
 @registration_blueprint.route('/admin/registration/report/sose21/rahmenprogramm')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose21_report_rahmenprogramm():
+def registration_sose22_report_rahmenprogramm():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result_musikwunsch = []
@@ -266,7 +266,7 @@ def registration_sose21_report_rahmenprogramm():
 @registration_blueprint.route('/admin/registration/report/sose21/roles')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose21_report_roles():
+def registration_sose22_report_roles():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -286,7 +286,7 @@ def registration_sose21_report_roles():
 @registration_blueprint.route('/admin/registration/report/sose21/sonstiges')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose21_report_sonstiges():
+def registration_sose22_report_sonstiges():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -323,7 +323,7 @@ def registration_sose22_details_registration(reg_id):
 @registration_blueprint.route('/admin/registration/report/sose21/stimmkarten/latex')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose21_export_stimmkarten_latex():
+def registration_sose22_export_stimmkarten_latex():
     unis = Uni.query.all()
     result = []
     for uni in unis:
