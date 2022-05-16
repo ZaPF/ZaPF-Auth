@@ -186,7 +186,7 @@ def registration_sose22_report_merch():
         result_unis[uni.id] = {
             'name': uni.name,
             'registrations': [],
-            'nomugs': 0,
+            'mugs': 0,
             'nobags': 0,
         }
     for reg in registrations:
