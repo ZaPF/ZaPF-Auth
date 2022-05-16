@@ -106,77 +106,6 @@ IMMA_TYPES = {
     'n.i.': 'Nicht Immatrikuliert',
 }
 
-# EXKURSIONEN_TYPES = {
-#   'egal': ('ist mir egal', -1, 'Egal'),
-#   'keine': ('keine exkursion', -1, 'Keine'),
-#   'Spaziern': ('Spaziergang um den Kemnader See mit Besuch im Botanischen Garten', 15, 'Spazieren'),
-#   'Planetarium': ('Planetariumsvorstellung', 15, 'Planetarium'),
-#   'Lehrstuhll': ('Lehrstuhlvorstellung', 50, 'Lehrstuhl'),
-#   'Bergbau': ('Bergbaumuseum', 30, 'Bergbau'),
-#   'Kunsttour': ('Kunsttour an der RUB', 20, 'Kunsttour'),
-#   'Stadtführung': ('Stadtführung durch Bochum', 0, 'Stadtführung'),
-#   'G-Data': ('G-Data', 0, 'G-Data'),
-#   'P1': ('Platzhalter 1', 0, 'Platzhalter1'),
-#   'P2': ('WPlatzhalter 2', 0, 'Platzhalter2'),
-#   'nospace': ('Konnte keiner Exkursion zugeordnet werden', -1, 'Noch offen'),
-# }
-
-# EXKURSIONEN_FIELD_NAMES = ['exkursion1', 'exkursion2', 'exkursion3', 'exkursion4']
-
-# EXKURSIONEN_TYPES_FORM = [('nooverwrite', '')] + [(name, data[0]) for name, data in EXKURSIONEN_TYPES.items()]
-
-# class Sommer17ExkursionenOverwriteForm(FlaskForm):
-#     spitzname = StringField('Spitzname')
-#     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
-#     submit = SubmitField()
-
-# def sose17_calculate_exkursionen(registrations):
-#     def get_sort_key(reg):
-#         return reg.id
-#     result = {}
-#     regs_later = []
-#     regs_overwritten = [reg for reg in registrations
-#                             if 'exkursion_overwrite' in reg.data and reg.data['exkursion_overwrite'] != 'nooverwrite']
-#     regs_normal = sorted(
-#                     [reg for reg in registrations
-#                          if not ('exkursion_overwrite' in reg.data) or reg.data['exkursion_overwrite'] == 'nooverwrite'],
-#                     key = get_sort_key
-#                   )
-#     for type_name, type_data in EXKURSIONEN_TYPES.items():
-#         result[type_name] = {'space': type_data[1], 'free': type_data[1], 'registrations': []}
-#     for reg in regs_overwritten:
-#         exkursion_selected = reg.data['exkursion_overwrite']
-#         if not result[exkursion_selected]:
-#             return None
-#         result[exkursion_selected]['registrations'].append((reg, -1))
-#         result[exkursion_selected]['free'] -= 1
-#     for reg in regs_normal:
-#         if reg.uni.name == 'Alumni':
-#             regs_later.append(reg)
-#             continue;
-#         got_slot = False
-#         for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
-#             exkursion_selected = reg.data[field]
-#             if not result[exkursion_selected]:
-#                 return None
-#             if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
-#                 result[exkursion_selected]['registrations'].append((reg, field_index))
-#                 result[exkursion_selected]['free'] -= 1
-#                 got_slot = True
-#                 break;
-#         if not got_slot:
-#             result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
-#     for reg in regs_later:
-#         for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
-#             exkursion_selected = reg.data[field]
-#             if not result[exkursion_selected]:
-#                 return None
-#             if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
-#                 result[exkursion_selected]['registrations'].append((reg, field_index))
-#                 result[exkursion_selected]['free'] -= 1
-#                 break;
-#     return result
-
 def attachment(response, filename):
     response.headers['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
     return response
@@ -478,13 +407,6 @@ def registration_sose22_details_registration(reg_id):
 
     if form.validate_on_submit():
         data = reg.data
-        # if 'orig_standort' not in data:
-        #     data['orig_standort'] = data['standort']
-        # if 'orig_modus' not in data:
-        #     data['orig_modus'] = data['modus']
-        # if 'orig_spitzname' not in data:
-        #     data['orig_spitzname'] = data['spitzname']
-        # data['standort'] = form.standort.data
         data['modus'] = form.modus.data
         data['spitzname'] = form.spitzname.data
         reg.data = data
@@ -503,7 +425,6 @@ def registration_sose22_details_registration(reg_id):
     return render_template('admin/sose22/details.html',
         reg = reg,
         form = form,
-    #    EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
