@@ -189,6 +189,36 @@
     </div>
   </div>
   <div class="form-group row">
+    <label class="col-sm-3 control-label" for="ex1">Exkursion: Erstwunsch</label>
+    <div class="col-sm-9">
+      <input id="ex1" name="ex1" type="text" class="form-control" readonly="readonly" value="{{ EXKURSIONEN_TYPES[reg.data['exkursion1']][0] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="ex2">Exkursion: Zweitwunsch</label>
+    <div class="col-sm-9">
+      <input id="ex2" name="ex2" type="text" class="form-control" readonly="readonly" value="{{ EXKURSIONEN_TYPES[reg.data['exkursion2']][0] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="ex3">Exkursion: Drittwunsch</label>
+    <div class="col-sm-9">
+      <input id="ex3" name="ex3" type="text" class="form-control" readonly="readonly" value="{{ EXKURSIONEN_TYPES[reg.data['exkursion3']][0] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 control-label" for="ex4">Exkursion: Viertwunsch</label>
+    <div class="col-sm-9">
+      <input id="ex4" name="ex4" type="text" class="form-control" readonly="readonly" value="{{ EXKURSIONEN_TYPES[reg.data['exkursion4']][0] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
+    {{ form.exkursion_overwrite.label(class='col-sm-3 control-label') }}
+    <div class="col-sm-9">
+      {{ form.exkursion_overwrite(class='form-control') }}
+    </div>
+  </div>
+  <div class="form-group row">
     <label class="col-sm-3 control-label" for="musikwunsch">Musikwunsch</label>
     <div class="col-sm-9">
       <input id="musikwunsch" name="musikwunsch" type="text" class="form-control" readonly="readonly" value="{{ reg.data['musikwunsch'] }}" />
