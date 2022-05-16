@@ -384,6 +384,26 @@ def registration_sose22_report_unterkunft():
         datetime_string = datetime_string,
     )
 
+@registration_blueprint.route('/admin/registration/report/sose22/rahmen')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_rahmen():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    result = {}
+    result['bierak'] = []
+    result['casino'] = []
+        
+    for reg in registrations:
+        if reg.data['bierak']: result['bierak'].append(reg)
+        if reg.data['casino']: result['casino'].append(reg)
+        
+        
+    return render_template('admin/sose22/rahmen.html',
+        result = result,
+        datetime_string = datetime_string,
+    )
+
 @registration_blueprint.route('/admin/registration/report/sose22/sonstiges')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
