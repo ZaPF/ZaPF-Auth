@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}SoSe22: Merch{% endblock %}
+
+{% block content %}
+<div class="container">
+  <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_reports') }}">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
+  </a>  
+  <span class="label label-default">Stand {{ datetime_string }}</span>
+  <a class="btn btn-primary pull-right" href="{{ url_for('registration.registration_sose22_report_clear', target = request.url_rule.endpoint ) }}">
+    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Diesen Bericht aktualisieren
+  </a>
+  
+  <h3>Filtern nach Standort</h3>
+  <ul>
+    <li><a href="{{ url_for('registration.registration_sose22_report_merch') }}">Alle Standorte</a></li>
+    <li><a href="{{ url_for('registration.registration_sose22_report_merch', place = 'goe') }}">Göttingen 1/2</a></li>
+    <li><a href="{{ url_for('registration.registration_sose22_report_merch', place = 'mue') }}">München</a></li>
+    <li><a href="{{ url_for('registration.registration_sose22_report_merch', place = 'koe') }}">Köln</a></li>
+    <li><a href="{{ url_for('registration.registration_sose22_report_merch', place = 'online') }}">Online</a></li>
+  </ul>
+  
+  <h1>
+  Merch-Auswertung für ZaPF Winter21 {% if place != None %}({{ place }}){% endif %}
+  </h1>
+
+  <div>
+    <ul>
+      <li>
+        <a href="#sec-zusammenfassung">Zusammenfassung</a>
+      </li>
+      <li>
+        <a href="#sec-uni">Auswertung nach Uni</a>
+      </li>
+      <li>
+        <a href="#sec-shirts">T-Shirt-Auswertung nach Größe</a>
+      </li>
+      <li>
+        <a href="#sec-rest">Weiteres-Merch-Auswertung</a>
+      </li>
+    </ul>
+  </div>
+
+  <h3 id="sec-zusammenfassung" name="sec-zusammenfassung">
+      Zusammenfassung
+  </h3>
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-zusammenfassung">
+            Merch-Gesamtbedarf
+          </a>
+        </h4>
+      </div>
+      <div id="collapse-zusammenfassung" class="panel-collapse collapse">
+        <p><b>Statistik pro Größe:</b></p>
+        <ul class="list-unstyled">
+          {% for type, data in result['shirts'].items() if type != 'keins' and data['amount'] > 0 %}
+            <li>
+              T-Shirt: Größe {{ data['label'] }}
+              <span class="badge">{{ data['amount'] }}</span>
+            </li>
+          {% endfor %}
+          <li>
+              Keine Tassen
+              <span class="badge">{{ result['nomugs'] | length}}</span>
+          </li>
+          <li>
+              Keine Beutel
+              <span class="badge">{{ result['nobags'] | length}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+    
+
+  <h3 id="sec-uni" name="sec-uni">
+    Auswertung nach Uni
+  </h3>
+  <div class="panel-group">
+    {% for type, data in result_unis.items() if data['registrations'] %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-uni-{{ type }}">
+            {{ data['name'] }}
+          </a>
+          <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-uni-{{ type }}" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p><b>Statistik pro Größe:</b></p>
+          <ul class="list-unstyled">
+            {% for name, amount in data['shirts'].items() if amount > 0 %}
+              <li>
+                T-Shirts: Größe {{ TSHIRTS_TYPES[name] }}
+                <span class="badge">{{ amount }}</span>
+              </li>
+            {% endfor %}
+            <li>
+                Keine Tassen
+                <span class="badge">{{ data['nomugs']}}</span>
+            </li>
+            <li>
+                Keine Beutel
+                <span class="badge">{{ data['nobags']}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Name</th>
+            <th>T-Shirts</th>
+            <th>Tassen</th>
+            <th>Beutel</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in data['registrations'] %}
+          <tr>
+            <td>
+              <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+              {{ reg.data['nrtshirt'] if reg.data['nrtshirt'] else 0 }}x {{ TSHIRTS_TYPES[reg.data['tshirt']] }}
+            </td>
+            <td>{% if reg.data['nottasse'] %}Nein{% else %}Ja{% endif %}</td>
+            <td>{% if reg.data['nottasche'] %}Nein{% else %}Ja{% endif %}</td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h3 id="sec-shirts" name="sec-shirts">
+    T-Shirt-Auswertung nach Größe
+  </h3>
+  <div class="panel-group">
+    {% for type, data in result['shirts'].items() if type != 'keins' and data['amount'] > 0 %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-shirt-{{ type }}">
+            T-Shirt: Größe {{ data['label'] }}
+          </a>
+          <span class="badge" style="float: right">{{ data['amount'] }}</span>
+        </h4>
+      </div>
+      <div id="collapse-shirt-{{ type }}" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Anzahl</th>
+            <th>Name</th>
+            <th>Uni</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for req in data['requests'] if req['amount'] > 0 %}
+          <tr>
+            <td>{{ req['amount'] }}</td>
+            <td>
+              <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=req['registration'].id) }}">
+                {{ req['registration'].user.full_name }}
+              </a>
+            </td>
+            <td>
+            {% if req['registration'].uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=req['registration'].uni.id)}}">
+                {{ req['registration'].uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=req['registration'].id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h3 id="sec-rest" name="sec-rest">
+  Weiteres-Merch-Auswertung
+  </h3>
+  <div class="panel-group">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-mugs">
+            <b>Keine</b> Tassen
+          </a>
+          <span class="badge" style="float: right">{{ result['nomugs'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-mugs" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Name</th>
+            <th>Uni</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result['nomugs'] %}
+          <tr>
+            <td>
+              <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-bags">
+            <b>Keine</b> Taschen
+          </a>
+          <span class="badge" style="float: right">{{ result['nobags'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-bags" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Name</th>
+            <th>Uni</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result['nobags'] %}
+          <tr>
+            <td>
+              <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+    </div>
+
+</div>
+{% endblock %}
