@@ -14,115 +14,12 @@
   
    
   <h1>
-  Merch-Auswertung für ZaPF Winter21 
+  Merch-Auswertung für ZaPF Sommer 22
   </h1>
 
-  <div>
-    <ul>
-      <li>
-        <a href="#sec-zusammenfassung">Zusammenfassung</a>
-      </li>
-      <li>
-        <a href="#sec-uni">Auswertung nach Uni</a>
-      </li>
-      <li>
-        <a href="#sec-rest">Weiteres-Merch-Auswertung</a>
-      </li>
-    </ul>
-  </div>
-
-  <h3 id="sec-zusammenfassung" name="sec-zusammenfassung">
-      Zusammenfassung
-  </h3>
-  <div class="panel-group">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-zusammenfassung">
-            Merch-Gesamtbedarf
-          </a>
-        </h4>
-      </div>
-      <div id="collapse-zusammenfassung" class="panel-collapse collapse">
-        <p><b>Statistik pro Größe:</b></p>
-        <ul class="list-unstyled">
-          <li>
-              Tassen
-              <span class="badge">{{ result['mugs'] | length}}</span>
-          </li>
-          <li>
-              Keine Beutel
-              <span class="badge">{{ result['nobags'] | length}}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-    
-
-  <h3 id="sec-uni" name="sec-uni">
-    Auswertung nach Uni
-  </h3>
-  <div class="panel-group">
-    {% for type, data in result_unis.items() if data['registrations'] %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-uni-{{ type }}">
-            {{ data['name'] }}
-          </a>
-          <span class="badge" style="float: right">{{ data['registrations'] | length }}</span>
-        </h4>
-      </div>
-      <div id="collapse-uni-{{ type }}" class="panel-collapse collapse">
-        <div class="panel-body">
-          <p><b>Statistik pro Größe:</b></p>
-          <ul class="list-unstyled">
-            <li>
-                Tassen
-                <span class="badge">{{ data['mugs']}}</span>
-            </li>
-            <li>
-                Keine Beutel
-                <span class="badge">{{ data['nobags']}}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="table-responsive">
-        <table class='table table-striped'>
-          <tr>
-            <th>Name</th>
-            <th>T-Shirts</th>
-            <th>Tassen</th>
-            <th>Beutel</th>
-            <th>Aktionen</th>
-          </tr>
-          {% for reg in data['registrations'] %}
-          <tr>
-            <td>
-              <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
-                {{ reg.user.full_name }}
-              </a>
-            </td>
-            <td>{% if reg.data['tasse'] %}Nein{% else %}Ja{% endif %}</td>
-            <td>{% if reg.data['nottasche'] %}Nein{% else %}Ja{% endif %}</td>
-            <td>
-              <div class="btn-group" role="group">
-                <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
-                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
-                </a>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
 
   <h3 id="sec-rest" name="sec-rest">
-  Weiteres-Merch-Auswertung
+  Merch-Auswertung
   </h3>
   <div class="panel-group">
 
@@ -130,7 +27,7 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" href="#collapse-mugs">
-            <b>Keine</b> Tassen
+            <b>Tassen</b>
           </a>
           <span class="badge" style="float: right">{{ result['mugs'] | length }}</span>
         </h4>
