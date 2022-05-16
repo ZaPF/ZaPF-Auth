@@ -139,6 +139,37 @@ def registration_sose22_reports():
         datetime_string = datetime_string
     )
 
+@registration_blueprint.route('/admin/registration/report/sose22/t-shirts')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_tshirts():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    unis = Uni.query.order_by(Uni.id)
+    result = {}
+    result_unis = {}
+    for uni in unis:
+        result_unis[uni.id] = {
+            'name': uni.name,
+            'registrations': [],
+            'types': {name: 0 for name, label in TSHIRTS_TYPES.items()}
+        }
+    for name, label in TSHIRTS_TYPES.items():
+        result[name] = {'label': label, 'registrations': []}
+    for reg in registrations:
+        tshirt_size = reg.data['tshirt']
+        if not result[tshirt_size]:
+            return None
+        result[tshirt_size]['registrations'].append(reg)
+        result_unis[reg.uni.id]['registrations'].append(reg)
+        result_unis[reg.uni.id]['types'][tshirt_size] += 1
+    return render_template('admin/sose21/t-shirts.html',
+        result = result,
+        result_unis = result_unis,
+        TSHIRTS_TYPES = TSHIRTS_TYPES,
+        datetime_string = datetime_string
+    )
+
 @registration_blueprint.route('/admin/registration/report/sose22/merch')
 @registration_blueprint.route('/admin/registration/report/sose22/merch/<place>')
 @groups_sufficient('admin', 'orga')
