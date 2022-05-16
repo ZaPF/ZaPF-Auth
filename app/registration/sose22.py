@@ -367,11 +367,11 @@ def registration_sose22_report_unterkunft():
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
     result['barriere'] = []
-    result['music'] = []
+    result['toilette'] = []
         
     for reg in registrations:
         if reg.data['barrierefreiheit']: result['barriere'].append(reg)
-        if reg.data['musikwunsch']: result['music'].append(reg)
+        if reg.data['notbinarytoiletten]: result['toilette'].append(reg)
         
         
     return render_template('admin/sose22/unterkunft.html',
