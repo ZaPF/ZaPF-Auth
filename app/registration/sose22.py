@@ -139,6 +139,24 @@ def registration_sose22_reports():
         datetime_string = datetime_string
     )
 
+@registration_blueprint.route('/admin/registration/report/sose22/praesentonline')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_praesentonline():
+    datetime_string = get_datetime_string()
+    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
+    result = {
+        'online': [],
+        'present': [],
+    }
+    for reg in registrations:
+
+        result[reg.data['modus']].append(reg)
+    return render_template('admin/sose22/praesentonline.html',
+        result = result,
+        datetime_string = datetime_string,
+    )
+
 @registration_blueprint.route('/admin/registration/report/sose22/t-shirts')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
@@ -220,23 +238,7 @@ def registration_sose22_report_impfstatus():
         datetime_string = datetime_string,
     )
 
-@registration_blueprint.route('/admin/registration/report/sose22/praesentonline')
-@groups_sufficient('admin', 'orga')
-@cache.cached()
-def registration_sose22_report_praesentonline():
-    datetime_string = get_datetime_string()
-    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
-    result = {
-        'online': [],
-        'present': [],
-    }
-    for reg in registrations:
 
-        result[reg.data['modus']].append(reg)
-    return render_template('admin/sose22/praesentonline.html',
-        result = result,
-        datetime_string = datetime_string,
-    )
 
 @registration_blueprint.route('/admin/registration/report/sose22/essen')
 @registration_blueprint.route('/admin/registration/report/sose22/essen/<place>')
