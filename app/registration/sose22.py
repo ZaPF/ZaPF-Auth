@@ -163,7 +163,7 @@ def registration_sose22_report_tshirts():
         result[tshirt_size]['registrations'].append(reg)
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['types'][tshirt_size] += 1
-    return render_template('admin/sose21/t-shirts.html',
+    return render_template('admin/sose22/t-shirts.html',
         result = result,
         result_unis = result_unis,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
