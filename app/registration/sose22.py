@@ -184,6 +184,29 @@ def registration_sose22_report_covid():
         datetime_string = datetime_string
     )
 
+@registration_blueprint.route('/admin/registration/report/sose22/test')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_test(place = None):
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    result = {}
+    result['essen'] = {}
+    for name, label in ESSEN_TYPES.items():
+        result['essen'][name] = {'label': label, 'registrations': []}
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+                continue
+        essen_type = reg.data['essen']
+        if (not result['essen'][essen_type]):
+            return None
+        result['essen'][essen_type]['registrations'].append(reg)
+    return render_template('admin/sose22/test.html',
+        result = result,
+        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
+        datetime_string = datetime_string
+    )
+
 @registration_blueprint.route('/admin/registration/report/sose22/t-shirts')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
@@ -264,8 +287,6 @@ def registration_sose22_report_impfstatus():
         result = result,
         datetime_string = datetime_string,
     )
-
-
 
 @registration_blueprint.route('/admin/registration/report/sose22/essen')
 @registration_blueprint.route('/admin/registration/report/sose22/essen/<place>')
