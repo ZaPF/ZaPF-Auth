@@ -191,19 +191,19 @@ def registration_sose22_report_test(place = None):
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
-    result['essen'] = {}
-    for name, label in ESSEN_TYPES.items():
-        result['essen'][name] = {'label': label, 'registrations': []}
+    result['anreise'] = {}
+    for name, label in ANREISE_ZEIT_TYPES.items():
+        result['anreise'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
         if reg.data['modus'] == "online":
                 continue
-        essen_type = reg.data['essen']
-        if (not result['essen'][essen_type]):
+        anreise_type = reg.data['anreise']
+        if (not result['anreise'][anreise_type]):
             return None
-        result['essen'][essen_type]['registrations'].append(reg)
+        result['anreise'][anreise_type]['registrations'].append(reg)
     return render_template('admin/sose22/test.html',
         result = result,
-        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
+        ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         datetime_string = datetime_string
     )
 
