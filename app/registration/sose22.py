@@ -190,7 +190,7 @@ def registration_sose22_report_merch():
             'nobags': 0,
         }
     for reg in registrations:
-        if reg.data['ttasse']:
+        if reg.data['tasse']:
             result['mugs'].append(reg)
             result_unis[reg.uni.id]['mugs'] += 1
         if reg.data['nottasche']:
