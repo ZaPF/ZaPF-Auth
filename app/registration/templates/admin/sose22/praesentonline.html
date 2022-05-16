@@ -34,11 +34,9 @@
             <th>Name</th>
             <th>Modus</th>
             <th>Priorität</th>
-            <th>Impfstatus</th>
-            <th>Zertifikat</th>
-            <th>Test</th>
             <th>Eduroam</th>
             <th>Immatrikulationsbescheinigung</th>
+            <th>NRW Ticket</th>
             <th>Aktionen</th>
           </tr>
           {% for reg in data %}
@@ -50,11 +48,9 @@
             </td>
             <td> {{ reg.data['modus'] }} </td>
             <td> {{ reg.priority }}</td>
-            <td> {{ reg.data['impfstatus'] }} </td>
-            <td> {{ reg.data['impfzertifikat'] }} </td>
-            <td> {{ reg.data['coronatest'] }} </td>
             <td> {{ reg.data['eduroam'] }}</td>
             <td> {{ reg.data['immatrikulationsbescheinigung'] }} </td>
+            <td> {{ reg.data['nrwticket'] }}</td>
             <td>
               <div class="btn-group" role="group">
                 <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
