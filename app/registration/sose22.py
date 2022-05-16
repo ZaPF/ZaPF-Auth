@@ -407,13 +407,13 @@ def registration_sose22_details_registration(reg_id):
 
     if form.validate_on_submit():
         data = reg.data
-        if 'orig_standort' not in data:
-            data['orig_standort'] = data['standort']
-        if 'orig_modus' not in data:
-            data['orig_modus'] = data['modus']
-        if 'orig_spitzname' not in data:
-            data['orig_spitzname'] = data['spitzname']
-        data['standort'] = form.standort.data
+        # if 'orig_standort' not in data:
+        #     data['orig_standort'] = data['standort']
+        # if 'orig_modus' not in data:
+        #     data['orig_modus'] = data['modus']
+        # if 'orig_spitzname' not in data:
+        #     data['orig_spitzname'] = data['spitzname']
+        # data['standort'] = form.standort.data
         data['modus'] = form.modus.data
         data['spitzname'] = form.spitzname.data
         reg.data = data
@@ -426,7 +426,7 @@ def registration_sose22_details_registration(reg_id):
         return redirect(url_for('registration.registration_sose22_details_registration', reg_id = reg_id))
         
     form.spitzname.data = reg.data['spitzname']
-    form.standort.data = reg.data['standort']
+    # form.standort.data = reg.data['standort']
     form.modus.data = reg.data['modus']
     form.priority.data = reg.priority
     return render_template('admin/sose22/details.html',
