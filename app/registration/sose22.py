@@ -206,7 +206,6 @@ def registration_sose21_report_merch():
     for reg in registrations:
         tshirt_size = reg.data['tshirt']
         tshirt_amount = reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1
-            return None
         if reg.data['handtuch']:
             result['towels'].append(reg)
             result_unis[reg.uni.id]['towels'] += 1
@@ -228,8 +227,11 @@ def registration_sose21_report_merch():
             result_unis[reg.uni.id]['scarves'] += 1
         result['shirts'][tshirt_size]['amount'] += tshirt_amount
         result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount})
+        result['hoodies'][hoodie_size]['amount'] += 1
+        result['hoodies'][hoodie_size]['requests'].append({'registration': reg, 'amount': 1})
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['shirts'][tshirt_size] += tshirt_amount
+        result_unis[reg.uni.id]['hoodies'][hoodie_size] += 1
     return render_template('admin/sose21/merch.html',
         result = result,
         result_unis = result_unis,
