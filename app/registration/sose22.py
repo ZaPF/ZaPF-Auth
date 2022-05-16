@@ -184,10 +184,10 @@ def registration_sose22_report_covid():
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/sose22/test')
+@registration_blueprint.route('/admin/registration/report/sose22/reise')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose22_report_test():
+def registration_sose22_report_reise():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -211,7 +211,7 @@ def registration_sose22_report_test():
         if (not result['abreise_zeit'][anreise_type]):
             return None
         result['abreise_zeit'][anreise_type]['registrations'].append(reg)
-    return render_template('admin/sose22/test.html',
+    return render_template('admin/sose22/reise.html',
         result = result,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
@@ -426,6 +426,33 @@ def registration_sose22_report_sonstiges():
     return render_template('admin/sose22/sonstiges.html',
         result = result,
         datetime_string = datetime_string,
+    )
+
+@registration_blueprint.route('/admin/registration/report/sose22/test')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_test():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    result = {}
+    result['impfstatus'] = {
+        'keinfach': [],
+        'geimpft': [],
+        'geboostert': [],        
+        'genesen': [],
+        'genimpft': [],
+        'impfebereiung': [],
+        'kA': [],
+    }
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+                continue
+        impfstatus = reg.data['impfstatus']
+        result['impfstatus'][impfstatus].append(reg)
+
+    return render_template('admin/sose22/test.html',
+        result = result,
+        datetime_string = datetime_string
     )
 
 class DetailsOverwriteForm(FlaskForm):
