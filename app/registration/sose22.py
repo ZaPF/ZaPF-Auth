@@ -318,26 +318,7 @@ def registration_sose22_report_merch():
         datetime_string = datetime_string,
     )
 
-@registration_blueprint.route('/admin/registration/report/sose22/impfstatus')
-@groups_sufficient('admin', 'orga')
-@cache.cached()
-def registration_sose22_report_impfstatus():
-    datetime_string = get_datetime_string() 
-    registrations = [reg for reg in Registration.query.order_by(Registration.id)]
-    result = {}
-    for reg in registrations:
-        if reg.data['modus'] == "online":
-            continue
-
-        result[reg.data].append(reg)
-        
-    return render_template('admin/sose22/impfstatus.html',
-        result = result,
-        datetime_string = datetime_string,
-    )
-
 @registration_blueprint.route('/admin/registration/report/sose22/essen')
-@registration_blueprint.route('/admin/registration/report/sose22/essen/<place>')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
 def registration_sose22_report_essen(place = None):
