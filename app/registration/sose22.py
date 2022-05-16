@@ -131,6 +131,7 @@ def registration_sose22_reports():
     confirmed = [reg for reg in registrations if reg.confirmed]
     attendees = [reg for reg in registrations if reg.is_zapf_attendee]
     gremika = [reg for reg in attendees if reg.is_guaranteed]
+
     return render_template('admin/sose22/reports.html',
         registrations=len(registrations),
         attendees=len(attendees),
