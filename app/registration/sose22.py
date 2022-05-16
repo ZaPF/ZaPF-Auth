@@ -503,7 +503,7 @@ def registration_sose22_details_registration(reg_id):
     return render_template('admin/sose22/details.html',
         reg = reg,
         form = form,
-        EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
+    #    EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
