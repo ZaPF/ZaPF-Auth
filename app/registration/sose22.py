@@ -175,6 +175,7 @@ def registration_sose22_report_covid():
         datetime_string = datetime_string,
     )
 
+
 @registration_blueprint.route('/admin/registration/report/sose22/test')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
@@ -193,6 +194,7 @@ def registration_sose22_test():
         heissgetraenk = reg.data['heissgetraenk']
         essensformen = reg.data['essensformen']
         result['heissgetraenk'][heissgetraenk].append(reg)
+
     return render_template('admin/sose22/test.html',
         result = result,
         datetime_string = datetime_string
