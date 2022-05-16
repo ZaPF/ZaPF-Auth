@@ -223,17 +223,12 @@ def registration_sose22_report_standort():
 def registration_sose22_report_impfstatus():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id)]
-    result = {
-        'goe': [],
-        'koe': [],
-        'mue': [],
-        'egal': [],
-    }
+    result = {}
     for reg in registrations:
         if reg.data['modus'] == "online":
             continue
 
-        result[reg.data['standort']].append(reg)
+        result[reg.data].append(reg)
         
     return render_template('admin/sose22/impfstatus.html',
         result = result,
