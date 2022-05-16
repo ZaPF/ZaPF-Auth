@@ -24,7 +24,7 @@ TSHIRTS_TYPES = {
 #  'fitted_xs': 'fitted XS',
 #  '5xl': '5XL',
 #  '4xl': '4XL',
-  '3xl': '3XL',
+#   '3xl': '3XL',
   'xxl': 'XXL',
   'xl': 'XL',
   'l': 'L',
@@ -33,8 +33,8 @@ TSHIRTS_TYPES = {
   'xs': 'XS'
 }
 
-HOODIE_TYPES = {
-  'keins': 'Keiner',
+# HOODIE_TYPES = {
+#   'keins': 'Keiner',
 #  'fitted_5xl': 'fitted 5XL',
 #  'fitted_4xl': 'fitted 4XL',
 #  'fitted_3xl': 'fitted 3XL',
@@ -46,14 +46,14 @@ HOODIE_TYPES = {
 #  'fitted_xs': 'fitted XS',
 #  '5xl': '5XL',
 #  '4xl': '4XL',
-  '3xl': '3XL',
-  'xxl': 'XXL',
-  'xl': 'XL',
-  'l': 'L',
-  'm': 'M',
-  's': 'S',
-  'xs': 'XS'
-}
+#   '3xl': '3XL',
+#   'xxl': 'XXL',
+#   'xl': 'XL',
+#   'l': 'L',
+#   'm': 'M',
+#   's': 'S',
+#   'xs': 'XS'
+# }
 
 ANREISE_TYPES = {
   'bus': 'Fernbus',
@@ -61,19 +61,49 @@ ANREISE_TYPES = {
   'auto': 'Auto',
 #  'flug': 'Flugzeug',
   'zeitmaschine': 'Zeitmaschine',
-  'boot': 'Boot',
+  'flohpulver': 'Flohpulver',
   'fahrrad': 'Fahrrad',
   'badeente': 'Badeente',
 }
 
-SCHWIMMEN_TYPES = {
-    'keins': 'keins',
-    'bleiente': 'Bleiente',
-    'seepferd': 'Seepferdchen',
-    'bronze': 'Bronze',
-    'silber': 'Silber',
-    'gold': 'Gold',
-    'rett': 'Rettungsschwimmer*in',
+ANREISE_ZEIT_TYPES = {
+  'frueher': 'Vor FR 12h',
+  'fr1214': 'FR 12-14h',
+  'fr1416': 'FR 14-16h',
+  'fr1618': 'FR 16-18h',
+  'fr1829': 'Fr 18-20h',
+  'ende': 'Nach FR 20h',
+}
+
+ABREISE_ZEIT_TYPES = {
+  'vordi': 'Vor Di',
+  'di810': 'Di 8-10h',
+  'di1012': 'Di 10-12h',
+  'di1214': 'Di 12-14h',
+  'di1416': 'Di 14-16h',
+  'di1618': 'Di 16-18h',
+  'di1820': 'Di 18-20h',
+  'ende': 'Nach dem Plenum',
+}
+
+ESSEN_TYPES = {
+  'omnivor': 'Omnivor',
+  'vegetarisch': 'Vegetarisch',
+  'vegan': 'Vegan',
+}
+
+ESSEN_AMOUNT_TYPES = {
+  'weniger': 'Weniger!',
+  'eins': 'Eins',
+  'zwei': 'Zwei',
+  'drei': 'Drei',
+  'mehr': 'Mehr!',
+}
+
+IMMA_TYPES = {
+    'ja': 'Immatrikuliert',
+    'nein': 'Fehler',
+    'n.i.': 'Nicht Immatrikuliert',
 }
 
 def attachment(response, filename):
@@ -311,18 +341,20 @@ def registration_sose21_report_sonstiges():
         SCHWIMMEN_TYPES = SCHWIMMEN_TYPES,
     )
 
-@registration_blueprint.route('/admin/registration/<int:reg_id>/details_sose21', methods=['GET', 'POST'])
+@registration_blueprint.route('/admin/registration/<int:reg_id>/details_sose22', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
-def registration_sose21_details_registration(reg_id):
+def registration_sose22_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
     if reg.is_guaranteed:
         current_app.logger.debug(reg.user.groups)
-    return render_template('admin/sose21/details.html',
+    return render_template('admin/sose23/details.html',
         reg = reg,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
-        HOODIE_TYPES = HOODIE_TYPES,
-        ANREISE_TYPES = ANREISE_TYPES,
-        SCHWIMMEN_TYPES = SCHWIMMEN_TYPES,
+        ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
+        ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
+        ESSEN_TYPES = ESSEN_TYPES,
+        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
+        IMMA_TYPES = IMMA_TYPES,
     )
 
 @registration_blueprint.route('/admin/registration/report/sose21/stimmkarten/latex')
