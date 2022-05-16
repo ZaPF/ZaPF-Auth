@@ -209,10 +209,10 @@ def registration_sose22_report_reise():
         if reg.data['modus'] == "online":
                 continue
         abreise_type = reg.data['abreise_zeit']
-        if (not result['abreise_zeit'][anreise_type]):
+        if (not result['abreise_zeit'][abreise_type]):
             return None
-        result['abreise_zeit'][anreise_type]['registrations'].append(reg)
-    for name, label in ABREISE_TYPES.items():
+        result['abreise_zeit'][abreise_type]['registrations'].append(reg)
+    for name, label in ANREISE_TYPES.items():
         result['anreise_witz'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
         if reg.data['modus'] == "online":
