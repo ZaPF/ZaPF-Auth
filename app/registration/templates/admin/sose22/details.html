@@ -86,12 +86,12 @@
       <input id="imma" name="imma" type="text" class="form-control" readonly="readonly" value="{{ IMMA_TYPES[reg.data['immatrikulationsbescheinigung']] }}" />
     </div>
   </div>
-  <div class="form-group row">
+  <!-- <div class="form-group row">
     {{ form.standort.label(class='col-sm-3 control-label') }}
     <div class="col-sm-9">
       {{ form.standort(class='form-control') }}
     </div>
-  </div>
+  </div> -->
   <div class="form-group row">
     {{ form.modus.label(class='col-sm-3 control-label') }}
     <div class="col-sm-9">
@@ -104,12 +104,12 @@
       {{ form.priority(class='form-control') }}
     </div>
   </div>
-  <div class="form-group row">
+  <!-- <div class="form-group row">
     <label class="col-sm-3 control-label" for="place">Wunschstandort</label>
     <div class="col-sm-9">
       <input id="place" name="place" type="text" class="form-control" readonly="readonly" value="{% if reg.data['modus'] == 'online' %}online{% else %}{{ reg.data['standort'] }} {% if reg.data['praesenzplatz'] %} (niedrige Prio) {% endif %}{% endif %}" />
     </div>
-  </div>
+  </div> -->
   <div class="form-group row">
     <label class="col-sm-3 control-label" for="barrierefreiheit">Barrierefreiheit erforderlich</label>
     <div class="col-sm-9">
