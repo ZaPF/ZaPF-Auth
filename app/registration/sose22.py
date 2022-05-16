@@ -170,37 +170,6 @@ def registration_sose21_report_tshirts():
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/sose21/hoodie')
-@groups_sufficient('admin', 'orga')
-@cache.cached()
-def registration_sose21_report_hoodie():
-    datetime_string = get_datetime_string() 
-    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    unis = Uni.query.order_by(Uni.id)
-    result = {}
-    result_unis = {}
-    for uni in unis:
-        result_unis[uni.id] = {
-            'name': uni.name,
-            'registrations': [],
-            'types': {name: 0 for name, label in HOODIE_TYPES.items()}
-        }
-    for name, label in HOODIE_TYPES.items():
-        result[name] = {'label': label, 'registrations': []}
-    for reg in registrations:
-        hoodie_size = reg.data['hoodie']
-        if not result[hoodie_size]:
-            return None
-        result[hoodie_size]['registrations'].append(reg)
-        result_unis[reg.uni.id]['registrations'].append(reg)
-        result_unis[reg.uni.id]['types'][hoodie_size] += 1
-    return render_template('admin/sose21/hoodie.html',
-        result = result,
-        result_unis = result_unis,
-        HOODIE_TYPES = HOODIE_TYPES,
-        datetime_string = datetime_string
-    )
-
 @registration_blueprint.route('/admin/registration/report/sose21/merch')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
@@ -225,7 +194,6 @@ def registration_sose21_report_merch():
             'name': uni.name,
             'registrations': [],
             'shirts': {name: 0 for name, label in TSHIRTS_TYPES.items()},
-            'hoodies': {name: 0 for name, label in HOODIE_TYPES.items()},
             'towels': 0,
             'mugs': 0,
             'usbs': 0,
@@ -235,13 +203,9 @@ def registration_sose21_report_merch():
         }
     for name, label in TSHIRTS_TYPES.items():
         result['shirts'][name] = {'label': label, 'amount': 0, 'requests': []}
-    for name, label in HOODIE_TYPES.items():
-        result['hoodies'][name] = {'label': label, 'amount': 0, 'requests': []}
     for reg in registrations:
         tshirt_size = reg.data['tshirt']
         tshirt_amount = reg.data['addtshirt'] + 1 if reg.data['addtshirt'] else 1
-        hoodie_size = reg.data['hoodie']
-        if not result['shirts'][tshirt_size] or not result['hoodies'][hoodie_size]:
             return None
         if reg.data['handtuch']:
             result['towels'].append(reg)
@@ -264,16 +228,12 @@ def registration_sose21_report_merch():
             result_unis[reg.uni.id]['scarves'] += 1
         result['shirts'][tshirt_size]['amount'] += tshirt_amount
         result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount})
-        result['hoodies'][hoodie_size]['amount'] += 1
-        result['hoodies'][hoodie_size]['requests'].append({'registration': reg, 'amount': 1})
         result_unis[reg.uni.id]['registrations'].append(reg)
         result_unis[reg.uni.id]['shirts'][tshirt_size] += tshirt_amount
-        result_unis[reg.uni.id]['hoodies'][hoodie_size] += 1
     return render_template('admin/sose21/merch.html',
         result = result,
         result_unis = result_unis,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
-        HOODIE_TYPES = HOODIE_TYPES,
         datetime_string = datetime_string
     )
 
