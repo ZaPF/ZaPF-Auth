@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}SoSe21: Auswertungen{% endblock %}
+{% block title %}SoSe22: Auswertungen{% endblock %}
 
 {% block content %}
 <div class="container">
   <span class="label label-danger">{{ registrations }} Anmeldungen</span> <span class="label label-warning">{{ confirmed }} Bestätigt</span> <span class="label label-success">{{ attendees }} Teilnehmika</span> <span class="label label-info">{{ gremika }} Gremika</span> <span class="label label-default">Stand {{ datetime_string }}</span>
-  <a class="btn-primary btn pull-right" href="{{url_for('registration.registration_sose21_report_clear', target='all')}}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Alle Berichte aktualisieren</a>
+  <a class="btn-primary btn pull-right" href="{{url_for('registration.registration_sose22_report_clear', target='all')}}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Alle Berichte aktualisieren</a>
       
   <h1>Verfügbare Auswertungen</h1>
   <div class="panel-group">
