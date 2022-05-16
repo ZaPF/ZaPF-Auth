@@ -369,6 +369,8 @@ def registration_sose22_report_unterkunft():
     result['barriere'] = []
     result['toilette'] = []
     result['dusche'] = []
+    result['couch'] = []
+    result['privat'] = []
         
     for reg in registrations:
         if reg.data['barrierefreiheit']: result['barriere'].append(reg)
