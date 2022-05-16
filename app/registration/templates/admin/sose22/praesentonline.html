@@ -35,6 +35,7 @@
             <th>Modus</th>
             <th>Standort</th>
             <th>Priorität</th>
+            <th>Eduroam</th>
             <th>Aktionen</th>
           </tr>
           {% for reg in data %}
@@ -45,8 +46,8 @@
               </a>
             </td>
             <td> {{ reg.data['modus'] }} </td>
-            <td> {{ reg.data['standort'] }} </td>
             <td> {{ reg.priority }}</td>
+            <td> {{ reg.data['eduroam'] }}</td>
             <td>
               <div class="btn-group" role="group">
                 <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
