@@ -374,7 +374,8 @@ def registration_sose22_report_unterkunft():
         if reg.data['barrierefreiheit']: result['barriere'].append(reg)
         if reg.data['notbinarytoiletten']: result['toilette'].append(reg)
         if reg.data['notbinaryduschen']: result['dusche'].append(reg)
-        
+        if reg.data['couchsurfing']: result['couch'].append(reg)
+        if reg.data['privatunterkunft']: result['privat'].append(reg)
         
     return render_template('admin/sose22/unterkunft.html',
         result = result,

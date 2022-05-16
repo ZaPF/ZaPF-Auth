@@ -198,5 +198,111 @@
         </div>
       </div>
       </div>
+      <h2 id="sec-couch">
+        Couchsurfing:
+      </h2>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-couch">
+                Couchsurfing
+              </a>
+              <span class="badge" style="float: right">{{ result['couch'] | length }}</span>
+            </h4>
+          </div>
+          <div id="collapse-couch" class="panel-collapse collapse">
+            <div class="table-responsive">
+            <table class='table table-striped'>
+              <tr>
+                <th>Uni</th>
+                <th>Name</th>
+                <th>Couchsurfing</th>
+                <th>Aktionen</th>
+              </tr>
+              {% for reg in result['couch'] %}
+              <tr>
+                <td>
+                {% if reg.uni %}
+                  <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                    {{ reg.uni.name }}
+                  </a>
+                {% endif %}
+                </td>
+                <td>
+                  <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                    {{ reg.user.full_name }}
+                  </a>
+                </td>
+                <td>
+                  {{ reg.data['couchsurfing'] }}
+                </td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+            </div>
+          </div>
+        </div>
+        </div>
+        <h2 id="sec-privat">
+          Privatunterkunft:
+        </h2>
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse-privat">
+                  Privatunterkunft
+                </a>
+                <span class="badge" style="float: right">{{ result['privat'] | length }}</span>
+              </h4>
+            </div>
+            <div id="collapse-privat" class="panel-collapse collapse">
+              <div class="table-responsive">
+              <table class='table table-striped'>
+                <tr>
+                  <th>Uni</th>
+                  <th>Name</th>
+                  <th>Privatunterkunft</th>
+                  <th>Aktionen</th>
+                </tr>
+                {% for reg in result['privat'] %}
+                <tr>
+                  <td>
+                  {% if reg.uni %}
+                    <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                      {{ reg.uni.name }}
+                    </a>
+                  {% endif %}
+                  </td>
+                  <td>
+                    <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                      {{ reg.user.full_name }}
+                    </a>
+                  </td>
+                  <td>
+                    {{ reg.data['privatunterkunft'] }}
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+              </div>
+            </div>
+          </div>
+          </div>
 </div>
 {% endblock %}
