@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}SoSe22: Covid2{% endblock %}
+
+{% block content %}
+<div class="container">
+  <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_reports') }}">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
+  </a>  
+  <span class="label label-default">Stand {{ datetime_string }}</span>
+  <a class="btn btn-primary pull-right" href="{{ url_for('registration.registration_sose22_report_clear', target = request.url_rule.endpoint ) }}">
+    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Diesen Bericht aktualisieren
+  </a>
+  
+  <h1>
+  Covid-Auswertung für ZaPF Sommer 22
+  </h1>
+
+  <h2 id="sec-heissgetraenke">
+    Auswertung der Heißgetränke:
+  </h2>
+  <div class="panel-group">
+  {% for type, data in result['heissgetraenk'].items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-heissgetraenk-{{ type }}">
+          Heisgetränk: {{ type }}
+        </a>
+        <span class="badge" style="float: right">{{ data | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-heissgetraenk-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}
