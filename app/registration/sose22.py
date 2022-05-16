@@ -359,6 +359,33 @@ def registration_sose22_report_essen(place = None):
         datetime_string = datetime_string
     )
 
+@registration_blueprint.route('/admin/registration/report/sose22/unterkunft')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_unterkunft():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
+    result = {}
+    result['impfstatus'] = {
+        'keinfach': [],
+        'geimpft': [],
+        'geboostert': [],        
+        'genesen': [],
+        'genimpft': [],
+        'impfebereiung': [],
+        'kA': [],
+    }
+    for reg in registrations:
+        if reg.data['modus'] == "online":
+                continue
+        impfstatus = reg.data['impfstatus']
+        result['impfstatus'][impfstatus].append(reg)
+
+    return render_template('admin/sose22/unterkunft.html',
+        result = result,
+        datetime_string = datetime_string
+    )
+
 @registration_blueprint.route('/admin/registration/report/sose22/sonstiges')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
