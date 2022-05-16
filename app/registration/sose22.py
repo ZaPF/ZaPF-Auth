@@ -170,61 +170,6 @@ def registration_sose22_report_tshirts():
         datetime_string = datetime_string
     )
 
-@registration_blueprint.route('/admin/registration/report/sose22/merch')
-@registration_blueprint.route('/admin/registration/report/sose22/merch/<place>')
-@groups_sufficient('admin', 'orga')
-@cache.cached()
-def registration_sose22_report_merch(place = None):
-    datetime_string = get_datetime_string() 
-    registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
-    unis = Uni.query.order_by(Uni.id)
-    result = {
-        'shirts': {},
-        'nomugs': [],
-        'nobags': [],
-    }
-    result_unis = {}
-    for uni in unis:
-        result_unis[uni.id] = {
-            'name': uni.name,
-            'registrations': [],
-            'shirts': {name: 0 for name, label in TSHIRTS_TYPES.items()},
-            'nomugs': 0,
-            'nobags': 0,
-        }
-    for name, label in TSHIRTS_TYPES.items():
-        result['shirts'][name] = {'label': label, 'amount': 0, 'requests': []}
-    for reg in registrations:
-        if place is not None:
-            if place == 'online' and reg.data['modus'] != "online":
-                continue
-            if place != 'online' and place != reg.data['standort']:
-                continue
-
-        tshirt_size = reg.data['tshirt']
-        tshirt_amount = reg.data['nrtshirt']
-        if tshirt_amount == None:
-            tshirt_amount = 0
-        if not result['shirts'][tshirt_size]:
-            return None
-        if reg.data['nottasse']:
-            result['nomugs'].append(reg)
-            result_unis[reg.uni.id]['nomugs'] += 1
-        if reg.data['nottasche']:
-            result['nobags'].append(reg)
-            result_unis[reg.uni.id]['nobags'] += 1
-        result['shirts'][tshirt_size]['amount'] += tshirt_amount
-        result['shirts'][tshirt_size]['requests'].append({'registration': reg, 'amount': tshirt_amount})
-        result_unis[reg.uni.id]['registrations'].append(reg)
-        result_unis[reg.uni.id]['shirts'][tshirt_size] += tshirt_amount
-    return render_template('admin/sose22/merch.html',
-        result = result,
-        result_unis = result_unis,
-        TSHIRTS_TYPES = TSHIRTS_TYPES,
-        datetime_string = datetime_string,
-        place = place,
-    )
-
 @registration_blueprint.route('/admin/registration/report/sose22/standort')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
