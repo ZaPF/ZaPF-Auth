@@ -122,16 +122,17 @@ def registration_sose22_report_clear(target):
         cache.delete("view/{0}".format(url_for(target)))
         return redirect(url_for(target))
 
-@registration_blueprint.route('/admin/registration/report/sose21')
+@registration_blueprint.route('/admin/registration/report/sose22')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose21_reports():
+def registration_sose22_reports():
     datetime_string = get_datetime_string() 
     registrations = Registration.query.all()
     confirmed = [reg for reg in registrations if reg.confirmed]
     attendees = [reg for reg in registrations if reg.is_zapf_attendee]
     gremika = [reg for reg in attendees if reg.is_guaranteed]
-    return render_template('admin/sose21/reports.html',
+
+    return render_template('admin/sose22/reports.html',
         registrations=len(registrations),
         attendees=len(attendees),
         confirmed=len(confirmed),
