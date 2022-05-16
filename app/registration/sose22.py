@@ -61,28 +61,28 @@ ANREISE_TYPES = {
   'auto': 'Auto',
 #  'flug': 'Flugzeug',
   'zeitmaschine': 'Zeitmaschine',
-  'boot': 'Boot',
+  'flohpulver': 'Flohpulver',
   'fahrrad': 'Fahrrad',
   'badeente': 'Badeente',
 }
 
 ANREISE_ZEIT_TYPES = {
-  'frueher': 'Vor Do 14h',
-  'do1416': 'Do 14-16h',
-  'do1618': 'Do 16-18h',
-  'do1820': 'Do 18-20h',
-  'do2022': 'Do 20-22h',
-  'ende': 'Nach Do 22h',
+  'frueher': 'Vor FR 12h',
+  'fr1214': 'Fr 12-14h',
+  'fr1416': 'Fr 14-16h',
+  'fr1618': 'Fr 16-18h',
+  'fr1820': 'Fr 18-20h',
+  'ende': 'Nach Fr 20h',
 }
 
 ABREISE_ZEIT_TYPES = {
-  'vorso': 'Vor So',
-  'so810': 'So 8-10h',
-  'so1012': 'So 10-12h',
-  'so1214': 'So 12-14h',
-  'so1416': 'So 14-16h',
-  'so1618': 'So 16-18h',
-  'so1820': 'So 18-20h',
+  'vordi': 'Vor Di',
+  'di810': 'Di 8-10h',
+  'di1012': 'Di 10-12h',
+  'di1214': 'Di 12-14h',
+  'di1416': 'Di 14-16h',
+  'di1618': 'Di 16-18h',
+  'di1820': 'Di 18-20h',
   'ende': 'Nach dem Plenum',
 }
 
