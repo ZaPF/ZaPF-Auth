@@ -92,29 +92,29 @@
     </div>
     </div>
 
-  <h2 id="sec-toilette">
-    Toiletten:
+  <h2 id="sec-dusche">
+    Nicht-binärgeschlechtliche Duschen:
   </h2>
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse-toilette">
-            Toiletten
+          <a data-toggle="collapse" href="#collapse-dusche">
+            Nicht-binärgeschlechtliche Duschen
           </a>
-          <span class="badge" style="float: right">{{ result['toilette'] | length }}</span>
+          <span class="badge" style="float: right">{{ result['dusche'] | length }}</span>
         </h4>
       </div>
-      <div id="collapse-toilette" class="panel-collapse collapse">
+      <div id="collapse-dusche" class="panel-collapse collapse">
         <div class="table-responsive">
         <table class='table table-striped'>
           <tr>
             <th>Uni</th>
             <th>Name</th>
-            <th>Toilette</th>
+            <th>Nicht-binärgeschlechtliche Duschen</th>
             <th>Aktionen</th>
           </tr>
-          {% for reg in result['toilette'] %}
+          {% for reg in result['dusche'] %}
           <tr>
             <td>
             {% if reg.uni %}
@@ -129,7 +129,7 @@
               </a>
             </td>
             <td>
-              {{ reg.data['notbinarytoiletten'] }}
+              {{ reg.data['notbinaryduschen'] }}
             </td>
             <td>
               <div class="btn-group" role="group">
@@ -145,5 +145,58 @@
       </div>
     </div>
     </div>
+    <h2 id="sec-toilette">
+      Nicht-binärgeschlechtliche Toiletten:
+    </h2>
+    <div class="panel-group">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" href="#collapse-toilette">
+              Nicht-binärgeschlechtliche Toiletten
+            </a>
+            <span class="badge" style="float: right">{{ result['toilette'] | length }}</span>
+          </h4>
+        </div>
+        <div id="collapse-toilette" class="panel-collapse collapse">
+          <div class="table-responsive">
+          <table class='table table-striped'>
+            <tr>
+              <th>Uni</th>
+              <th>Name</th>
+              <th>Nicht-binärgeschlechtliche Toiletten</th>
+              <th>Aktionen</th>
+            </tr>
+            {% for reg in result['toilette'] %}
+            <tr>
+              <td>
+              {% if reg.uni %}
+                <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                  {{ reg.uni.name }}
+                </a>
+              {% endif %}
+              </td>
+              <td>
+                <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                  {{ reg.user.full_name }}
+                </a>
+              </td>
+              <td>
+                {{ reg.data['notbinarytoiletten'] }}
+              </td>
+              <td>
+                <div class="btn-group" role="group">
+                  <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+          </div>
+        </div>
+      </div>
+      </div>
 </div>
 {% endblock %}
