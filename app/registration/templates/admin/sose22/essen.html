@@ -51,6 +51,7 @@
         <tr>
           <th>Uni</th>
           <th>Name</th>
+          <th>Brötchen</th>
           <th>Aktionen</th>
         </tr>
         {% for reg in data['registrations'] %}
@@ -66,6 +67,9 @@
             <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
               {{ reg.user.full_name }}
             </a>
+          </td>
+          <td>
+              {{ reg.data['essensmenge'] }}
           </td>
           <td>
             <div class="btn-group" role="group">
@@ -94,7 +98,6 @@
     <tr>
       <th>Uni</th>
       <th>Name</th>
-      <th>Brötchen</th>
       <th>Allergien</th>
       <th>Essensformen</th>
       <th>Aktionen</th>
@@ -112,9 +115,6 @@
         <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
           {{ reg.user.full_name }}
         </a>
-      </td>
-      <td> 
-        {{ reg.data['essensmenge'] }} 
       </td>
       <td>
         {{ reg.data['allergien'] }}
