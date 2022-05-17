@@ -345,8 +345,6 @@ def registration_sose22_report_essen():
     for reg in registrations:
         if reg.data['modus'] == "online":
                 continue
-        if place is not None and place != reg.data['standort']:
-                continue
         essen_type = reg.data['essen']
         allergien = reg.data['allergien']
         alkohol = reg.data['alkohol']
