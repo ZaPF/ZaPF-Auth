@@ -555,6 +555,7 @@ def registration_sose22_details_registration(reg_id):
         reg = reg,
         form = form,
         EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
+        TSHIRTS_TYPES = TSHIRTS_TYPES,
         ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
