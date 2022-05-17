@@ -571,8 +571,8 @@ def registration_sose22_details_registration(reg_id):
         else:
             old_overwrite = 'nooverwrite'
         data['exkursion_overwrite'] = form.exkursion_overwrite.data
-        data['modus'] = form.modus.data
-        data['spitzname'] = form.spitzname.data
+        #data['modus'] = form.modus.data
+        #data['spitzname'] = form.spitzname.data
         reg.data = data
 
         if reg.priority != form.priority.data:
