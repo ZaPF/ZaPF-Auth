@@ -321,7 +321,7 @@ def registration_sose22_report_merch():
 @registration_blueprint.route('/admin/registration/report/sose22/essen')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose22_report_essen(place = None):
+def registration_sose22_report_essen():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
