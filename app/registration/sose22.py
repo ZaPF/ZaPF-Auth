@@ -14,14 +14,15 @@ import csv
 EXKURSIONEN_TYPES = {
   'egal': ('ist mir egal', -1, 'Egal'),
   'keine': ('keine exkursion', -1, 'Keine'),
-  'Spaziergang': ('Spaziergang um den Kemnader See mit Besuch im Botanischen Garten', 20, 'Spaziergang'),
-  'Planetarium': ('Planetariumvorstellung', 20, 'Planetarium'),
-  'Lehrstuhl': ('Lehrstuhlvorstellung', 20, 'Lehrstuhl'),
-  'Bergbau': ('Bergbaumuseum', 20, 'Bergbau'),
+  'spaziergang': ('Spaziergang um den Kemnader See mit Besuch im Botanischen Garten', 20, 'Spaziergang'),
+  'planetarium': ('Planetariumvorstellung', 20, 'Planetarium'),
+  'lehrstuhlvorstellung': ('Lehrstuhlvorstellung', 20, 'Lehrstuhl'),
+  'bergbaumuseum': ('Bergbaumuseum', 20, 'Bergbau'),
+  'kunsttour': ('Kunsttour an der RUB', 20, 'Kunsttour'),
   'stadtfuehrung': ('Stadtführung durch Bochum', 20, 'Stadtführung'),
-  'G-Data': ('G-Data', 20, 'G-Data'),
-  'P1': ('Platzhalter1', 20, 'P1'),
-  'P2': ('Platzhalter2', 20, 'P2'),
+  'gdata': ('G-Data', 20, 'G-Data'),
+  'ph1': ('Platzhalter1', 20, 'P1'),
+  'ph2': ('Platzhalter2', 20, 'P2'),
   'nospace': ('Konnte keiner Exkursion zugeordnet werden', -1, 'Noch offen'),
 }
 
