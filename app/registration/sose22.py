@@ -547,10 +547,16 @@ class DetailsOverwriteForm(FlaskForm):
 @groups_sufficient('admin', 'orga')
 def registration_sose22_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
+    form = Sommer22ExkursionenOverwriteForm()
     form = DetailsOverwriteForm()
 
     if form.validate_on_submit():
         data = reg.data
+        if 'exkursion_overwrite' in reg.data:
+            old_overwrite = data['exkursion_overwrite']
+        else:
+            old_overwrite = 'nooverwrite'
+        data['exkursion_overwrite'] = form.exkursion_overwrite.data
         data['modus'] = form.modus.data
         data['spitzname'] = form.spitzname.data
         reg.data = data
@@ -560,15 +566,25 @@ def registration_sose22_details_registration(reg_id):
 
         db.session.add(reg)
         db.session.commit()
-        return redirect(url_for('registration.registration_sose22_details_registration', reg_id = reg_id))
-        
+        if old_overwrite != form.exkursion_overwrite.data:
+            cache.delete("view/{0}".format(url_for('registration.registration_sose22_report_exkursionen')))
+            return redirect(url_for('registration.registration_sose22_report_exkursionen'))
+        else:
+            return redirect(url_for('registration.registration_sose22_details_registration', reg_id = reg_id))
+    if 'exkursion_overwrite' in reg.data:
+        form.exkursion_overwrite.data = reg.data['exkursion_overwrite']
+    if reg.is_guaranteed:
+        current_app.logger.debug(reg.user.groups)
+  
     form.spitzname.data = reg.data['spitzname']
     # form.standort.data = reg.data['standort']
     form.modus.data = reg.data['modus']
     form.priority.data = reg.priority
+    
     return render_template('admin/sose22/details.html',
         reg = reg,
         form = form,
+        EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
         ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
