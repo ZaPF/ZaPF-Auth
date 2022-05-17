@@ -533,11 +533,18 @@ class DetailsOverwriteForm(FlaskForm):
             ("present", "Präsenzteilnahme"),
         ],
     )
-    standort = SelectField('Standort festlegen', choices=[
-            ("goe", "Göttingen"), 
-            ("koe", "Köln"), 
-            ("mue", "München (Garchingen)"), 
-            ("egal", "Egal"),
+    exkursionen = SelectField('Exkursion zuweisen', choices=[
+            ("egal", "Egal"), 
+            ("keine", "keine"), 
+            ("spaziergang", "Spaziergang"), 
+            ("planetarium", "Planetariumvorstellung"),
+            ("lehrstuhlvorstellung", "Lehrstuhl"),
+            ("bergbaumuseum", "Bergbaumuseum"),
+            ("kunsttour", "Kunsttour"),
+            ("stadtfuerung", "Stadtführung"),
+            ("gdata", "G-Data"),
+            ("ph1", "Platzhalter1"),
+            ("ph2", "Platzhalter2"),
         ]
     )
     priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")

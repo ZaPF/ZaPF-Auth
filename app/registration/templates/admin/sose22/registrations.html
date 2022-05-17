@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Registrations{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>
+  Registrations {% if uni %}for {{ uni.name }}{% endif %}
+  </h1>
+
+  {% if uni %}
+    <a href="{{ url_for('registration.registrations') }}" class="btn btn-default">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+      All registrations
+    </a>
+  {% endif %}
+
+  <table class='table'>
+    <tr>
+    {% if uni == None %}
+      <th>Uni</th>
+    {% endif %}
+      <th>Name</th>
+    {% if uni %}
+      <th>Priority</th>
+    {% endif %}
+      <th>Confirmed</th>
+      <th>User data</th>
+      <th>Actions</th>
+    </tr>
+    {% for registration in registrations %}
+    <tr>
+    {% if uni == None %}
+      <td>
+      {% if registration.uni %}
+        <a href="{{url_for('registration.registrations_by_uni', uni_id=registration.uni.id)}}">
+{{ registration.uni.name }}
+        </a>
+      {% endif %}
+      </td>
+    {% endif %}
+      <td>{{ registration.user.full_name }}</td>
+    {% if uni %}
+      <td>{{ registration.priority }}</td>
+    {% endif %}
+      <td>
+      {% if registration.confirmed %}
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+      {% else %}
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      {% endif %}
+      </td>
+      <td><code>{{ registration.blob }}</code></td>
+      <td>
+        <div class="btn-group" role="group">
+          <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=registration.id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+          </a>
+          <a class="btn-danger btn" href="{{url_for('registration.delete_registration', reg_id=registration.id)}}">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+          </a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
