@@ -11,6 +11,25 @@ import pytz
 import io
 import csv
 
+EXKURSIONEN_TYPES = {
+  'egal': ('ist mir egal', -1, 'Egal'),
+  'keine': ('keine exkursion', -1, 'Keine'),
+  'Spaziergang': ('Spaziergang um den Kemnader See mit Besuch im Botanischen Garten', 20, 'Spaziergang'),
+  'Planetarium': ('Planetariumvorstellung', 20, 'Planetarium'),
+  'Lehrstuhl': ('Lehrstuhlvorstellung', 20, 'Lehrstuhl'),
+  'Bergbau': ('Bergbaumuseum', 20, 'Bergbau'),
+  'stadtfuehrung': ('Stadtführung durch Bochum', 20, 'Stadtführung'),
+  'G-Data': ('G-Data', 20, 'G-Data'),
+  'P1': ('Platzhalter1', 20, 'P1'),
+  'P2': ('Platzhalter2', 20, 'P2'),
+  'nospace': ('Konnte keiner Exkursion zugeordnet werden', -1, 'Noch offen'),
+}
+
+EXKURSIONEN_FIELD_NAMES = ['exkursion1', 'exkursion2', 'exkursion3', 'exkursion4']
+
+EXKURSIONEN_TYPES_FORM = [('nooverwrite', '')] + [(name, data[0]) for name, data in EXKURSIONEN_TYPES.items()]
+
+
 TSHIRTS_TYPES = {
   'keins': 'Keines',
 #  'fitted_5xl': 'fitted 5XL',
@@ -106,9 +125,64 @@ IMMA_TYPES = {
     'n.i.': 'Nicht Immatrikuliert',
 }
 
+class Sommer22ExkursionenOverwriteForm(FlaskForm):
+    exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
+    submit = SubmitField()
+
 def attachment(response, filename):
     response.headers['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
     return response
+
+def sose22_calculate_exkursionen(registrations):
+    def get_sort_key(reg):
+        return reg.id
+    result = {}
+    regs_later = []
+    regs_overwritten = [reg for reg in registrations
+                            if 'exkursion_overwrite' in reg.data and reg.data['exkursion_overwrite'] != 'nooverwrite']
+    regs_normal = sorted(
+                    [reg for reg in registrations
+                         if not ('exkursion_overwrite' in reg.data) or reg.data['exkursion_overwrite'] == 'nooverwrite'],
+                    key = get_sort_key
+                  )
+    for type_name, type_data in EXKURSIONEN_TYPES.items():
+        result[type_name] = {'space': type_data[1], 'free': type_data[1], 'registrations': []}
+    for reg in regs_overwritten:
+        exkursion_selected = reg.data['exkursion_overwrite']
+        if not result[exkursion_selected]:
+            return None
+        result[exkursion_selected]['registrations'].append((reg, -1))
+        result[exkursion_selected]['free'] -= 1
+    for reg in regs_normal:
+        if reg.uni.name == 'Universidad de los Saccos Veteres (Alumni)':
+            regs_later.append(reg)
+            continue;
+        got_slot = False
+        for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
+            exkursion_selected = reg.data[field]
+            if not result[exkursion_selected]:
+                return None
+            if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
+                result[exkursion_selected]['registrations'].append((reg, field_index))
+                result[exkursion_selected]['free'] -= 1
+                got_slot = True
+                break;
+        if not got_slot:
+            result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
+    for reg in regs_later:
+        got_slot = False
+        for field_index, field in enumerate(EXKURSIONEN_FIELD_NAMES):
+            exkursion_selected = reg.data[field]
+            if not result[exkursion_selected]:
+                return None
+            if result[exkursion_selected]['space'] == -1 or result[exkursion_selected]['free'] > 0:
+                result[exkursion_selected]['registrations'].append((reg, field_index))
+                result[exkursion_selected]['free'] -= 1
+                got_slot = True
+                break;
+        if not got_slot:
+            result['nospace']['registrations'].append((reg, len(EXKURSIONEN_FIELD_NAMES) + 1))
+    return result
 
 def get_datetime_string():
     return datetime.now(tz=pytz.timezone('Europe/Berlin')).strftime('%d.%m.%Y %H:%M:%S %Z')
@@ -416,6 +490,19 @@ def registration_sose22_report_rahmen():
     return render_template('admin/sose22/rahmen.html',
         result = result,
         datetime_string = datetime_string,
+    )
+
+@registration_blueprint.route('/admin/registration/report/sose22/exkursionen')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registration_sose22_report_exkursionen():
+    datetime_string = get_datetime_string() 
+    registrations = [reg for reg in Registration.query.all() if reg.is_zapf_attendee]
+    result = sose22_calculate_exkursionen(registrations)
+    return render_template('admin/sose22/exkursionen.html',
+        result = result,
+        exkursionen_types = EXKURSIONEN_TYPES,
+        datetime_string = datetime_string
     )
 
 @registration_blueprint.route('/admin/registration/report/sose22/sonstiges')
