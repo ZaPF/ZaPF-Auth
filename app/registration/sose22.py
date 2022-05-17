@@ -126,9 +126,9 @@ IMMA_TYPES = {
     'n.i.': 'Nicht Immatrikuliert',
 }
 
-class Sommer22ExkursionenOverwriteForm(FlaskForm):
-    exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
-    submit = SubmitField()
+# class Sommer22ExkursionenOverwriteForm(FlaskForm):
+#     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
+#     submit = SubmitField()
 
 def attachment(response, filename):
     response.headers['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
@@ -562,7 +562,7 @@ class DetailsOverwriteForm(FlaskForm):
 def registration_sose22_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
     form = Sommer22ExkursionenOverwriteForm()
-    form = DetailsOverwriteForm()
+    #form = DetailsOverwriteForm()
 
     if form.validate_on_submit():
         data = reg.data
@@ -590,10 +590,10 @@ def registration_sose22_details_registration(reg_id):
     if reg.is_guaranteed:
         current_app.logger.debug(reg.user.groups)
   
-    form.spitzname.data = reg.data['spitzname']
+    #form.spitzname.data = reg.data['spitzname']
     # form.standort.data = reg.data['standort']
-    form.modus.data = reg.data['modus']
-    form.priority.data = reg.priority
+    #form.modus.data = reg.data['modus']
+    #form.priority.data = reg.priority
     
     return render_template('admin/sose22/details.html',
         reg = reg,
