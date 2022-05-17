@@ -526,44 +526,12 @@ def registration_sose22_report_sonstiges():
         datetime_string = datetime_string,
     )
 
-# class DetailsOverwriteForm(FlaskForm):
-#     spitzname = StringField('Spitzname')
-#     modus = SelectField('Modus', choices=[
-#             ("online", "Online-Teilnahme"),
-#             ("present", "Präsenzteilnahme"),
-#         ],
-#     )
-#     exkursionen = SelectField('Exkursion zuweisen', choices=[
-#             ("egal", "Egal"), 
-#             ("keine", "keine"), 
-#             ("spaziergang", "Spaziergang"), 
-#             ("planetarium", "Planetariumvorstellung"),
-#             ("lehrstuhlvorstellung", "Lehrstuhl"),
-#             ("bergbaumuseum", "Bergbaumuseum"),
-#             ("kunsttour", "Kunsttour"),
-#             ("stadtfuerung", "Stadtführung"),
-#             ("gdata", "G-Data"),
-#             ("ph1", "Platzhalter1"),
-#             ("ph2", "Platzhalter2"),
-#         ]
-#     )
-#     standort = SelectField('Standort festlegen', choices=[
-#             ("goe", "Göttingen"), 
-#             ("koe", "Köln"), 
-#             ("mue", "München (Garchingen)"), 
-#             ("egal", "Egal"),
-#         ]
-#     )
-#     priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
-#     submit = SubmitField()
 
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_sose22', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
 def registration_sose22_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
     form = Sommer22ExkursionenOverwriteForm()
-    #form = DetailsOverwriteForm()
-
     if form.validate_on_submit():
         data = reg.data
         if 'exkursion_overwrite' in reg.data:
@@ -571,13 +539,7 @@ def registration_sose22_details_registration(reg_id):
         else:
             old_overwrite = 'nooverwrite'
         data['exkursion_overwrite'] = form.exkursion_overwrite.data
-        #data['modus'] = form.modus.data
-        #data['spitzname'] = form.spitzname.data
         reg.data = data
-
-        if reg.priority != form.priority.data:
-            reg.priority = form.priority.data
-
         db.session.add(reg)
         db.session.commit()
         if old_overwrite != form.exkursion_overwrite.data:
@@ -589,23 +551,14 @@ def registration_sose22_details_registration(reg_id):
         form.exkursion_overwrite.data = reg.data['exkursion_overwrite']
     if reg.is_guaranteed:
         current_app.logger.debug(reg.user.groups)
-  
-    #form.spitzname.data = reg.data['spitzname']
-    # form.standort.data = reg.data['standort']
-    #form.modus.data = reg.data['modus']
-    #form.priority.data = reg.priority
-    
     return render_template('admin/sose22/details.html',
         reg = reg,
         form = form,
         EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
+        ESSEN_TYPES = ESSEN_TYPES,
         TSHIRTS_TYPES = TSHIRTS_TYPES,
-        ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
-        ESSEN_TYPES = ESSEN_TYPES,
-        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
-        IMMA_TYPES = IMMA_TYPES,
     )
 
 @registration_blueprint.route('/admin/registration/report/sose21/stimmkarten/latex')
