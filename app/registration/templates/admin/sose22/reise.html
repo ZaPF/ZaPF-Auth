@@ -16,6 +16,23 @@
 Reise-Auswertung für ZaPF Sommer 22
   </h1>
 
+  <div> 
+    <ul>
+      <li>
+        <a href="#sec-anreise_zeit"> Anreisezeit</a>
+      </li>
+      <li>
+        <a href="#sec-abreise_zeit"> Abreisezeit</a>
+      </li>
+      <li>
+        <a href="#sec-anreise_witz"> Anreiseart</a>
+      </li>
+      <li>
+        <a href="#sec-nrwticket"> NRW-Ticket</a>
+      </li>
+    </ul>
+  </div>
+
   <h2 id="sec-anreise_zeit">
     Auswertung der Anreise
   </h2>
@@ -141,6 +158,57 @@ Reise-Auswertung für ZaPF Sommer 22
           <th>Aktionen</th>
         </tr>
         {% for reg in data['registrations'] %}
+        <tr>
+          <td>
+          {% if reg.uni %}
+            <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+              {{ reg.uni.name }}
+            </a>
+          {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+              {{ reg.user.full_name }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-default" href="{{ url_for('registration.registration_sose22_details_registration', reg_id=reg.id) }}">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+  <h2 id="sec-nrwticket">
+    NRW-Ticket:
+  </h2>
+  <div class="panel-group">
+  {% for type, data in result['nrw'].items() %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse-nrwticket-{{ type }}">
+          NRW-Ticket: {{ type }}
+        </a>
+        <span class="badge" style="float: right">{{ data | length }}</span>
+      </h4>
+    </div>
+    <div id="collapse-nrwticket-{{ type }}" class="panel-collapse collapse">
+      <div class="table-responsive">
+      <table class='table table-striped'>
+        <tr>
+          <th>Uni</th>
+          <th>Name</th>
+          <th>Aktionen</th>
+        </tr>
+        {% for reg in data %}
         <tr>
           <td>
           {% if reg.uni %}

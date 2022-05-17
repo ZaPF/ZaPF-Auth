@@ -194,6 +194,11 @@ def registration_sose22_report_reise():
     result['anreise_zeit'] = {}
     result['abreise_zeit'] = {}
     result['anreise_witz'] = {}
+    result['nrwticket'] = {
+        'nein': [],
+        'ja': [],
+        'jaund': [],
+    }
     for name, label in ANREISE_ZEIT_TYPES.items():
         result['anreise_zeit'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
@@ -221,6 +226,8 @@ def registration_sose22_report_reise():
         if (not result['anreise_witz'][anreise_witz_type]):
             return None
         result['anreise_witz'][anreise_witz_type]['registrations'].append(reg)
+        nrwticket = reg.data['nrwticket']
+        result['nrwticket'][nrwticket].append(reg)
     return render_template('admin/sose22/reise.html',
         result = result,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
