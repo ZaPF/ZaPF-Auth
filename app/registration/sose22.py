@@ -170,7 +170,7 @@ def registration_sose22_report_covid():
         'geboostert': [],        
         'genesen': [],
         'genimpft': [],
-        'impfebereiung': [],
+        'impfbefreiung': [],
         'kA': [],
     }
     for reg in registrations:
