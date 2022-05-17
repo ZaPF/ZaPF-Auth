@@ -555,10 +555,12 @@ def registration_sose22_details_registration(reg_id):
         reg = reg,
         form = form,
         EXKURSIONEN_TYPES = EXKURSIONEN_TYPES,
-        ESSEN_TYPES = ESSEN_TYPES,
-        TSHIRTS_TYPES = TSHIRTS_TYPES,
+        ANREISE_TYPES = ANREISE_TYPES,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
+        ESSEN_TYPES = ESSEN_TYPES,
+        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
+        IMMA_TYPES = IMMA_TYPES,
     )
 
 @registration_blueprint.route('/admin/registration/report/sose21/stimmkarten/latex')
