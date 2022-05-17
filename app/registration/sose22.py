@@ -149,11 +149,9 @@ def registration_sose22_report_praesentonline():
         'online': [],
         'present': [],
     }
-    result['eduroam'] = []
     for reg in registrations:
 
         result[reg.data['modus']].append(reg)
-        if reg.data['eduroam']: result['eduroam'].append(reg)
     return render_template('admin/sose22/praesentonline.html',
         result = result,
         datetime_string = datetime_string,
