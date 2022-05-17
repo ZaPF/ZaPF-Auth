@@ -19,7 +19,7 @@ EXKURSIONEN_TYPES = {
   'lehrstuhlvorstellung': ('Lehrstuhlvorstellung', 20, 'Lehrstuhl'),
   'bergbaumuseum': ('Bergbaumuseum', 20, 'Bergbau'),
   'kunsttour': ('Kunsttour an der RUB', 20, 'Kunsttour'),
-  'stadtfuehrung': ('Stadtführung durch Bochum', 20, 'Stadtführung'),
+  'stadtfuerung': ('Stadtführung durch Bochum', 20, 'Stadtführung'),
   'gdata': ('G-Data', 20, 'G-Data'),
   'ph1': ('Platzhalter1', 20, 'P1'),
   'ph2': ('Platzhalter2', 20, 'P2'),
