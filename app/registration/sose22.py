@@ -126,9 +126,9 @@ IMMA_TYPES = {
     'n.i.': 'Nicht Immatrikuliert',
 }
 
-# class Sommer22ExkursionenOverwriteForm(FlaskForm):
-#     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
-#     submit = SubmitField()
+class Sommer22ExkursionenOverwriteForm(FlaskForm):
+    exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
+    submit = SubmitField()
 
 def attachment(response, filename):
     response.headers['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
@@ -526,36 +526,36 @@ def registration_sose22_report_sonstiges():
         datetime_string = datetime_string,
     )
 
-class DetailsOverwriteForm(FlaskForm):
-    spitzname = StringField('Spitzname')
-    modus = SelectField('Modus', choices=[
-            ("online", "Online-Teilnahme"),
-            ("present", "Präsenzteilnahme"),
-        ],
-    )
-    exkursionen = SelectField('Exkursion zuweisen', choices=[
-            ("egal", "Egal"), 
-            ("keine", "keine"), 
-            ("spaziergang", "Spaziergang"), 
-            ("planetarium", "Planetariumvorstellung"),
-            ("lehrstuhlvorstellung", "Lehrstuhl"),
-            ("bergbaumuseum", "Bergbaumuseum"),
-            ("kunsttour", "Kunsttour"),
-            ("stadtfuerung", "Stadtführung"),
-            ("gdata", "G-Data"),
-            ("ph1", "Platzhalter1"),
-            ("ph2", "Platzhalter2"),
-        ]
-    )
-    standort = SelectField('Standort festlegen', choices=[
-            ("goe", "Göttingen"), 
-            ("koe", "Köln"), 
-            ("mue", "München (Garchingen)"), 
-            ("egal", "Egal"),
-        ]
-    )
-    priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
-    submit = SubmitField()
+# class DetailsOverwriteForm(FlaskForm):
+#     spitzname = StringField('Spitzname')
+#     modus = SelectField('Modus', choices=[
+#             ("online", "Online-Teilnahme"),
+#             ("present", "Präsenzteilnahme"),
+#         ],
+#     )
+#     exkursionen = SelectField('Exkursion zuweisen', choices=[
+#             ("egal", "Egal"), 
+#             ("keine", "keine"), 
+#             ("spaziergang", "Spaziergang"), 
+#             ("planetarium", "Planetariumvorstellung"),
+#             ("lehrstuhlvorstellung", "Lehrstuhl"),
+#             ("bergbaumuseum", "Bergbaumuseum"),
+#             ("kunsttour", "Kunsttour"),
+#             ("stadtfuerung", "Stadtführung"),
+#             ("gdata", "G-Data"),
+#             ("ph1", "Platzhalter1"),
+#             ("ph2", "Platzhalter2"),
+#         ]
+#     )
+#     standort = SelectField('Standort festlegen', choices=[
+#             ("goe", "Göttingen"), 
+#             ("koe", "Köln"), 
+#             ("mue", "München (Garchingen)"), 
+#             ("egal", "Egal"),
+#         ]
+#     )
+#     priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
+#     submit = SubmitField()
 
 @registration_blueprint.route('/admin/registration/<int:reg_id>/details_sose22', methods=['GET', 'POST'])
 @groups_sufficient('admin', 'orga')
