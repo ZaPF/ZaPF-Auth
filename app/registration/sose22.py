@@ -547,6 +547,13 @@ class DetailsOverwriteForm(FlaskForm):
             ("ph2", "Platzhalter2"),
         ]
     )
+    standort = SelectField('Standort festlegen', choices=[
+            ("goe", "Göttingen"), 
+            ("koe", "Köln"), 
+            ("mue", "München (Garchingen)"), 
+            ("egal", "Egal"),
+        ]
+    )
     priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
     submit = SubmitField()
 
