@@ -198,8 +198,8 @@ def registrations_export_ausweise_csv():
     registrations = Registration.query.all()
     result = io.StringIO()
     writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
-    writer.writerows([[None, reg.user.firstName, reg.user.surname, reg.uni.name,
-                       reg.id, 'Teilnehmikon', None, None, 1, None, None]
+    writer.writerows([[None, reg.user.full_name, reg.data['spitzname'], reg.data['anrede'], reg.data['anrede2'], reg.uni.name, 
+                        reg.data['foto'], reg.data['bierak'], reg.id]
                       for reg in registrations if reg.is_zapf_attendee])
     return attachment(Response(result.getvalue(), mimetype='text/csv'), 'ausweise.csv')
 
