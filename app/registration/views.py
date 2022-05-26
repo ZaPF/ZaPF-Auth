@@ -191,6 +191,19 @@ def registrations_export_openslides_csv():
                       for reg in registrations if reg.is_zapf_attendee])
     return attachment(Response(result.getvalue(), mimetype='text/csv'), 'openslides.csv')
 
+@registration_blueprint.route('/admin/registration/export/ausweise/csv')
+@groups_sufficient('admin', 'orga')
+@cache.cached()
+def registrations_export_ausweise_csv():
+    registrations = Registration.query.all()
+    result = io.StringIO()
+    writer = csv.writer(result, quoting=csv.QUOTE_NONNUMERIC)
+    writer.writerows([[None, reg.user.firstName, reg.user.surname, reg.uni.name,
+                       reg.id, 'Teilnehmikon', None, None, 1, None, None]
+                      for reg in registrations if reg.is_zapf_attendee])
+    return attachment(Response(result.getvalue(), mimetype='text/csv'), 'ausweise.csv')
+
+
 @registration_blueprint.route('/admin/registration/export/teilnehmer/csv')
 @groups_sufficient('admin', 'orga')
 @cache.cached()

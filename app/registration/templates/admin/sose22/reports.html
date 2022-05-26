@@ -96,10 +96,15 @@
             <a href="{{ url_for('registration.registrations_export_openslides_csv') }}">openslides</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registrations_export_teilnehmer_csv') }}">Teilnehmer + Uni (csv)</a>
+            <li>
+              <a href="{{ url_for('registration.registrations_export_ausweise_csv') }}">Ausweise</a>
+            </li>
+            <li>
+  
+            <a href="{{ url_for('registration.registrations_export_teilnehmer_csv') }}">Teilnehmika + Uni (csv)</a>
           </li>
           <li>
-            <a href="{{ url_for('registration.registrations_export_attendee_csv') }}">Teilnehmer mit Prioritäten usw.</a>
+            <a href="{{ url_for('registration.registrations_export_attendee_csv') }}">Teilnehmika mit Prioritäten usw.</a>
           </li>
           <li>
             E-Mail-Adressen: <a href="{{ url_for('registration.registrations_export_mails_attendees') }}">Teilnehmika</a>, <a href="{{ url_for('registration.registrations_export_mails_all') }}">Alle Registrierten</a>
