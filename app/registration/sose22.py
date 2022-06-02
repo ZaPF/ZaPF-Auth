@@ -314,25 +314,19 @@ def registration_sose22_report_reise():
 @registration_blueprint.route('/admin/registration/report/sose22/roles')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose22_report_roles(place = None):
+def registration_sose21_report_roles():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
     result_keys = ['trustee', 'minuteman', 'mentee', 'mentor', 'notmentee']
     for key in result_keys: result[key] = []
     for reg in registrations:
-        if place is not None:
-            if place == 'online' and reg.data['modus'] != "online":
-                continue
-            if place != 'online' and place != reg.data['standort']:
-                continue
-
         if reg.data['vertrauensperson'] == 'ja': result['trustee'].append(reg) 
         if reg.data['protokoll'] == 'ja': result['minuteman'].append(reg) 
         if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
         if reg.data['zaepfchen'] == 'jaund': result['mentee'].append(reg) 
         if reg.data['mentor']: result['mentor'].append(reg) 
-    return render_template('admin/sose22/roles.html',
+    return render_template('admin/sose21/roles.html',
         result = result,
         datetime_string = datetime_string
     )
