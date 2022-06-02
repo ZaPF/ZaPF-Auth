@@ -23,10 +23,10 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" href="#collapse-trustees">
+        <a data-toggle="collapse" href="#collapse-trustee">
           Vertrauenspersonen-Anwärtika
         </a>
-        <span class="badge" style="float: right">{{ result['trustees'] | length }}</span>
+        <span class="badge" style="float: right">{{ result['trustee'] | length }}</span>
       </h4>
     </div>
     <div id="collapse-trustees" class="panel-collapse collapse">
@@ -37,7 +37,7 @@
           <th>Name</th>
           <th>Aktionen</th>
         </tr>
-        {% for reg in result['trustees'] %}
+        {% for reg in result['trustee'] %}
         <tr>
           <td>
           {% if reg.uni %}
