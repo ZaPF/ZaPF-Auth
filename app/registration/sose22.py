@@ -314,7 +314,7 @@ def registration_sose22_report_reise():
 @registration_blueprint.route('/admin/registration/report/sose22/roles')
 @groups_sufficient('admin', 'orga')
 @cache.cached()
-def registration_sose21_report_roles():
+def registration_sose22_report_roles():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
@@ -326,7 +326,7 @@ def registration_sose21_report_roles():
         if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
         if reg.data['zaepfchen'] == 'jaund': result['mentee'].append(reg) 
         if reg.data['mentor']: result['mentor'].append(reg) 
-    return render_template('admin/sose21/roles.html',
+    return render_template('admin/sose22/roles.html',
         result = result,
         datetime_string = datetime_string
     )
