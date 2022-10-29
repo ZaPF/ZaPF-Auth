@@ -106,6 +106,7 @@ IMMA_TYPES = {
 }
 
 class ExkursionenOverwriteForm(FlaskForm):
+    priority = StringField('Priorität')
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
 
@@ -425,12 +426,17 @@ def registration_wise22_details_registration(reg_id):
     form = ExkursionenOverwriteForm()
     if form.validate_on_submit():
         data = reg.data
+        old_priority = registration.priority
         if 'exkursion_overwrite' in reg.data:
             old_overwrite = data['exkursion_overwrite']
         else:
             old_overwrite = 'nooverwrite'
         data['exkursion_overwrite'] = form.exkursion_overwrite.data
         reg.data = data
+
+        if reg.priority != form.priority.data:
+            reg.priority = form.priority.data
+        
         db.session.add(reg)
         db.session.commit()
         if old_overwrite != form.exkursion_overwrite.data:
