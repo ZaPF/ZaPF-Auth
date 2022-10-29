@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+
+{% block title %}WiSe22: Unterkunft{% endblock %}
+
+{% block content %}
+<div class="container">
+  <a class="btn btn-default" href="{{ url_for('registration.registration_wise22_reports') }}">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Zurück
+  </a>  
+  <span class="label label-default">Stand {{ datetime_string }}</span>
+  <a class="btn btn-primary pull-right" href="{{ url_for('registration.registration_wise22_report_clear', target = request.url_rule.endpoint ) }}">
+    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Diesen Bericht aktualisieren
+  </a>
+  
+  <h1>
+  Unterkunft-Auswertung
+  </h1>
+
+  <div> 
+    <ul>
+      <li>
+        <a href="#sec-barriere"> Barrierefreiheit</a>
+      </li>
+      <li>
+        <a href="#sec-dusche"> Duschen</a>
+      </li>
+      <li>
+        <a href="#sec-toilette"> Toiletten</a>
+      </li>
+      <li>
+        <a href="#sec-couch"> Couchsurfing</a>
+      </li>
+      <li>
+        <a href="#sec-privat"> Privatunterkunft</a>
+      </li>
+      <li>
+        <a href="#sec-schlafen"> Wecklautstärke</a>
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="sec-barriere">
+    Barrierefreiheit:
+  </h2>
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-barriere">
+            Barrierefreiheit
+          </a>
+          <span class="badge" style="float: right">{{ result['barriere'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-barriere" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Uni</th>
+            <th>Name</th>
+            <th>Barrierefreiheit</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result['barriere'] %}
+          <tr>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <a href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+              {{ reg.data['barrierefreiheit'] }}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  <h2 id="sec-dusche">
+    Nicht-binärgeschlechtliche Duschen:
+  </h2>
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-dusche">
+            Nicht-binärgeschlechtliche Duschen
+          </a>
+          <span class="badge" style="float: right">{{ result['dusche'] | length }}</span>
+        </h4>
+      </div>
+      <div id="collapse-dusche" class="panel-collapse collapse">
+        <div class="table-responsive">
+        <table class='table table-striped'>
+          <tr>
+            <th>Uni</th>
+            <th>Name</th>
+            <th>Nicht-binärgeschlechtliche Duschen</th>
+            <th>Aktionen</th>
+          </tr>
+          {% for reg in result['dusche'] %}
+          <tr>
+            <td>
+            {% if reg.uni %}
+              <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                {{ reg.uni.name }}
+              </a>
+            {% endif %}
+            </td>
+            <td>
+              <a href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                {{ reg.user.full_name }}
+              </a>
+            </td>
+            <td>
+              {{ reg.data['notbinaryduschen'] }}
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+    </div>
+    <h2 id="sec-toilette">
+      Nicht-binärgeschlechtliche Toiletten:
+    </h2>
+    <div class="panel-group">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" href="#collapse-toilette">
+              Nicht-binärgeschlechtliche Toiletten
+            </a>
+            <span class="badge" style="float: right">{{ result['toilette'] | length }}</span>
+          </h4>
+        </div>
+        <div id="collapse-toilette" class="panel-collapse collapse">
+          <div class="table-responsive">
+          <table class='table table-striped'>
+            <tr>
+              <th>Uni</th>
+              <th>Name</th>
+              <th>Nicht-binärgeschlechtliche Toiletten</th>
+              <th>Aktionen</th>
+            </tr>
+            {% for reg in result['toilette'] %}
+            <tr>
+              <td>
+              {% if reg.uni %}
+                <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                  {{ reg.uni.name }}
+                </a>
+              {% endif %}
+              </td>
+              <td>
+                <a href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                  {{ reg.user.full_name }}
+                </a>
+              </td>
+              <td>
+                {{ reg.data['notbinarytoiletten'] }}
+              </td>
+              <td>
+                <div class="btn-group" role="group">
+                  <a class="btn btn-default" href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+          </div>
+        </div>
+      </div>
+      </div>
+      <h2 id="sec-couch">
+        Couchsurfing:
+      </h2>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-couch">
+                Couchsurfing
+              </a>
+              <span class="badge" style="float: right">{{ result['couch'] | length }}</span>
+            </h4>
+          </div>
+          <div id="collapse-couch" class="panel-collapse collapse">
+            <div class="table-responsive">
+            <table class='table table-striped'>
+              <tr>
+                <th>Uni</th>
+                <th>Name</th>
+                <th>Couchsurfing</th>
+                <th>Aktionen</th>
+              </tr>
+              {% for reg in result['couch'] %}
+              <tr>
+                <td>
+                {% if reg.uni %}
+                  <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                    {{ reg.uni.name }}
+                  </a>
+                {% endif %}
+                </td>
+                <td>
+                  <a href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                    {{ reg.user.full_name }}
+                  </a>
+                </td>
+                <td>
+                  {{ reg.data['couchsurfing'] }}
+                </td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <a class="btn btn-default" href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+            </div>
+          </div>
+        </div>
+        </div>
+        <h2 id="sec-privat">
+          Privatunterkunft:
+        </h2>
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse-privat">
+                  Privatunterkunft
+                </a>
+                <span class="badge" style="float: right">{{ result['privat'] | length }}</span>
+              </h4>
+            </div>
+            <div id="collapse-privat" class="panel-collapse collapse">
+              <div class="table-responsive">
+              <table class='table table-striped'>
+                <tr>
+                  <th>Uni</th>
+                  <th>Name</th>
+                  <th>Privatunterkunft</th>
+                  <th>Aktionen</th>
+                </tr>
+                {% for reg in result['privat'] %}
+                <tr>
+                  <td>
+                  {% if reg.uni %}
+                    <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                      {{ reg.uni.name }}
+                    </a>
+                  {% endif %}
+                  </td>
+                  <td>
+                    <a href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                      {{ reg.user.full_name }}
+                    </a>
+                  </td>
+                  <td>
+                    {{ reg.data['privatunterkunft'] }}
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <a class="btn btn-default" href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+              </div>
+            </div>
+          </div>
+          </div>
+          <h2 id="sec-schlafen">
+            Wecken:
+          </h2>
+          <div class="panel-group">
+          {% for type, data in result['schlafen'].items() %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse-schlafen-{{ type }}">
+                  Wecklautstärke: {{ type }}
+                </a>
+                <span class="badge" style="float: right">{{ data | length }}</span>
+              </h4>
+            </div>
+            <div id="collapse-schlafen-{{ type }}" class="panel-collapse collapse">
+              <div class="table-responsive">
+              <table class='table table-striped'>
+                <tr>
+                  <th>Uni</th>
+                  <th>Name</th>
+                  <th>Aktionen</th>
+                </tr>
+                {% for reg in data %}
+                <tr>
+                  <td>
+                  {% if reg.uni %}
+                    <a href="{{url_for('registration.registrations_by_uni', uni_id=reg.uni.id)}}">
+                      {{ reg.uni.name }}
+                    </a>
+                  {% endif %}
+                  </td>
+                  <td>
+                    <a href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                      {{ reg.user.full_name }}
+                    </a>
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <a class="btn btn-default" href="{{ url_for('registration.registration_wise22_details_registration', reg_id=reg.id) }}">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Details
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+</div>
+{% endblock %}
