@@ -16,7 +16,7 @@ EXKURSIONEN_TYPES = {
   'hamburgfuehrung': ('Hamburg Stadt Führung', -1, 'Stadt'),
   'desy': ('DESY Führung', -1, 'Desy'),
   'sternenwarte': ('Sternwarte', -1, 'sternenwarte'),
-  'luftshansa': ('Lufthansa Technik', -1, 'Lufthansa'),
+  'lufthansa': ('Lufthansa Technik', -1, 'Lufthansa'),
   'kunst': ('Kunsthalle', -1, 'Kunst'),
   'hafenrundfahrt': ('Hafenrundfahrt', -1, 'Hafen'),
   'nospace': ('Konnte keiner Exkursion zugeordnet werden', -1, 'Noch offen'),
@@ -104,6 +104,7 @@ ESSEN_TYPES = {
 
 
 IMMA_TYPES = {
+    'invalid': '---',
     'ja': 'Immatrikuliert',
     'nein': 'Fehler',
     'n.i.': 'Nicht Immatrikuliert',
@@ -215,8 +216,6 @@ def registration_wise22_report_reise():
     for name, label in ANREISE_ZEIT_TYPES.items():
         result['anreise_zeit'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
-        if reg.data['modus'] == "online":
-                continue
         anreise_type = reg.data['anreise_zeit']
         if (not result['anreise_zeit'][anreise_type]):
             return None
@@ -224,8 +223,6 @@ def registration_wise22_report_reise():
     for name, label in ABREISE_ZEIT_TYPES.items():
         result['abreise_zeit'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
-        if reg.data['modus'] == "online":
-                continue
         abreise_type = reg.data['abreise_zeit']
         if (not result['abreise_zeit'][abreise_type]):
             return None
@@ -233,14 +230,10 @@ def registration_wise22_report_reise():
     for name, label in ANREISE_TYPES.items():
         result['anreise_witz'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
-        if reg.data['modus'] == "online":
-                continue
         anreise_witz_type = reg.data['anreise_witz']
         if (not result['anreise_witz'][anreise_witz_type]):
             return None
         result['anreise_witz'][anreise_witz_type]['registrations'].append(reg)
-        nrwticket = reg.data['nrwticket']
-        result['nrwticket'][nrwticket].append(reg)
     return render_template('admin/wise22/reise.html',
         result = result,
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
@@ -256,11 +249,14 @@ def registration_wise22_report_roles():
     datetime_string = get_datetime_string() 
     registrations = [reg for reg in Registration.query.order_by(Registration.id) if reg.is_zapf_attendee]
     result = {}
-    result_keys = ['trustee', 'minuteman', 'mentee', 'mentor', 'notmentee']
+    result_keys = ['trustee', 'minuteman', 'akchair', 'plenumchair', 'electee','mentee', 'mentor', 'notmentee']
     for key in result_keys: result[key] = []
     for reg in registrations:
-        if reg.data['vertrauensperson'] == 'ja': result['trustee'].append(reg) 
-        if reg.data['protokoll'] == 'ja': result['minuteman'].append(reg) 
+        if reg.data['vertrauensperson']: result['trustee'].append(reg) 
+        if reg.data['protokoll']: result['minuteman'].append(reg) 
+        if reg.data['akleitung']: result['akchair'].append(reg)
+        if reg.data['redeleitung']: result['plenumchair'].append(reg)
+        if reg.data['gremiumwahl']: result['electee'].append(reg)
         if reg.data['zaepfchen'] == 'ja': result['notmentee'].append(reg) 
         if reg.data['zaepfchen'] == 'jaund': result['mentee'].append(reg) 
         if reg.data['mentor']: result['mentor'].append(reg) 
