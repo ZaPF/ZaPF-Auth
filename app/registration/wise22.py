@@ -78,8 +78,10 @@ ANREISE_TYPES = {
 
 ANREISE_ZEIT_TYPES = {
   'frueher': 'früher',
+  'fr014': 'DO vor 14h',
   'do014': 'DO vor 14h',
   'do114': 'DO nach 14h',
+  'fr114': 'DO nach 14h',
   'ende': 'Samstag',
 }
 
