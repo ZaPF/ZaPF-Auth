@@ -68,6 +68,12 @@
     </div>
   </div>
   <div class="form-group row">
+    <label class="col-sm-3 control-label" for="fotos">Priorität</label>
+    <div class="col-sm-9">
+      <input id="fotos" name="fotos" type="text" class="form-control" readonly="readonly" value="{{ reg.data['priority'] }}" />
+    </div>
+  </div>
+  <div class="form-group row">
     <label class="col-sm-3 control-label" for="fotos">Fotos ok?</label>
     <div class="col-sm-9">
       <input id="fotos" name="fotos" type="text" class="form-control" readonly="readonly" value="{{ reg.data['foto'] }}" />
