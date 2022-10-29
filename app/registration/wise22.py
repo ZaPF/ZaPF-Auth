@@ -351,7 +351,6 @@ def registration_wise22_report_essen():
         result['heissgetraenk'][heissgetraenk].append(reg)
     return render_template('admin/wise22/essen.html',
         result = result,
-        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
         datetime_string = datetime_string
     )
 
@@ -452,7 +451,6 @@ def registration_wise22_details_registration(reg_id):
         ANREISE_ZEIT_TYPES = ANREISE_ZEIT_TYPES,
         ABREISE_ZEIT_TYPES = ABREISE_ZEIT_TYPES,
         ESSEN_TYPES = ESSEN_TYPES,
-        ESSEN_AMOUNT_TYPES = ESSEN_AMOUNT_TYPES,
         IMMA_TYPES = IMMA_TYPES,
     )
 
