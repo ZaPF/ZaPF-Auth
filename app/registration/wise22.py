@@ -77,23 +77,16 @@ ANREISE_TYPES = {
 }
 
 ANREISE_ZEIT_TYPES = {
-  'frueher': 'Vor FR 12h',
-  'fr1214': 'Fr 12-14h',
-  'fr1416': 'Fr 14-16h',
-  'fr1618': 'Fr 16-18h',
-  'fr1820': 'Fr 18-20h',
-  'ende': 'Nach Fr 20h',
+  'frueher': 'früher',
+  'do014': 'DO vor 14h',
+  'do114': 'DO nach 14h',
+  'ende': 'Samstag',
 }
 
 ABREISE_ZEIT_TYPES = {
-  'vordi': 'Vor Di',
-  'di810': 'Di 8-10h',
-  'di1012': 'Di 10-12h',
-  'di1214': 'Di 12-14h',
-  'di1416': 'Di 14-16h',
-  'di1618': 'Di 16-18h',
-  'di1820': 'Di 18-20h',
-  'ende': 'Nach dem Plenum',
+  'vorso': 'Vor SO',
+  'so016': 'SO vor 16h',
+  'so116': 'SO nach 16h',
 }
 
 ESSEN_TYPES = {
@@ -110,7 +103,7 @@ IMMA_TYPES = {
     'n.i.': 'Nicht Immatrikuliert',
 }
 
-class Winter22ExkursionenOverwriteForm(FlaskForm):
+class ExkursionenOverwriteForm(FlaskForm):
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
 
@@ -341,8 +334,6 @@ def registration_wise22_report_essen():
     for name, label in ESSEN_TYPES.items():
         result['essen'][name] = {'label': label, 'registrations': []}
     for reg in registrations:
-        if reg.data['modus'] == "online":
-                continue
         essen_type = reg.data['essen']
         allergien = reg.data['allergien']
         alkohol = reg.data['alkohol']
@@ -430,7 +421,7 @@ def registration_wise22_report_sonstiges():
 @groups_sufficient('admin', 'orga')
 def registration_wise22_details_registration(reg_id):
     reg = Registration.query.filter_by(id=reg_id).first()
-    form = Sommer22ExkursionenOverwriteForm()
+    form = ExkursionenOverwriteForm()
     if form.validate_on_submit():
         data = reg.data
         if 'exkursion_overwrite' in reg.data:
