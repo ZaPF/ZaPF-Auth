@@ -106,7 +106,7 @@ IMMA_TYPES = {
 }
 
 class OverwriteForm(FlaskForm):
-    priority_overwrite = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
+    priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
 
