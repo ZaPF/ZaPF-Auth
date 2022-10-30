@@ -1,6 +1,6 @@
 from flask import render_template, jsonify, Response, redirect, url_for, current_app
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, IntegerField
+from wtforms import StringField, SelectField, SubmitField, IntegerField, BooleanField
 from . import registration_blueprint
 from .models import Registration, Uni
 from app.user import groups_sufficient
@@ -107,6 +107,7 @@ IMMA_TYPES = {
 
 class OverwriteForm(FlaskForm):
     priority = IntegerField("Priorität (-1 für manuelle Platzvergabe)")
+    confirm = BooleanField('Bestätigung')
     exkursion_overwrite = SelectField('Exkursionen Festlegung', choices=EXKURSIONEN_TYPES_FORM)
     submit = SubmitField()
 
@@ -435,6 +436,9 @@ def registration_wise22_details_registration(reg_id):
 
         if reg.priority != form.priority.data:
             reg.priority = form.priority.data
+
+        if reg.confirmed != form.confirm.data:
+            reg.confirmed = form.confirm.data
         
         db.session.add(reg)
         db.session.commit()
@@ -448,6 +452,8 @@ def registration_wise22_details_registration(reg_id):
     if reg.is_guaranteed:
         current_app.logger.debug(reg.user.groups)
     form.priority.data = reg.priority
+    form.confirm.data = reg.confirmed
+    
     return render_template('admin/wise22/details.html',
         reg = reg,
         form = form,
