@@ -68,9 +68,9 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-3 control-label" for="fotos">Priorität</label>
+    {{ form.priority.label(class='col-sm-3 control-label') }}
     <div class="col-sm-9">
-      <input id="prio" name="prio" type="text" class="form-control" readonly="readonly" value="{{ reg.priority }}" />
+      {{ form.priority(class='form-control') }}
     </div>
   </div>
   <div class="form-group row">
