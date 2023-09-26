@@ -199,6 +199,6 @@ def confirm_mail_finish(username, token):
 
 @user_blueprint.route('/datenschutz')
 #@login_required
-def home():
+def datenschut():
     # User is logged in, so show them a page with their cn and dn.
     return render_template("datenschutz.html")
