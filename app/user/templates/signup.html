@@ -23,7 +23,7 @@
       {{ wtf.form_errors(form) }}
       {{ form.recaptcha }}
       <p>{% trans %}Already have an account?{% endtrans %} <a href="{{url_for('user.login')}}">{% trans %}Sign in!{% endtrans %}</a></p>
-      <p>{% trans %}Signing up implies agreement with the data protection declaration. {% endtrans %} </a></p>
+      <p>{% trans %}Registrieren beeinhaltet die Zustimmung zur Datenverarbeitung entsprechend der Datenschutzerklärung:. {% endtrans %} </a></p>
       <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans %}Sign Up!{% endtrans %}</button>
       {{ form.hidden_tag() }}
     </form>
