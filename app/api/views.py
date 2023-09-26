@@ -31,6 +31,20 @@ def api_nextcloud():
             roles = [group.group_name for group in user.groups],
             )
 
+@api_blueprint.route('/api/me/anmeldungberlin23', methods=['GET'])
+@oauth.require_oauth('anmeldungberlin23')
+def api_anmeldungberlin23():
+    user = request.oauth.user
+
+    return jsonify(
+            email = user.mail,
+            user_id = user.username,
+            firstName = user.firstName,
+            lastName = user.surname,
+            displayName = user.full_name,
+            roles = [group.group_name for group in user.groups],
+            )
+
 @api_blueprint.route('/api/me/zapfwiki', methods=['GET'])
 @oauth.require_oauth('ownUserData')
 def api_zapfwiki():
