@@ -196,3 +196,9 @@ def confirm_mail_finish(username, token):
     flash('E-Mail confirmed', 'success')
 
     return redirect('/')
+
+@user_blueprint.route('/datenschutz')
+#@login_required
+def home():
+    # User is logged in, so show them a page with their cn and dn.
+    return render_template("datenschutz.html")
